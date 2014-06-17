@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>scala.meta {% if page.title != null %}- {{ page.title }}{% endif %}</title>
+    <meta name="keywords" content="Scala, macros, metaprogramming, quasiquotes, quasi-quotes, quasiquotations, quasi-quotations, palladium, scala.meta"/>
+    <meta name="description" content="Web site of scala.meta: simple, robust and portable metaprogramming toolkit for Scala"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="alternate"  type="application/rss+xml" media="all" href="/rss.xml" />
+    <link rel="stylesheet" type="text/css" media="all" href="/media/css/default.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/media/css/syntax.css" />
+    <link rel="stylesheet" type="text/css" media="print" href="/media/css/print.css" />
+    <link href="media/images/favicon.gif" rel="favicon">
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '{{ site.google.analytics_key }}']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="outer">
+      <div id="header">
+        <div class="home"><a href="{{ site.url }}" title="Scala">scala.meta</a></div>
+      </div>
+<!-- so far there's only one paпу in the navigation sidebar, so it's better to hide it altogether -->
+<!--
+      <div id="menu">
+        <ol>
+          <li>
+            <ol>
+              {% if page.url == "/index.html" %}<li class="current"><a href="/index.html">Overview</a></li>{% else %}
+              <li><a href="/index.html">Overview</a></li>{% endif %}
+            </ol>
+          </li>
+        </ol>
+      </div>
+ -->
+      <div id="content">
+        {{ content }}
+
+        <div id="social">
+          {% if page.plusone %}
+            <div class="google-plus" align="right"><g:plusone size="medium"></g:plusone></div>
+            <script type="text/javascript" src="https://apis.google.com/js/plusone.js">{lang: "en"}</script>
+          {% endif %}
+
+          {% if page.comments %}
+            <!-- disabled until I find a solution I like -->
+            <!--
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+              var disqus_shortname = "scalamacros";
+              //var disqus_developer = 1;
+              var disqus_identifier = "{{ page.id }}";
+              var disqus_url = "{{ site.url }}{{ page.url }}";
+
+              (function() {
+                var dsq = document.createElement("script"); dsq.type = "text/javascript"; dsq.async = true;
+                dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+                (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(dsq);
+              })();
+            </script>
+            -->
+        {% endif %}
+      </div>
+      </div>
+      <div id="footer">
+        scalameta.org site &copy; 2014 <a href="http://xeno.by">Eugene Burmako</a>, <a href="http://den.sh">Denys Shabalin</a>.
+      </div>
+    </div>
+  </body>
+</html>
