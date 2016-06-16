@@ -106,6 +106,26 @@ scala&gt; &quot;List[ Int ]&quot;.parse[Type]
 res1: scala.meta.parsers.Parsed[scala.meta.Type] = List[ Int ]</code></pre>
     <p>
       <b>
+        Tokens.</b>
+      Scala.meta takes even the finest details of Scala code into account.
+      We achieve this by attaching tokens, data structures representing atomic
+      units of Scala syntax, to our abstract syntax trees. Note that the
+      abstract syntax tree in the printout doesn't have the comment per se -
+      it is stored in tokens instead.
+</p>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; val tree = &quot;x + y /* adds x and y */&quot;.parse[Term].get
+tree: scala.meta.Term = x + y /* adds x and y */
+
+scala&gt; tree.syntax
+res0: String = x + y /* adds x and y */
+
+scala&gt; tree.structure
+res1: String = Term.ApplyInfix(Term.Name(&quot;x&quot;), Term.Name(&quot;+&quot;), Nil, Seq(Term.Name(&quot;y&quot;)))
+
+scala&gt; tree.tokens.structure
+res2: String = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..5),   [5..6), /* adds x and y */ [6..24), EOF [24..24))</code></pre>
+    <p>
+      <b>
         Dialects.</b>
       Scala.meta is designed from the ground up to be platform-independent.
       This means that we understand different versions of the base language:
@@ -148,26 +168,6 @@ scala&gt; q&quot;$y + $x&quot;
  required: scala.meta.Term
        q&quot;$y + $x&quot;
          ^</code></pre>
-    <p>
-      <b>
-        Tokens.</b>
-      Scala.meta takes even the finest details of Scala code into account.
-      We achieve this by attaching tokens, data structures representing atomic
-      units of Scala syntax, to our abstract syntax trees. Note that the
-      abstract syntax tree in the printout doesn't have the comment per se -
-      it is stored in tokens instead.
-</p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; val tree = &quot;x + y /* adds x and y */&quot;.parse[Term].get
-tree: scala.meta.Term = x + y /* adds x and y */
-
-scala&gt; tree.syntax
-res0: String = x + y /* adds x and y */
-
-scala&gt; tree.structure
-res1: String = Term.ApplyInfix(Term.Name(&quot;x&quot;), Term.Name(&quot;+&quot;), Nil, Seq(Term.Name(&quot;y&quot;)))
-
-scala&gt; tree.tokens.structure
-res2: String = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..5),   [5..6), /* adds x and y */ [6..24), EOF [24..24))</code></pre>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Roadmap" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Roadmap<a class=" scalatex-site-Styles-headerLink" href="#Roadmap" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       <b>
