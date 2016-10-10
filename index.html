@@ -78,19 +78,6 @@ span.hljs-tag, span.hljs-symbol{
     take advantage of our unique features and deliver user experiences
     that have been unreachable for the most of the traditional Scala tools.
 </p>
-  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Gettingstarted" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Getting started<a class=" scalatex-site-Styles-headerLink" href="#Gettingstarted" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
-    <p>
-      To get started with scala.meta, add the following to your <code>build.sbt</code>:
-</p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.1.0&quot;
-</code></pre>
-    <p>
-      Next, you'll need to add a single wildcard import to the files where you'll
-      be using scala.meta. Unlike with scala.reflect, the metaprogramming
-      library from the standard distribution, no complicated setup is necessary.
-</p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">import scala.meta._
-</code></pre>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Features" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Features<a class=" scalatex-site-Styles-headerLink" href="#Features" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       <b>
@@ -163,11 +150,29 @@ x: scala.meta.Term = x
 y: meta.Term.Arg = y
 
 scala&gt; q&quot;$y + $x&quot;
-&lt;console&gt;:17: error: type mismatch when unquoting;
+&lt;console&gt;:13: error: type mismatch when unquoting;
  found   : scala.meta.Term.Arg
  required: scala.meta.Term
-       q&quot;$y + $x&quot;
-         ^</code></pre>
+              q&quot;$y + $x&quot;
+                ^</code></pre>
+  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Gettingstarted" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Getting started<a class=" scalatex-site-Styles-headerLink" href="#Gettingstarted" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
+    <p>
+      To get started with scala.meta, add the following to your <code>build.sbt</code>:
+</p>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.1.0&quot;
+</code></pre>
+    <p>
+      Next, you'll need to add a single wildcard import to the files where you'll
+      be using scala.meta. Unlike with scala.reflect, the metaprogramming
+      library from the standard distribution, no complicated setup is necessary.
+</p>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">import scala.meta._
+</code></pre>
+    <p>
+      To learn more about practical aspects of using scala.meta, take a look at
+      <a href="https://olafurpg.github.io/scala.meta-workshop/">A Whirlwind Tour of Scala.Meta</a>,
+      a workshop given by Ólafur Pall Geirsson at Scala World 2016.
+</p>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Roadmap" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Roadmap<a class=" scalatex-site-Styles-headerLink" href="#Roadmap" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       <b>
@@ -223,6 +228,8 @@ scala&gt; q&quot;$y + $x&quot;
           <a href="https://www.codacy.com/"><img width="95" height="95" src="https://pbs.twimg.com/profile_images/531743109319651328/SyZuYA39_400x400.png" /></a>
           &nbsp; &nbsp;
           <a href="https://scala.epfl.ch/"><img width="95" height="95" src="https://scala.epfl.ch/resources/img/scala-center-swirl.png"/></a>
+          &nbsp; &nbsp;
+          <a href="https://www.evolutiongaming.com/"><img width="75" height="95" src="https://dl.dropboxusercontent.com/u/10497693/evolution_gaming.png"/></a>
         </center>
 </p></div>
 <div style="margin: 0px;color: #ccc;text-align: center;padding: 0.5em 2em 0.5em 0em;border-top: 1px solid #eee;display: block;">(c) 2014 - 2016 scala.meta contributors</div>
@@ -254,7 +261,7 @@ scala&gt; q&quot;$y + $x&quot;
     })()
   </script></div><script>
     scalatex.scrollspy.Controller().main(
-      [{"value":"scala.meta","children":[{"value":"Getting started","children":[]},{"value":"Features","children":[]},{"value":"Roadmap","children":[]},{"value":"Talks","children":[]},{"value":"Supporters","children":[]}]}]
+      [{"value":"scala.meta","children":[{"value":"Features","children":[]},{"value":"Getting started","children":[]},{"value":"Roadmap","children":[]},{"value":"Talks","children":[]},{"value":"Supporters","children":[]}]}]
   )</script><script>
     ['DOMContentLoaded', 'load'].forEach(function(ev){
       addEventListener(ev, function(){
@@ -264,4 +271,4 @@ scala&gt; q&quot;$y + $x&quot;
         );
       })
     })
-  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
