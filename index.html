@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><link href="META-INF/resources/webjars/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" /><link href="styles.css" rel="stylesheet" /><link rel="shortcut icon" type="image/png" href="favicon.png" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style>
+<!DOCTYPE html><html><head><link href="META-INF/resources/webjars/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /><link href="styles.css" rel="stylesheet" /><link rel="shortcut icon" type="image/png" href="favicon.png" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style>
 .scalatex-site-Styles-headerLink{
   color: #777;
   opacity: 0.05;
@@ -59,7 +59,7 @@ span.hljs-tag, span.hljs-symbol{
 }
     </style><title>scala.meta</title><script src="scripts.js"></script></head><body><div>
 
-<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="scala.meta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">scala.meta<a class=" scalatex-site-Styles-headerLink" href="#scala.meta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /><h2 style="font-weight: 300;color: #ccc;padding: 0px;margin-top: 0px;">1.5.0 (released on 14 Jan 2017)</h2></div><div class=" scalatex-site-Styles-content">
+<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="scala.meta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">scala.meta<a class=" scalatex-site-Styles-headerLink" href="#scala.meta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /><h2 style="font-weight: 300;color: #ccc;padding: 0px;margin-top: 0px;">1.6.0 (released on 22 Feb 2017)</h2></div><div class=" scalatex-site-Styles-content">
 
   <p>
     Scala.meta is a clean-room implementation of a metaprogramming toolkit for Scala,
@@ -74,7 +74,8 @@ span.hljs-tag, span.hljs-symbol{
 </p>
   <p>
     With scala.meta, we are building a community of next-generation tooling for Scala.
-    <a href="https://codacy.com/">Codacy</a>'s Scala engine and <a href="http://scalafmt.org">Scalafmt</a>
+    <a href="https://codacy.com/">Codacy</a>'s Scala engine, <a href="http://scalafmt.org">Scalafmt</a>
+    and <a href="https://github.com/scalacenter/scalafix">Scalafix</a>
     take advantage of our unique features and deliver user experiences
     that have been unreachable for the most of the traditional Scala tools.
 </p>
@@ -150,16 +151,16 @@ x: scala.meta.Term = x
 y: meta.Term.Arg = y
 
 scala&gt; q&quot;$y + $x&quot;
-&lt;console&gt;:13: error: type mismatch when unquoting;
+&lt;console&gt;:17: error: type mismatch when unquoting;
  found   : scala.meta.Term.Arg
  required: scala.meta.Term
-              q&quot;$y + $x&quot;
-                ^</code></pre>
+       q&quot;$y + $x&quot;
+         ^</code></pre>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Gettingstarted" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Getting started<a class=" scalatex-site-Styles-headerLink" href="#Gettingstarted" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       To get started with scala.meta, add the following to your <code>build.sbt</code>:
 </p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.5.0&quot;
+    <pre><code class="scala scalatex-site-Styles-highlightMe">libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.6.0&quot;
 </code></pre>
     <p>
       Next, you'll need to add a single wildcard import to the files where you'll
@@ -180,7 +181,8 @@ scala&gt; q&quot;$y + $x&quot;
       Our first priority is to come up with an API that will provide
       functionality to perform typechecking, name resolution, implicit inference, etc.
       It is crucial to fully model the language and
-      achieve feature parity with scala.reflect.
+      achieve feature parity with scala.reflect. Visit <link>#604https://github.com/scalameta/scalameta/issues/604</link>
+      to check out our roadmap and provide feedback.
 </p>
     <p>
       <b>
@@ -194,7 +196,7 @@ scala&gt; q&quot;$y + $x&quot;
     <p>
       <b>
         Other execution environments.</b>
-      The current version of scala.meta can only be run with Scala 2.11.
+      The current version of scala.meta can only be run with Scala 2.11 or 2.12.
       This means that it is very hard or outright impossible to write scala.meta-based tools
       targetting Scala 2.10 (e.g. running in sbt 0.13.x) or Scala.js.
       Vote for <a href="https://github.com/scalameta/scalameta/issues/295">#295</a>
@@ -272,4 +274,4 @@ scala&gt; q&quot;$y + $x&quot;
         );
       })
     })
-  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
