@@ -57,23 +57,23 @@
 span.hljs-tag, span.hljs-symbol{
     background: none;
 }
-    </style><title>Scalameta</title><script src="scripts.js"></script></head><body><div>
+    </style><title>scala.meta</title><script src="scripts.js"></script></head><body><div>
 
-<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Scalameta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Scalameta<a class=" scalatex-site-Styles-headerLink" href="#Scalameta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /><h2 style="font-weight: 300;color: #ccc;padding: 0px;margin-top: 0px;">1.7.0 (released on 11 Apr 2017)</h2></div><div class=" scalatex-site-Styles-content">
+<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="scala.meta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">scala.meta<a class=" scalatex-site-Styles-headerLink" href="#scala.meta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /><h2 style="font-weight: 300;color: #ccc;padding: 0px;margin-top: 0px;">1.7.0 (released on 11 Apr 2017)</h2></div><div class=" scalatex-site-Styles-content">
 
   <p>
-    Scalameta is a clean-room implementation of a metaprogramming toolkit for Scala,
+    Scala.meta is a clean-room implementation of a metaprogramming toolkit for Scala,
     designed to be simple, robust and portable.
-    We are striving for scalameta to become a successor of scala.reflect,
+    We are striving for scala.meta to become a successor of scala.reflect,
     the current de facto standard in the Scala ecosystem.
 </p>
   <p>
-    Scalameta provides functionality that's unprecedented in the Scala ecosystem.
+    Scala.meta provides functionality that's unprecedented in the Scala ecosystem.
     Our killer feature is abstract syntax trees that capture the code exactly as it is written -
     with all the original formatting and attention to minor syntactic details.
 </p>
   <p>
-    With scalameta, we are building a community of next-generation tooling for Scala.
+    With scala.meta, we are building a community of next-generation tooling for Scala.
     <a href="https://codacy.com/">Codacy</a>'s Scala engine, <a href="http://scalafmt.org">Scalafmt</a>
     and <a href="https://github.com/scalacenter/scalafix">Scalafix</a>
     take advantage of our unique features and deliver user experiences
@@ -85,7 +85,7 @@ span.hljs-tag, span.hljs-symbol{
         High-fidelity parsing.</b>
       Note how the abstract syntax trees in the printout below
       contain comprehensive information about formatting and comments.
-      This is an exclusive feature of scalameta.
+      This is an exclusive feature of scala.meta.
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; &quot;x + y /* adds x and y */&quot;.parse[Term]
 res0: scala.meta.parsers.Parsed[scala.meta.Term] = x + y /* adds x and y */
@@ -95,7 +95,7 @@ res1: scala.meta.parsers.Parsed[scala.meta.Type] = List[ Int ]</code></pre>
     <p>
       <b>
         Tokens.</b>
-      Scalameta takes even the finest details of Scala code into account.
+      Scala.meta takes even the finest details of Scala code into account.
       We achieve this by attaching tokens, data structures representing atomic
       units of Scala syntax, to our abstract syntax trees. Note that the
       abstract syntax tree in the printout doesn't have the comment per se -
@@ -115,7 +115,7 @@ res2: String = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..
     <p>
       <b>
         Dialects.</b>
-      Scalameta is designed from the ground up to be platform-independent.
+      Scala.meta is designed from the ground up to be platform-independent.
       This means that we understand different versions of the base language:
       Scala 2.10, Scala 2.11 and even Dotty. We also support Sbt build files
       to make sure we cover as much Scala code as possible.
@@ -137,7 +137,7 @@ res0: scala.meta.parsers.Parsed[scala.meta.Source] =
       Scala.reflect is notorious for being obscure and user-unfriendly,
       but it has its moments.
       Quasiquotes have proven to be an amazing productivity booster,
-      so we implemented them in scalameta, and now they are better than ever.
+      so we implemented them in scala.meta, and now they are better than ever.
       Note how the precise types for <code>x</code> and <code>y</code>
       prevent the programmer from generating invalid code.
       Learn more about quasiquotes in
@@ -181,25 +181,25 @@ scala&gt; q&quot;$y + $x&quot;
 </p>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Gettingstarted" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Getting started<a class=" scalatex-site-Styles-headerLink" href="#Gettingstarted" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
-      To get started with scalameta, add the following to your <code>build.sbt</code>:
+      To get started with scala.meta, add the following to your <code>build.sbt</code>:
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">// Latest stable version
 libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.7.0&quot;
 
 // Latest pre-release version
 resolvers += Resolver.bintrayRepo(&quot;scalameta&quot;, &quot;maven&quot;)
-libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.8.0-574-db371eba.1493310699261&quot;
+libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.8.0-529-fac0de59&quot;
 </code></pre>
     <p>
       Next, you'll need to add a single wildcard import to the files where you'll
-      be using scalameta. Unlike with scala.reflect, the metaprogramming
+      be using scala.meta. Unlike with scala.reflect, the metaprogramming
       library from the standard distribution, no complicated setup is necessary.
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">import scala.meta._
 </code></pre>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Tutorial" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Tutorial<a class=" scalatex-site-Styles-headerLink" href="#Tutorial" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
-      To learn more about practical aspects of using scalameta, take a look at
+      To learn more about practical aspects of using scala.meta, take a look at
       our tutorial that is based on a workshop given by Ólafur Pall Geirsson at Scala World 2016:
       <a href="http://scalameta.org/tutorial">http://scalameta.org/tutorial</a>.
 </p>
@@ -225,8 +225,8 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
     <p>
       <b>
         Other execution environments.</b>
-      The current version of scalameta can only be run with Scala 2.11, Scala 2.12 or Scala.js.
-      This means that it is very hard or outright impossible to write scalameta-based tools
+      The current version of scala.meta can only be run with Scala 2.11, Scala 2.12 or Scala.js.
+      This means that it is very hard or outright impossible to write scala.meta-based tools
       targetting Scala 2.10 (e.g. running in sbt 0.13.x) or Scala Native.
       Vote for <a href="https://github.com/scalameta/scalameta/issues/295">#295</a>
       and <a href="https://github.com/scalameta/scalameta/issues/772">#772</a>
@@ -250,7 +250,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
     <p>
       <b>
         Metaprogramming 2.0</b>
-      (ScalaDays Berlin 2016). This talk explains the status of scalameta, demonstrates key features,
+      (ScalaDays Berlin 2016). This talk explains the status of scala.meta, demonstrates key features,
       presents the early adopters and publishes our plans for the future. In Berlin, we provided an extensive
       story of what's going to happen to compile-time metaprogramming in Scala,
       featuring a live demo of new-style (&quot;inline&quot;) macros that support integration with IntelliJ IDEA.
@@ -277,7 +277,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
           <a href="https://www.evolutiongaming.com/"><img width="75" height="95" src="https://www.dropbox.com/s/u5zulu0w1i04di6/evolution_gaming.png?dl=1"/></a>
         </center>
 </p></div>
-<div style="margin: 0px;color: #ccc;text-align: center;padding: 0.5em 2em 0.5em 0em;border-top: 1px solid #eee;display: block;">(c) 2014 - 2017 scalameta contributors</div>
+<div style="margin: 0px;color: #ccc;text-align: center;padding: 0.5em 2em 0.5em 0em;border-top: 1px solid #eee;display: block;">(c) 2014 - 2017 scala.meta contributors</div>
 
 
   <a href="https://github.com/scalameta/scalameta"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
@@ -292,7 +292,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
   </script>
 </div><script>
     scalatex.scrollspy.Controller().main(
-      [{"value":"Scalameta","children":[{"value":"Features","children":[]},{"value":"Releases","children":[]},{"value":"Getting started","children":[]},{"value":"Tutorial","children":[]},{"value":"Roadmap","children":[]},{"value":"Talks","children":[]},{"value":"Supporters","children":[]}]}]
+      [{"value":"scala.meta","children":[{"value":"Features","children":[]},{"value":"Releases","children":[]},{"value":"Getting started","children":[]},{"value":"Tutorial","children":[]},{"value":"Roadmap","children":[]},{"value":"Talks","children":[]},{"value":"Supporters","children":[]}]}]
   )</script><script>
     ['DOMContentLoaded', 'load'].forEach(function(ev){
       addEventListener(ev, function(){
