@@ -87,11 +87,11 @@ span.hljs-tag, span.hljs-symbol{
       contain comprehensive information about formatting and comments.
       This is an exclusive feature of scalameta.
 </p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; &quot;x + y /* adds x and y */&quot;.parse[Term]
-res0: scala.meta.parsers.Parsed[scala.meta.Term] = x + y /* adds x and y */
-
-scala&gt; &quot;List[ Int ]&quot;.parse[Type]
-res1: scala.meta.parsers.Parsed[scala.meta.Type] = List[ Int ]</code></pre>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; [0m&quot;x + y /* adds x and y */&quot;.parse[Term]
+[1m[34mres0[0m: [1m[32mscala.meta.parsers.Parsed[scala.meta.Term][0m = x + y /* adds x and y */
+[35m
+scala&gt; [0m&quot;List[ Int ]&quot;.parse[Type]
+[1m[34mres1[0m: [1m[32mscala.meta.parsers.Parsed[scala.meta.Type][0m = List[ Int ]</code></pre>
     <p>
       <b>
         Tokens.</b>
@@ -101,17 +101,17 @@ res1: scala.meta.parsers.Parsed[scala.meta.Type] = List[ Int ]</code></pre>
       abstract syntax tree in the printout doesn't have the comment per se -
       it is stored in tokens instead.
 </p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; val tree = &quot;x + y /* adds x and y */&quot;.parse[Term].get
-tree: scala.meta.Term = x + y /* adds x and y */
-
-scala&gt; tree.syntax
-res0: String = x + y /* adds x and y */
-
-scala&gt; tree.structure
-res1: String = Term.ApplyInfix(Term.Name(&quot;x&quot;), Term.Name(&quot;+&quot;), Nil, Seq(Term.Name(&quot;y&quot;)))
-
-scala&gt; tree.tokens.structure
-res2: String = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..5),   [5..6), /* adds x and y */ [6..24), EOF [24..24))</code></pre>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; [0mval tree = &quot;x + y /* adds x and y */&quot;.parse[Term].get
+[1m[34mtree[0m: [1m[32mscala.meta.Term[0m = x + y /* adds x and y */
+[35m
+scala&gt; [0mtree.syntax
+[1m[34mres0[0m: [1m[32mString[0m = x + y /* adds x and y */
+[35m
+scala&gt; [0mtree.structure
+[1m[34mres1[0m: [1m[32mString[0m = Term.ApplyInfix(Term.Name(&quot;x&quot;), Term.Name(&quot;+&quot;), Nil, List(Term.Name(&quot;y&quot;)))
+[35m
+scala&gt; [0mtree.tokens.structure
+[1m[34mres2[0m: [1m[32mString[0m = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..5),   [5..6), /* adds x and y */ [6..24), EOF [24..24))</code></pre>
     <p>
       <b>
         Dialects.</b>
@@ -120,14 +120,14 @@ res2: String = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..
       Scala 2.10, Scala 2.11 and even Dotty. We also support Sbt build files
       to make sure we cover as much Scala code as possible.
 </p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; import scala.meta.dialects.Sbt0137
+    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; [0mimport scala.meta.dialects.Sbt0137
 import scala.meta.dialects.Sbt0137
-
-scala&gt; Sbt0137(&quot;&quot;&quot;
-  lazy val root = (project in file(&quot;.&quot;)).
-  settings(name := &quot;hello&quot;)
-&quot;&quot;&quot;).parse[Source]
-res0: scala.meta.parsers.Parsed[scala.meta.Source] =
+[35m
+scala&gt; [0mSbt0137(&quot;&quot;&quot;
+[35m     | [0m  lazy val root = (project in file(&quot;.&quot;)).
+[35m     | [0m  settings(name := &quot;hello&quot;)
+[35m     | [0m&quot;&quot;&quot;).parse[Source]
+[1m[34mres0[0m: [1m[32mscala.meta.parsers.Parsed[scala.meta.Source][0m =
 
   lazy val root = (project in file(&quot;.&quot;)).
   settings(name := &quot;hello&quot;)</code></pre>
@@ -143,27 +143,23 @@ res0: scala.meta.parsers.Parsed[scala.meta.Source] =
       Learn more about quasiquotes in
       <a href="https://github.com/scalameta/scalameta/blob/master/notes/quasiquotes.md">our documentation</a>.
 </p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; val addition = q&quot;x + y&quot;
-addition: meta.Term.ApplyInfix = x + y
-
-scala&gt; val q&quot;$x + $y&quot; = addition
-x: scala.meta.Term = x
-y: meta.Term.Arg = y
-
-scala&gt; q&quot;$y + $x&quot;
-&lt;console&gt;:17: error: type mismatch when unquoting;
- found   : scala.meta.Term.Arg
- required: scala.meta.Term
-       q&quot;$y + $x&quot;
-         ^</code></pre>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; [0mval addition = q&quot;x + y&quot;
+[1m[34maddition[0m: [1m[32mmeta.Term.ApplyInfix[0m = x + y
+[35m
+scala&gt; [0mval q&quot;$x + $y&quot; = addition
+[1m[34mx[0m: [1m[32mscala.meta.Term[0m = x
+[1m[34my[0m: [1m[32mscala.meta.Term[0m = y
+[35m
+scala&gt; [0mq&quot;$y + $x&quot;
+[1m[34mres0[0m: [1m[32mmeta.Term.ApplyInfix[0m = y + x</code></pre>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Releases" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Releases<a class=" scalatex-site-Styles-headerLink" href="#Releases" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
 
     <p>
       <b>
         Stable releases.</b>
-      We are committed to publishing major releases (e.g. 1.7.0, 1.8.0, etc)
-      on the 10th day of every month. In such releases, we accumulate battle-tested changes
-      that have been merged since the last release and make them available on Maven Central.
+      Every four to six weeks, we publish major releases (e.g. 1.7.0, 1.8.0, etc).
+      In such releases, we accumulate battle-tested changes that have been merged since
+      the last release and make them available on Maven Central.
 </p>
    <p>
       <b>
@@ -188,7 +184,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
 
 // Latest pre-release version
 resolvers += Resolver.bintrayRepo(&quot;scalameta&quot;, &quot;maven&quot;)
-libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.9.0-722-34b43981&quot;
+libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;2.0.0-M2-3-283a6839-20170816-1905&quot;
 </code></pre>
     <p>
       Next, you'll need to add a single wildcard import to the files where you'll
@@ -243,6 +239,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
 </p>
     <p>
       Video: coming soon
+      <a href="https://www.youtube.com/watch?v=4yqDFsdKciA">https://www.youtube.com/watch?v=4yqDFsdKciA</a>
       <br />
       Slides:
       <a href="http://scalameta.org/talks/2017-06-01-SemanticToolingAtTwitter.pdf">http://scalameta.org/talks/2017-06-01-SemanticToolingAtTwitter.pdf</a>
@@ -266,15 +263,15 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
     <p>
       
         <center>
-          <a href="https://twitter.com/"><img width="112" height="90" src="https://g.twimg.com/Twitter_logo_blue.png" /></a>
+          <a href="https://twitter.com/"><img width="112" height="90" src="images/twitter.png" /></a>
           &nbsp; &nbsp;
-          <a href="https://www.jetbrains.com/"><img width="95" height="95" src="http://resources.jetbrains.com/assets/media/open-graph/jetbrains_250x250.png" /></a>
+          <a href="https://www.jetbrains.com/"><img width="95" height="95" src="images/jetbrains.png" /></a>
           &nbsp; &nbsp;
-          <a href="https://www.codacy.com/"><img width="105" height="105" src="https://avatars3.githubusercontent.com/u/1834093?v=3&s=200" /></a>
+          <a href="https://www.codacy.com/"><img width="105" height="105" src="images/codacy.png" /></a>
           &nbsp; &nbsp;
-          <a href="https://scala.epfl.ch/"><img width="95" height="95" src="https://scala.epfl.ch/resources/img/scala-center-swirl.png"/></a>
+          <a href="https://scala.epfl.ch/"><img width="70" height="100" src="images/scala_center.png"/></a>
           &nbsp; &nbsp;
-          <a href="https://www.evolutiongaming.com/"><img width="75" height="95" src="https://www.dropbox.com/s/u5zulu0w1i04di6/evolution_gaming.png?dl=1"/></a>
+          <a href="https://www.evolutiongaming.com/"><img width="75" height="95" src="images/evolution_gaming.png"/></a>
         </center>
 </p></div>
 <div style="margin: 0px;color: #ccc;text-align: center;padding: 0.5em 2em 0.5em 0em;border-top: 1px solid #eee;display: block;">(c) 2014 - 2017 scalameta contributors</div>
@@ -302,4 +299,4 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
         );
       })
     })
-  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
