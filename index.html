@@ -59,25 +59,14 @@ span.hljs-tag, span.hljs-symbol{
 }
     </style><title>Scalameta</title><script src="scripts.js"></script></head><body><div>
 
-<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Scalameta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Scalameta<a class=" scalatex-site-Styles-headerLink" href="#Scalameta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /><h2 style="font-weight: 300;color: #ccc;padding: 0px;margin-top: 0px;">1.8.0 (released on 22 May 2017)</h2></div><div class=" scalatex-site-Styles-content">
+<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Scalameta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Scalameta<a class=" scalatex-site-Styles-headerLink" href="#Scalameta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /><h2 style="font-weight: 300;color: #ccc;padding: 0px;margin-top: 0px;">2.0.0-RC1</h2></div><div class=" scalatex-site-Styles-content">
 
   <p>
-    Scalameta is a clean-room implementation of a metaprogramming toolkit for Scala,
-    designed to be simple, robust and portable.
-    We are striving for scalameta to become a successor of scala.reflect,
-    the current de facto standard in the Scala ecosystem.
-</p>
-  <p>
-    Scalameta provides functionality that's unprecedented in the Scala ecosystem.
-    Our killer feature is abstract syntax trees that capture the code exactly as it is written -
-    with all the original formatting and attention to minor syntactic details.
-</p>
-  <p>
-    With scalameta, we are building a community of next-generation tooling for Scala.
-    <a href="https://codacy.com/">Codacy</a>'s Scala engine, <a href="http://scalafmt.org">Scalafmt</a>,
-    and <a href="https://github.com/scalacenter/scalafix">Scalafix</a>
-    take advantage of our unique features and deliver user experiences
-    that have been unreachable for the most of the traditional Scala tools.
+    Scalameta is a modern metaprogramming library for Scala that supports
+    a wide range of language versions and execution platforms.
+    Originally, Scalameta was founded to become a better macro system for Scala,
+    but over time we shifted focus to developer tools and spun off the new macro system
+    into a <a href="https://github.com/scalamacros/scalamacros">separate project</a>.
 </p>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Features" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Features<a class=" scalatex-site-Styles-headerLink" href="#Features" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
@@ -85,7 +74,7 @@ span.hljs-tag, span.hljs-symbol{
         High-fidelity parsing.</b>
       Note how the abstract syntax trees in the printout below
       contain comprehensive information about formatting and comments.
-      This is an exclusive feature of scalameta.
+      This is an exclusive feature of Scalameta.
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; &quot;x + y /* adds x and y */&quot;.parse[Term]
 res0: scala.meta.parsers.Parsed[scala.meta.Term] = x + y /* adds x and y */
@@ -114,10 +103,32 @@ scala&gt; tree.tokens.structure
 res2: String = Tokens(BOF [0..0), x [0..1),   [1..2), + [2..3),   [3..4), y [4..5),   [5..6), /* adds x and y */ [6..24), EOF [24..24))</code></pre>
     <p>
       <b>
+        Quasiquotes.</b>
+      Quasiquotes have proven to be an amazing productivity booster in scala.reflect,
+      so we implemented them in Scalameta and now they are better than ever.
+      Note the precise types for <code>x</code> and <code>y</code>
+      prevent the programmer from generating invalid code.
+      Learn more about supported quasiquotes features
+      <a href="https://github.com/scalameta/scalameta/blob/master/notes/quasiquotes.md">here</a>.
+</p>
+    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; val addition = q&quot;x + y&quot;
+addition: meta.Term.ApplyInfix = x + y
+
+scala&gt; val q&quot;$x + $y&quot; = addition
+x: scala.meta.Term = x
+y: scala.meta.Term = y
+
+scala&gt; q&quot;def y: $x&quot;
+&lt;console&gt;:19: error: type mismatch when unquoting;
+ found   : scala.meta.Term
+ required: scala.meta.Type
+       q&quot;def y: $x&quot;
+                ^</code></pre>
+    <p>
+      <b>
         Dialects.</b>
-      Scalameta is designed from the ground up to be platform-independent.
-      This means that we understand different versions of the base language:
-      Scala 2.10, Scala 2.11 and even Dotty. We also support Sbt build files
+      Scalameta is designed from the ground up to understand different versions of the base language:
+      Scala 2.10, Scala 2.11, Scala 2.12 and even Dotty. We also support Sbt build files
       to make sure we cover as much Scala code as possible.
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; import scala.meta.dialects.Sbt0137
@@ -131,65 +142,168 @@ res0: scala.meta.parsers.Parsed[scala.meta.Source] =
 
   lazy val root = (project in file(&quot;.&quot;)).
   settings(name := &quot;hello&quot;)</code></pre>
+    <table class="pure-table" style="margin: auto;">
+      
+      
+      <thead>
+        <tr>
+          <th>
+            Dialect</th>
+          <th>
+            Syntax</th>
+          <th>
+            Semantic</th>
+          <th>
+            Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>
+            Scala 2.10</td>
+          <td>
+            Yes</td>
+          <td>
+            Yes*</td>
+          <td>
+            Requires <a href="https://github.com/scalameta/sbthost">an external module</a></td></tr>
+        <tr>
+          <td>
+            Scala 2.11</td>
+          <td>
+            Yes</td>
+          <td>
+            Full support</td>
+          <td></td></tr>
+        <tr>
+          <td>
+            Scala 2.12</td>
+          <td>
+            Yes</td>
+          <td>
+            Full support</td>
+          <td></td></tr>
+        <tr>
+          <td>
+            Dotty</td>
+          <td>
+            Partial</td>
+          <td>
+            No</td>
+          <td>
+            Partial support for new language features.</td></tr>
+        <tr>
+          <td>
+            Sbt 0.13</td>
+          <td>
+            Yes</td>
+          <td>
+            Yes*</td>
+          <td>
+            Requires <a href="https://github.com/scalameta/sbthost">an external module</a></td></tr>
+        <tr>
+          <td>
+            Sbt 1.0</td>
+          <td>
+            Yes</td>
+          <td>
+            No</td>
+          <td></td>
+</tr></tbody></table>
     <p>
       <b>
-        Quasiquotes.</b>
-      Scala.reflect is notorious for being obscure and user-unfriendly,
-      but it has its moments.
-      Quasiquotes have proven to be an amazing productivity booster,
-      so we implemented them in scalameta, and now they are better than ever.
-      Note how the precise types for <code>x</code> and <code>y</code>
-      prevent the programmer from generating invalid code.
-      Learn more about quasiquotes in
-      <a href="https://github.com/scalameta/scalameta/blob/master/notes/quasiquotes.md">our documentation</a>.
+        Semantic API.</b>
+      Semantic analysis of Scala programs has typically been tricky business, requiring
+      intimate familiarity with compiler internals.
+      Scalameta involves none of that. Our semantic API is powered by
+      <a href="http://scalameta.org/tutorial/#SemanticDB">Semantic DB</a>, a simple
+      <a href="https://github.com/scalameta/scalameta/blob/master/langmeta/semanticdb/shared/src/main/protobuf/semanticdb.proto">schema</a>
+      for persisting semantic information extracted from the Scala compiler.
+      Saved semantic information can then be used in multiple applications running on
+      different platforms, potentially in a distributed fashion.
+      <table class="pure-table" style="margin: auto;">
+        
+        
+        <thead>
+          <tr>
+            <th>
+              Feature</th>
+            <th>
+              Supported?</th></tr></thead>
+        <tbody>
+          
+          <tr><td>Compiler messages</td><td>Yes</td></tr>
+          <tr><td>Implicit arguments</td><td>Yes</td></tr>
+          <tr><td>Implicit conversions</td><td>Yes</td></tr>
+          <tr><td>Inferred .apply/.unapply</td><td>Yes</td></tr>
+          <tr><td>Inferred type arguments</td><td>Yes</td></tr>
+          <tr><td>Symbol at position</td><td>Yes</td></tr>
+          <tr><td>Symbol signature</td><td>Yes</td></tr>
+          <tr><td>Auto completion</td><td>No</td></tr>
+          <tr><td>Macro expansions</td><td>No</td></tr>
+          <tr><td>Type at position</td><td>No</td></tr>
+          <tr><td>Type members</td><td>No</td></tr></tbody></table></p>
+    <p>
+      <b>
+        Cross-platform.</b>
+      Scalameta is available as a JVM library and as a JavaScript module
+      via <a href="http://www.scala-js.org/">Scala.js</a>.
+      Support for a native library via <a href="http://www.scala-native.org/">Scala Native</a> is
+      <a href="https://github.com/scalameta/scalameta/issues/772">in the works</a>.
 </p>
-    <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; val addition = q&quot;x + y&quot;
-addition: meta.Term.ApplyInfix = x + y
-
-scala&gt; val q&quot;$x + $y&quot; = addition
-x: scala.meta.Term = x
-y: scala.meta.Term = y
-
-scala&gt; q&quot;$y + $x&quot;
-res0: meta.Term.ApplyInfix = y + x</code></pre>
+  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="BuiltwithScalameta" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Built with Scalameta<a class=" scalatex-site-Styles-headerLink" href="#BuiltwithScalameta" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
+    <p>
+      Feel free to add your project to this list.</p>
+    <ul>
+      <li>
+         <a href="http://scalameta.org/scalafmt/">Scalafmt</a>: code formatter.</li>
+      <li>
+         <a href="https://scalacenter.github.io/scalafix/">Scalafix</a>: automated code rewriter.</li>
+      <li>
+         <a href="http://scalameta.org/metadoc/">Metadoc</a>: online code browser
+         with &quot;Jump to definition&quot; and &quot;See references&quot;.</li>
+      <li>
+        <a href="https://github.com/ShaneDelmore/imclipitly">Imclipitly</a>:
+        Scala-Clippy advice generator for implicit enrichments.</li>
+      <li>
+        <a href="https://github.com/pjrt/stags">Stags</a>: Scala tags generator.</li>
+      <li>
+        <a href="https://astexplorer.net/#/gist/22cf8a3fcb2155c087ae94b4d194c1b6/d10c646ecfae4c69c919408aa3aaefb2deda2df7">AST explorer</a>:
+        interactive explorer of Scala syntax trees.</li>
+      <li>
+        <a href="https://blog.buildo.io/metarpheus-a-custom-approach-to-api-contracts-f340a6792d43">Metarpheus</a>:
+        extract models and apis from a spray-based server.
+</li></ul>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Releases" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Releases<a class=" scalatex-site-Styles-headerLink" href="#Releases" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
 
     <p>
       <b>
-        Stable releases.</b>
-      Every four to six weeks, we publish major releases (e.g. 1.7.0, 1.8.0, etc).
-      In such releases, we accumulate battle-tested changes that have been merged since
-      the last release and make them available on Maven Central.
-</p>
-   <p>
+        Train model.</b>
+      Every six weeks, we publish a release with the latest changes.</p>
+    <p>
       <b>
-        Pre-release builds.</b>
-      We automatically publish pre-release builds to our Bintray repository on every merge into master,
-      typically within 10-30 minutes of a merge. In such builds, we publish potentially experimental changes
-      that haven't yet undergone practical testing.
+        Semantic versioning.</b>
+      With Scalameta 2.0 onwards, we follow
+      <a href="http://semver.org/">semantic versioning</a> enforced with
+      <a href="https://github.com/typesafehub/migration-manager/">MiMa</a>.
+      Binary breaking changes bump up the major version (e.g., 2.0 -&gt; 3.0),
+      binary compatible improvements bump up the minor version (e.g.,
+      2.0 -&gt; 2.1).
 </p>
-   <p>
+    <p>
       <b>
-        Compatibility.</b>
-      Following a popular convention, we only provide binary and source compatibility
-      between minor versions (e.g. between 1.6.0 and 1.6.1, but not between 1.6.0 and 1.7.0).
-      There are no compatibility guarantees provided for pre-release builds.
+        Milestone releases.</b>
+      At any point in the release cycle, we may cut
+      milestone releases to test out work-in-progress changes.
 </p>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Gettingstarted" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Getting started<a class=" scalatex-site-Styles-headerLink" href="#Gettingstarted" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       To get started with scalameta, add the following to your <code>build.sbt</code>:
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">// Latest stable version
-libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.8.0&quot;
-
-// Latest pre-release version
-resolvers += Resolver.bintrayRepo(&quot;scalameta&quot;, &quot;maven&quot;)
-libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;2.0.0-M2-4-07525e18-20170817-0940&quot;
+libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;2.0.0-RC1&quot;
 </code></pre>
     <p>
       Next, you'll need to add a single wildcard import to the files where you'll
-      be using scalameta. Unlike with scala.reflect, the metaprogramming
-      library from the standard distribution, no complicated setup is necessary.
+      be using scalameta.
 </p>
     <pre><code class="scala scalatex-site-Styles-highlightMe">import scala.meta._
 </code></pre>
@@ -202,31 +316,29 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Roadmap" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Roadmap<a class=" scalatex-site-Styles-headerLink" href="#Roadmap" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       <b>
-        Semantic API.</b>
-      Our first priority is to come up with an API that will provide
-      functionality to perform typechecking, name resolution, implicit inference, etc.
-      It is crucial to fully model the language and
-      achieve feature parity with scala.reflect. Visit <a href="https://github.com/scalameta/scalameta/issues/604">#604</a>
-      to check out our roadmap and provide feedback.
+        Refactoring.</b>
+      <a href="https://scalacenter.github.io/scalafix/">Scalafix</a> is a
+      code rewriting tool developed at the <a href="https://scala.epfl.ch/">Scala Center</a>.
+      Scalafix rewrites use the Scalameta to automate migration between different library and compiler versions.
 </p>
     <p>
       <b>
-        New-style (&quot;inline&quot;) macros.</b>
-      As announced at ScalaDays New York City 2016,
-      macros based on scala.reflect are going to be dropped from the future versions of Scala.
-      We are now working on the replacement that is designed to be platform-independent and easy-to-use.
-      You may be interested in visiting <a href="https://github.com/scalamacros/scalamacros">https://github.com/scalamacros/scalamacros</a>
-      to check out the state of the art.
+        Scala Native support.</b>
+      Slow startup time for JVM command-line tools is a big blocker for many
+      exciting editor integrations, such as code formatting. Scala Native opens
+      possiblities to implement command-line tools that run in milliseconds
+      instead of seconds. We have validated that scalafmt can run on native,
+      see <a href="https://twitter.com/olafurpg/status/857559907876433920">tweet</a>,
+      we &quot;just&quot; need to get our tests ported to know it works as expected.
+      See <a href="https://github.com/scalameta/scalameta/issues/772">https://github.com/scalameta/scalameta/issues/772</a>.
 </p>
+  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Notontheroadmap" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Not on the roadmap<a class=" scalatex-site-Styles-headerLink" href="#Notontheroadmap" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       <b>
-        Other execution environments.</b>
-      The current version of scalameta can only be run with Scala 2.11, Scala 2.12 or Scala.js.
-      This means that it is very hard or outright impossible to write scalameta-based tools
-      targetting Scala 2.10 (e.g. running in sbt 0.13.x) or Scala Native.
-      Vote for <a href="https://github.com/scalameta/scalameta/issues/295">#295</a>
-      and <a href="https://github.com/scalameta/scalameta/issues/772">#772</a>
-      on our issue tracker if that's important for you.
+        Scala macros.</b>
+      Originally, Scalameta was founded to become a better macro system for Scala,
+      but over time we shifted focus to developer tools and spun off the new macro system
+      into a <a href="https://github.com/scalamacros/scalamacros">separate project</a>.
 </p>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Talks" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Talks<a class=" scalatex-site-Styles-headerLink" href="#Talks" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
@@ -238,7 +350,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
       our vision of next-generation semantic tooling for the Scala ecosystem.
 </p>
     <p>
-      Video: coming soon
+      Video:
       <a href="https://www.youtube.com/watch?v=4yqDFsdKciA">https://www.youtube.com/watch?v=4yqDFsdKciA</a>
       <br />
       Slides:
@@ -248,9 +360,10 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
       <b>
         Metaprogramming 2.0</b>
       (ScalaDays Berlin 2016). This talk explains the status of scalameta, demonstrates key features,
-      presents the early adopters and publishes our plans for the future. In Berlin, we provided an extensive
-      story of what's going to happen to compile-time metaprogramming in Scala,
-      featuring a live demo of new-style (&quot;inline&quot;) macros that support integration with IntelliJ IDEA.
+      presents the early adopters and publishes our plans for the future. The centerpiece of the talk
+      is the demo of a new macro system for Scala, which is no longer part of Scalameta.
+      Nonetheless, the talk still does a good job of showcasing potential usecases for Scalameta
+      and highlighting contributions from our amazing community.
 </p>
     <p>
       Video:
@@ -289,7 +402,7 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
   </script>
 </div><script>
     scalatex.scrollspy.Controller().main(
-      [{"value":"Scalameta","children":[{"value":"Features","children":[]},{"value":"Releases","children":[]},{"value":"Getting started","children":[]},{"value":"Tutorial","children":[]},{"value":"Roadmap","children":[]},{"value":"Talks","children":[]},{"value":"Supporters","children":[]}]}]
+      [{"value":"Scalameta","children":[{"value":"Features","children":[]},{"value":"Built with Scalameta","children":[]},{"value":"Releases","children":[]},{"value":"Getting started","children":[]},{"value":"Tutorial","children":[]},{"value":"Roadmap","children":[]},{"value":"Not on the roadmap","children":[]},{"value":"Talks","children":[]},{"value":"Supporters","children":[]}]}]
   )</script><script>
     ['DOMContentLoaded', 'load'].forEach(function(ev){
       addEventListener(ev, function(){
@@ -299,4 +412,4 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
         );
       })
     })
-  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

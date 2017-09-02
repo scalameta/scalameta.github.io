@@ -1,0 +1,675 @@
+<!DOCTYPE html><html><head><link href="META-INF/resources/webjars/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /><link href="styles.css" rel="stylesheet" /><link rel="shortcut icon" type="image/png" href="favicon.png" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style>
+.scalatex-site-Styles-headerLink{
+  color: #777;
+  opacity: 0.05;
+  text-decoration: none;
+}
+
+
+.scalatex-site-Styles-hoverContainer:hover .scalatex-site-Styles-headerLink{
+  color: #777;
+  opacity: 0.5;
+  text-decoration: none;
+}
+.scalatex-site-Styles-hoverContainer:hover .scalatex-site-Styles-headerLink:hover{
+  opacity: 1.0;
+}
+.scalatex-site-Styles-hoverContainer:hover .scalatex-site-Styles-headerLink:active{
+  opacity: 0.75;
+}
+
+.scalatex-site-Styles-content{
+  color: #777;
+  line-height: 1.6em;
+  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  padding: 0 1em;
+  padding-bottom: 50px;
+}
+.scalatex-site-Styles-content *{
+  position: relative;
+}
+.scalatex-site-Styles-content p{
+  text-align: justify;
+}
+.scalatex-site-Styles-content a:link{
+  color: #37a;
+  text-decoration: none;
+}
+.scalatex-site-Styles-content a:visited{
+  color: #949;
+  text-decoration: none;
+}
+.scalatex-site-Styles-content a:hover{
+  text-decoration: underline;
+}
+.scalatex-site-Styles-content a:active{
+  color: #000;
+  text-decoration: underline;
+}
+.scalatex-site-Styles-content code{
+  color: #000;
+}
+
+/*Workaround for bug in highlight.js IDEA theme*/
+span.hljs-tag, span.hljs-symbol{
+    background: none;
+}
+    </style><title>scalameta/paradise</title><script src="scripts.js"></script></head><body><div>
+
+<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="scalameta/paradise" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">scalameta/paradise<a class=" scalatex-site-Styles-headerLink" href="#scalameta/paradise" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div><div class=" scalatex-site-Styles-content">
+  <p>
+    Note, Scalameta-based macro annotations will soon be superseded by
+    <a href="https://github.com/scalamacros/scalamacros">https://github.com/scalamacros/scalamacros</a>, see also
+    <a href="https://github.com/scalacenter/advisoryboard/pull/30">https://github.com/scalacenter/advisoryboard/pull/30</a>.
+    Scalameta-based macro annotations have several limitations such as
+    not working with
+    <ul>
+      <li>
+        <a href="https://github.com/scalameta/paradise/pull/218">ENSIME/ScalaIDE</a>, (although IntelliJ support is good)</li>
+      <li>
+        <a href="https://github.com/scalameta/paradise/issues/10">Scala REPL/console</a></li>
+      <li>
+        <a href="https://github.com/scalameta/paradise/issues/216">Scaladoc</a></li>
+      <li>
+        <a href="https://github.com/scalameta/paradise/issues/201">Scoverage</a></li></ul>
+    In addition, efforts to support def macros and Dotty have been moved to
+    scalamacros/scalamacros.
+    New scalameta/paradise bug reports or feature requests will not be addressed.
+    New scalameta/paradise pull requests to fix known issues will continue to be
+    reviewed and we are happy to cut new releases with contributed fixes.
+</p>
+  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Setupbuild" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Setup build<a class=" scalatex-site-Styles-headerLink" href="#Setupbuild" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
+    It's possible to write macro annotations on Scalameta trees using
+    the Scalameta paradise compiler plugin.
+    To configure the Scalameta paradise plugin, you need to enable it in your build
+    for both the projects that define macro annotation and the projects
+    that use macro annotations
+    <pre><code class="scala scalatex-site-Styles-highlightMe">lazy val macroAnnotationSettings = Seq(
+  addCompilerPlugin(&quot;org.scalameta&quot; % &quot;paradise&quot; % &quot;3.0.0-M10&quot; cross CrossVersion.full),
+  scalacOptions += &quot;-Xplugin-require:macroparadise&quot;,
+  scalacOptions in (Compile, console) ~= (_ filterNot (_ contains &quot;paradise&quot;)) // macroparadise plugin doesn't work in repl yet.
+)
+// Requires scalaVersion 2.11.11 or 2.12.3
+lazy val projectThatDefinesMacroAnnotations = project.settings(
+  libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.8.0&quot; % Provided,
+  macroAnnotationSettings
+  // ... your other project settings
+)
+lazy val projectThatUsesMacroAnnotations = project.settings(
+  macroAnnotationSettings,
+  // ... your other project settings
+)
+</code></pre>
+    These settings are already configured in the tutorial repo.
+    Once you are setup, run
+    <pre><code class="scala scalatex-site-Styles-highlightMe">macros/test:run
+</code></pre>
+  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Tips" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Tips<a class=" scalatex-site-Styles-headerLink" href="#Tips" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
+    <ul>
+      <li>
+        See <a href="https://github.com/scalameta/scalameta/blob/master/notes/quasiquotes.md">https://github.com/scalameta/scalameta/blob/master/notes/quasiquotes.md</a>
+        for how to construct quasiquotes.</li>
+      <li>
+        If you are unsure how to pattern match or construct a tree, you can use <code>.structure</code>
+        <pre><code class="scala scalatex-site-Styles-highlightMe">scala&gt; q&quot;def foo[A &lt;: B](implicit e: A): A&quot;.structure
+res0: String = Decl.Def(Nil, Term.Name(&quot;foo&quot;), List(Type.Param(Nil, Type.Name(&quot;A&quot;), Nil, Type.Bounds(None, Some(Type.Name(&quot;B&quot;))), Nil, Nil)), List(List(Term.Param(List(Mod.Implicit()), Term.Name(&quot;e&quot;), Some(Type.Name(&quot;A&quot;)), None))), Type.Name(&quot;A&quot;))
+
+scala&gt; Decl.Def(Nil, Term.Name(&quot;foo&quot;), List(Type.Param(Nil, Type.Name(&quot;A&quot;), Nil, Type.Bounds(None, Some(Type.Name(&quot;B&quot;))), Nil, Nil)), List(List(Term.Param(List(Mod.Implicit()), Term.Name(&quot;e&quot;), Some(Type.Name(&quot;A&quot;)), None))), Type.Name(&quot;A&quot;)).syntax
+res1: String = def foo[A &lt;: B](implicit e: A): A</code></pre></li></ul>
+  
+
+<div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Examples" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Examples<a class=" scalatex-site-Styles-headerLink" href="#Examples" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
+
+  <p>
+    Here are some example macro annotations.</p>
+  <h1 id="HelloWorld" style="display: block;" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><a class=" scalatex-site-Styles-headerLink" href="#HelloWorld" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a>Hello World</h1>
+    Here is an example macro annotation:
+
+    <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.meta._
+import scala.collection.immutable.Seq
+
+class Main extends scala.annotation.StaticAnnotation {
+  inline def apply(defn: Any): Any = meta {
+    defn match {
+      case q&quot;object $name { ..$stats }&quot; =&gt;
+        MainMacroImpl.expand(name, stats)
+      case _ =&gt;
+        abort(&quot;@main must annotate an object.&quot;)
+    }
+  }
+}
+
+// This is an example how we can refactor the macro implementation into a utility
+// function which can be used for unit testing, see MainUnitTest.
+object MainMacroImpl {
+  def expand(name: Term.Name, stats: Seq[Stat]): Defn.Object = {
+    val main = q&quot;def main(args: Array[String]): Unit = { ..$stats }&quot;
+    q&quot;object $name { $main }&quot;
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/main/scala/scalaworld/macros/Main.scala#L0-L24" target="_blank"><i class="fa fa-link "></i></a></pre>
+
+    The annotation wraps the body of an object into a <code>main</code> function,
+    serving a similar function as extending <code>App</code>.
+
+  <h1 id="Class2Map" style="display: block;" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><a class=" scalatex-site-Styles-headerLink" href="#Class2Map" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a>Class2Map</h1>
+    Implement a <code>Class2Map</code> macro annotation that injects a <code>toMap</code> method
+    that creates a <code>Map[String, Any]</code> from the fields of this class.
+
+    <p>
+      Solution:
+      <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.collection.immutable.Seq
+import scala.meta._
+
+// Before:
+// @Class2Map
+// class Class2MapExample(a: Int, b: String)(c: List[Int]) {
+// After:
+// class Class2MapExample(a: Int, b: String)(c: List[Int]) {
+//   def toMap: _root_.scala.collection.Map[String, Any] =
+//     _root_.scala.collection.Map((&quot;a&quot;, a), (&quot;b&quot;, b), (&quot;c&quot;, c))
+// }
+
+class Class2Map extends scala.annotation.StaticAnnotation {
+  inline def apply(defn: Any): Any = meta {
+    defn match {
+      case cls @ Defn.Class(_, _, _, Ctor.Primary(_, _, paramss), template) =&gt;
+        val namesToValues: Seq[Term.Tuple] = paramss.flatten.map { param =&gt;
+          q&quot;(${param.name.syntax}, ${Term.Name(param.name.value)})&quot;
+        }
+        val toMapImpl: Term =
+          q&quot;_root_.scala.collection.Map[String, Any](..$namesToValues)&quot;
+        val toMap =
+          q&quot;def toMap: _root_.scala.collection.Map[String, Any] = $toMapImpl&quot;
+        val templateStats: Seq[Stat] = toMap +: template.stats.getOrElse(Nil)
+        cls.copy(templ = template.copy(stats = Some(templateStats)))
+      case _ =&gt;
+        println(defn.structure)
+        abort(&quot;@Class2Map must annotate a class.&quot;)
+    }
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/main/scala/scalaworld/macros/Class2Map.scala#L0-L33" target="_blank"><i class="fa fa-link "></i></a></pre>
+</p>
+  <h1 id="WithApply" style="display: block;" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><a class=" scalatex-site-Styles-headerLink" href="#WithApply" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a>WithApply</h1>
+    Implement a <code>WithApply</code> macro annotation that creates a <code>apply</code>
+    method to construct an instance of the class (just like is created for case classes).
+
+    <p>
+      The challenge here is to handle the companion object correctly.
+
+      <ul>
+        <li>
+          If the companion object exists, add the <code>apply</code> method to it.</li>
+        <li>
+          If the companion object doesn't exists, create it.</li></ul></p>
+    <p>
+      Solution:
+      <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.collection.immutable.Seq
+import scala.meta._
+
+// Before:
+// @WithApply
+// class WithApplyExample(a: Int)(b: String)
+// After:
+// class WithApplyExample(a: Int)(b: String)
+// object WithApplyExample {
+//   def apply(a: Int)(b: String): WithApplyExample = new WithApplyExample(a)(b)
+// }
+
+class WithApply extends scala.annotation.StaticAnnotation {
+  inline def apply(defn: Any): Any = meta {
+    def createApply(
+        name: Type.Name,
+        paramss: Seq[Seq[Term.Param]]): Defn.Def = {
+      val args = paramss.map(_.map(param =&gt; Term.Name(param.name.value)))
+      q&quot;&quot;&quot;def apply(...$paramss): $name =
+            new ${Ctor.Ref.Name(name.value)}(...$args)&quot;&quot;&quot;
+    }
+    defn match {
+      // companion object exists
+      case Term.Block(
+          Seq(cls @ Defn.Class(_, name, _, ctor, _), companion: Defn.Object)) =&gt;
+        val applyMethod = createApply(name, ctor.paramss)
+        val templateStats: Seq[Stat] =
+          applyMethod +: companion.templ.stats.getOrElse(Nil)
+        val newCompanion = companion.copy(
+          templ = companion.templ.copy(stats = Some(templateStats)))
+        Term.Block(Seq(cls, newCompanion))
+      // companion object does not exists
+      case cls @ Defn.Class(_, name, _, ctor, _) =&gt;
+        val applyMethod = createApply(name, ctor.paramss)
+        val companion = q&quot;object ${Term.Name(name.value)} { $applyMethod }&quot;
+        Term.Block(Seq(cls, companion))
+      case _ =&gt;
+        println(defn.structure)
+        abort(&quot;@WithApply must annotate a class.&quot;)
+    }
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/main/scala/scalaworld/macros/WithApply.scala#L0-L44" target="_blank"><i class="fa fa-link "></i></a></pre>
+</p>
+  <h1 id="Debug" style="display: block;" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><a class=" scalatex-site-Styles-headerLink" href="#Debug" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a>Debug</h1>
+    Open up <code>Debug.scala</code> and implement a <code>Debug</code> macro annotation
+    for <b>methods</b> that:
+
+    <ul>
+      <li>
+        Prints out the argument names and their values at the beginning of the method.</li>
+      <li>
+        Prints out the time it took to run the method.</li>
+      <li>
+        Prints out the value of the method result.
+</li></ul>
+    <p>
+      Solution:
+      <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.annotation.compileTimeOnly
+import scala.meta._
+
+// Before:
+// @Debug
+// def complicated(a: Int, b: String)(c: Int): Int = {
+//   Thread.sleep(500)
+//   a + b.length + c
+// }
+// After:
+// def complicated(a: Int, b: String)(c: Int): Int = {
+//   {
+//     println(&quot;a&quot; + &quot;: &quot; + a)
+//     println(&quot;b&quot; + &quot;: &quot; + b)
+//     println(&quot;c&quot; + &quot;: &quot; + c)
+//   }
+//   val start = System.currentTimeMillis()
+//   val result = {
+//     Thread.sleep(500)
+//     a + b.length + c
+//   }
+//   val elapsed = System.currentTimeMillis() - start
+//   println(&quot;Method &quot; + &quot;complicated&quot; + &quot; ran in &quot; + elapsed + &quot;ms&quot;)
+//   result
+// }
+class Debug extends scala.annotation.StaticAnnotation {
+  inline def apply(defn: Any): Any = meta {
+    defn match {
+      case defn: Defn.Def =&gt;
+        val printlnStatements = defn.paramss.flatten.map { param =&gt;
+          q&quot;&quot;&quot;println(
+                ${param.name.syntax} + &quot;: &quot; +
+                ${Term.Name(param.name.value)})&quot;&quot;&quot;
+        }
+        val body: Term = q&quot;&quot;&quot;
+          { ..$printlnStatements }
+          val start = _root_.java.lang.System.currentTimeMillis()
+          val result = ${defn.body}
+          val elapsed = _root_.java.lang.System.currentTimeMillis() - start
+          println(&quot;Method &quot; + ${defn.name.syntax} + &quot; ran in &quot; + elapsed + &quot;ms&quot;)
+          result
+          &quot;&quot;&quot;
+        defn.copy(body = body)
+      case _ =&gt;
+        abort(&quot;@Debug most annotate a def&quot;)
+    }
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/main/scala/scalaworld/macros/Debug.scala#L0-L50" target="_blank"><i class="fa fa-link "></i></a></pre>
+</p>
+    For extra credit:
+    <ul>
+      <li>
+        Expand the method into two methods, where one is the original method
+        and the second one has a named suffixed with <code>Debug</code>
+        and that's where the printing happens.
+</li></ul>
+  <h1 id="generic" style="display: block;" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><a class=" scalatex-site-Styles-headerLink" href="#generic" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a>generic</h1>
+    Implement a <code>generic</code> macro annotation to automatically derive
+    a shapeless <code>Generic[T]</code> instance.
+
+    <p>
+      Note, macro annotations are purely syntactic.
+      As a result, to find subclasses of a sealed trait, we depend on the assumption
+      that all the subclasses are put under the companion class of the sealed
+      trait. The implementation below looks inside the companion class and
+      extracts definitions of classes which extend the sealed trait.
+</p>
+    <p>
+      Solution:
+      <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.collection.immutable.Seq
+import scala.meta._
+
+// Before:
+// @generic
+// case class Foo(i: Int, s: String)
+//
+// @generic
+// sealed trait Bar
+// object Bar {
+//   case class Baz(i: Int)     extends Bar
+//   case class Quux(s: String) extends Bar
+// }
+//
+// After:
+// // infix operators are used where possible, avoiding the syntax ::[A, B]
+// case class Foo(i: Int, s: String)
+// object Foo {
+//   implicit val FooGeneric: _root_.shapeless.Generic[Foo] =
+//     new _root_.shapeless.Generic[Foo] {
+//       import shapeless._
+//       type Repr = Int :: String :: HNil
+//       def from(r: Repr): Foo = r match {
+//         case i :: s :: HNil =&gt; new Foo(i, s)
+//       }
+//       def to(t: Foo): Repr = t.i :: t.s :: HNil
+//     }
+// }
+// sealed trait Bar
+// object Bar {
+//   implicit val BarGeneric: _root_.shapeless.Generic[Bar] =
+//     new _root_.shapeless.Generic[Bar] {
+//       import shapeless._
+//       type Repr = Baz :+: Quux :+: CNil
+//       def from(r: Repr): Bar = r match {
+//         case Inl(t)      =&gt; t
+//         case Inr(Inl(t)) =&gt; t
+//         case Inr(Inr(cnil)) =&gt; cnil.impossible
+//       }
+//       def to(t: Bar): Repr = t match {
+//         case t: Baz  =&gt; Inl(t)
+//         case t: Quux =&gt; Inr(Inl(t))
+//       }
+//     }
+//   case class Baz(i: Int) extends Bar()
+//   case class Quux(s: String) extends Bar()
+// }
+
+// This implementation contains quite a bit of boilerplate because we
+// generate similar code in term, type and pattern position.
+class generic extends scala.annotation.StaticAnnotation {
+  inline def apply(defn: Any): Any = meta {
+    defn match {
+      // Sealed ADT, create coproduct Generic.
+      case Term.Block(Seq(t @ ClassOrTrait(mods, name), companion: Defn.Object))
+          if GenericMacro.isSealed(mods) =&gt;
+        val oldTemplStats = companion.templ.stats.getOrElse(Nil)
+        val subTypes = oldTemplStats.collect {
+          case t: Defn.Class if GenericMacro.inherits(name)(t) =&gt; t
+        }
+        val newStats =
+          GenericMacro.mkCoproductGeneric(name, subTypes) +: oldTemplStats
+        val newCompanion =
+          companion.copy(templ = companion.templ.copy(stats = Some(newStats)))
+        Term.Block(Seq(t, newCompanion))
+      // Plain class with companion object, create HList Generic.
+      case Term.Block(
+          Seq(cls @ Defn.Class(_, name, _, ctor, _), companion: Defn.Object)) =&gt;
+        val newStats =
+          GenericMacro.mkHListGeneric(name, ctor.paramss) +:
+            companion.templ.stats.getOrElse(Nil)
+        val newCompanion =
+          companion.copy(templ = companion.templ.copy(stats = Some(newStats)))
+        Term.Block(Seq(cls, newCompanion))
+      // Plain class without companion object, create HList Generic.
+      case cls @ Defn.Class(_, name, _, ctor, _) =&gt;
+        val companion =
+          q&quot;&quot;&quot;object ${Term.Name(name.value)} {
+                ${GenericMacro.mkHListGeneric(name, ctor.paramss)}
+              }
+           &quot;&quot;&quot;
+        Term.Block(Seq(cls, companion))
+      case defn: Tree =&gt;
+        println(defn.structure)
+        abort(&quot;@generic must annotate a class or a sealed trait/class.&quot;)
+    }
+  }
+}
+
+object GenericMacro {
+  def mkCoproductTerm(depth: Int): Term =
+    if (depth &lt;= 0) q&quot;Inl(t)&quot;
+    else q&quot;Inr(${mkCoproductTerm(depth - 1)})&quot;
+
+  def mkCoproductPattern(depth: Int): Pat =
+    if (depth &lt;= 0) p&quot;Inl(t)&quot;
+    else p&quot;Inr(${mkCoproductPattern(depth - 1)})&quot;
+
+  // final unreachable case in `from` for coproduct generic.
+  def mkCantHappen(depth: Int): Pat =
+    if (depth &lt;= 0) p&quot;Inr(cnil)&quot;
+    else p&quot;Inr(${mkCantHappen(depth - 1)})&quot;
+
+  def mkGeneric(
+      name: Type.Name,
+      repr: Type,
+      to: Term,
+      from: Seq[Case],
+      importStat: Stat): Stat = {
+    val reprTyp: Stat = q&quot;type Repr = $repr&quot;
+    val toDef: Stat = q&quot;def to(t: $name): Repr = $to&quot;
+    val fromDef: Stat =
+      q&quot;def from(r: Repr): $name = r match { ..case $from }&quot;
+    val implicitName = Pat.Var.Term(Term.Name(name.syntax + &quot;Generic&quot;))
+
+    q&quot;&quot;&quot;implicit val $implicitName: _root_.shapeless.Generic[$name] =
+            new _root_.shapeless.Generic[$name] {
+              $importStat
+              $reprTyp
+              $toDef
+              $fromDef
+            }
+       &quot;&quot;&quot;
+  }
+
+  def mkCoproductGeneric(
+      superName: Type.Name,
+      subTypes: Seq[Defn.Class]): Stat = {
+    val coproductType: Type = subTypes.foldRight[Type](t&quot;CNil&quot;) {
+      case (cls, accum) =&gt;
+        t&quot;${cls.name} :+: $accum&quot;
+    }
+    val coproductTermCases: Seq[Case] = subTypes.zipWithIndex.map {
+      case (cls, i) =&gt;
+        p&quot;case t: ${cls.name} =&gt; ${mkCoproductTerm(i)}&quot;
+    }
+    val coproductTerm = q&quot;t match { ..case $coproductTermCases }&quot;
+    val coproductPat: Seq[Case] = subTypes.zipWithIndex.map {
+      case (cls, i) =&gt;
+        p&quot;case ${mkCoproductPattern(i)} =&gt; t&quot;
+    }
+    val cantHappen =
+      p&quot;&quot;&quot;case ${mkCantHappen(subTypes.length - 1)} =&gt;
+              cnil.impossible
+         &quot;&quot;&quot;
+    mkGeneric(
+      superName,
+      coproductType,
+      coproductTerm,
+      coproductPat :+ cantHappen,
+      q&quot;import shapeless.{CNil, :+:, Inr, Inl}&quot;)
+  }
+
+  def mkHListGeneric(name: Type.Name, paramss: Seq[Seq[Term.Param]]): Stat = {
+    val params = paramss match {
+      case params :: Nil =&gt; params
+      case _ =&gt; abort(&quot;Can't create generic for curried functions yet.&quot;)
+    }
+    val hlistType: Type = params.foldRight[Type](t&quot;HNil&quot;) {
+      case (Term.Param(_, _, Some(decltpe: Type), _), accum) =&gt;
+        t&quot;$decltpe :: $accum&quot;
+      case (param, _) =&gt;
+        abort(s&quot;Unsupported parameter ${param.syntax}&quot;)
+    }
+    val hlistTerm: Term = params.foldRight[Term](q&quot;HNil&quot;) {
+      case (param, accum) =&gt;
+        q&quot;t.${Term.Name(param.name.value)} :: $accum&quot;
+    }
+    val hlistPat: Pat = params.foldRight[Pat](q&quot;HNil&quot;) {
+      case (param, accum) =&gt;
+        p&quot;${Pat.Var.Term(Term.Name(param.name.value))} :: $accum&quot;
+    }
+    val args = params.map(param =&gt; Term.Name(param.name.value))
+    val patmat =
+      p&quot;case $hlistPat =&gt; new ${Ctor.Ref.Name(name.value)}(..$args)&quot;
+    mkGeneric(
+      name,
+      hlistType,
+      hlistTerm,
+      Seq(patmat),
+      q&quot;import shapeless.{::, HNil}&quot;)
+  }
+
+  def isSealed(mods: Seq[Mod]): Boolean = mods.exists(_.syntax == &quot;sealed&quot;)
+
+  // Poor man's semantic API, we check that X in `class Foo extends X`
+  // matches syntactically the name of the annotated sealed type.
+  def inherits(superType: Type.Name)(cls: Defn.Class): Boolean =
+    cls.templ.parents.headOption.exists {
+      case q&quot;$parent()&quot; =&gt; parent.syntax == superType.syntax
+      case _ =&gt; false
+    }
+}
+
+object ClassOrTrait {
+  def unapply(any: Defn): Option[(Seq[Mod], Type.Name)] = any match {
+    case t: Defn.Class =&gt; Some((t.mods, t.name))
+    case t: Defn.Trait =&gt; Some((t.mods, t.name))
+    case _ =&gt; None
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/main/scala/scalaworld/macros/generic.scala#L0-L203" target="_blank"><i class="fa fa-link "></i></a></pre>
+</p>
+  <h1 id="Testingmacroannotations" style="display: block;" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><a class=" scalatex-site-Styles-headerLink" href="#Testingmacroannotations" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a>Testing macro annotations</h1>
+    See MainTest for an example of to both unit test and integration test a
+    macro annotation.
+    <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.meta._
+import scala.meta.testkit._
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
+import org.scalatest.FunSuite
+
+// If you are doing complicated macro expansions, it's recommeded to unit test
+// the trickiest bits instead of relying only on integration tests.
+class MainUnitTest extends FunSuite {
+
+  // TODO(olafur) this method should be exposed in testkit
+  def assertStructurallyEqual(obtained: Tree, expected: Tree): Unit = {
+    StructurallyEqual(obtained, expected) match {
+      case Left(AnyDiff(x, y)) =&gt;
+        fail(s&quot;&quot;&quot;Not Structurally equal!:
+                |obtained: $x
+                |expected: $y
+             &quot;&quot;&quot;.stripMargin)
+      case _ =&gt;
+    }
+  }
+
+  test(&quot;@Main creates a main method&quot;) {
+    val obtained = MainMacroImpl.expand(
+      q&quot;AnswerToEverything&quot;,
+      List(q&quot;val x = 42&quot;, q&quot;println(x)&quot;))
+    val expected =
+      q&quot;&quot;&quot;
+        object AnswerToEverything {
+          def main(args: Array[String]): Unit = {
+            val x = 42
+            println(x)
+          }
+        }
+       &quot;&quot;&quot;
+    assertStructurallyEqual(obtained, expected)
+  }
+}
+
+// This is an integration tests because it requires running the macro expansion
+// through the entire compiler pipeline, if you have a bug in your macro annotation
+// the expanded code may not compile causing your test suite to not compile.
+class MainIntegrationTest extends FunSuite {
+  test(&quot;@Main creates a main method&quot;) {
+    val out: ByteArrayOutputStream = new ByteArrayOutputStream()
+    Console.withOut(new PrintStream(out)) {
+      MainExample.main(Array())
+    }
+    assert(out.toString.stripLineEnd == &quot;Hello Scalameta macros!&quot;)
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/test/scala/scalaworld/macros/MainTest.scala#L0-L53" target="_blank"><i class="fa fa-link "></i></a></pre>
+
+
+
+  <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Testingmacroannotations" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Testing macro annotations<a class=" scalatex-site-Styles-headerLink" href="#Testingmacroannotations" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
+    See MainTest for an example of to both unit test and integration test a
+    macro annotation.
+    <pre class=" scalatex-site-Styles-hoverContainer"><code class="scala scalatex-site-Styles-highlightMe">package scalaworld.macros
+
+import scala.meta._
+import scala.meta.testkit._
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
+import org.scalatest.FunSuite
+
+// If you are doing complicated macro expansions, it's recommeded to unit test
+// the trickiest bits instead of relying only on integration tests.
+class MainUnitTest extends FunSuite {
+
+  // TODO(olafur) this method should be exposed in testkit
+  def assertStructurallyEqual(obtained: Tree, expected: Tree): Unit = {
+    StructurallyEqual(obtained, expected) match {
+      case Left(AnyDiff(x, y)) =&gt;
+        fail(s&quot;&quot;&quot;Not Structurally equal!:
+                |obtained: $x
+                |expected: $y
+             &quot;&quot;&quot;.stripMargin)
+      case _ =&gt;
+    }
+  }
+
+  test(&quot;@Main creates a main method&quot;) {
+    val obtained = MainMacroImpl.expand(
+      q&quot;AnswerToEverything&quot;,
+      List(q&quot;val x = 42&quot;, q&quot;println(x)&quot;))
+    val expected =
+      q&quot;&quot;&quot;
+        object AnswerToEverything {
+          def main(args: Array[String]): Unit = {
+            val x = 42
+            println(x)
+          }
+        }
+       &quot;&quot;&quot;
+    assertStructurallyEqual(obtained, expected)
+  }
+}
+
+// This is an integration tests because it requires running the macro expansion
+// through the entire compiler pipeline, if you have a bug in your macro annotation
+// the expanded code may not compile causing your test suite to not compile.
+class MainIntegrationTest extends FunSuite {
+  test(&quot;@Main creates a main method&quot;) {
+    val out: ByteArrayOutputStream = new ByteArrayOutputStream()
+    Console.withOut(new PrintStream(out)) {
+      MainExample.main(Array())
+    }
+    assert(out.toString.stripLineEnd == &quot;Hello Scalameta macros!&quot;)
+  }
+}</code><a class=" scalatex-site-Styles-headerLink" style="position: absolute;right: 0.5em;top: 0.5em;display: block;font-size: 24px;" href="https://github.com/scalameta/scalameta-tutorial/tree/master/macros/src/test/scala/scalaworld/macros/MainTest.scala#L0-L53" target="_blank"><i class="fa fa-link "></i></a></pre>
+</div>
+</div><script>
+    scalatex.scrollspy.Controller().main(
+      [{"value":"scalameta/paradise","children":[{"value":"Setup build","children":[]},{"value":"Tips","children":[]},{"value":"Examples","children":[{"value":"Hello World","children":[]},{"value":"Class2Map","children":[]},{"value":"WithApply","children":[]},{"value":"Debug","children":[]},{"value":"generic","children":[]},{"value":"Testing macro annotations","children":[]}]},{"value":"Testing macro annotations","children":[]}]}]
+  )</script><script>
+    ['DOMContentLoaded', 'load'].forEach(function(ev){
+      addEventListener(ev, function(){
+        Array.prototype.forEach.call(
+          document.getElementsByClassName('scalatex-site-Styles-highlightMe'),
+          hljs.highlightBlock
+        );
+      })
+    })
+  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
