@@ -92,7 +92,7 @@ span.hljs-tag, span.hljs-symbol{
   scalacOptions += &quot;-Xplugin-require:macroparadise&quot;,
   scalacOptions in (Compile, console) ~= (_ filterNot (_ contains &quot;paradise&quot;)) // macroparadise plugin doesn't work in repl yet.
 )
-// Requires scalaVersion 2.11.11 or 2.12.3
+// Requires scalaVersion 2.11.12 or 2.12.4
 lazy val projectThatDefinesMacroAnnotations = project.settings(
   libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quot;1.8.0&quot; % Provided,
   macroAnnotationSettings
