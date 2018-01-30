@@ -211,39 +211,14 @@ res0: scala.meta.parsers.Parsed[scala.meta.Source] =
     <p>
       <b>
         Semantic API.</b>
-      Semantic analysis of Scala programs has typically been tricky business, requiring
-      intimate familiarity with compiler internals.
-      Scalameta involves none of that. Our semantic API is powered by
-      <a href="http://scalameta.org/tutorial/#SemanticDB">Semantic DB</a>, a simple
-      <a href="https://github.com/scalameta/scalameta/blob/master/langmeta/semanticdb/shared/src/main/protobuf/semanticdb.proto">schema</a>
-      for persisting semantic information extracted from the Scala compiler.
-      Saved semantic information can then be used in multiple applications running on
-      different platforms, potentially in a distributed fashion.
-      <table class="pure-table" style="margin: auto;">
-        
-        
-        <thead>
-          <tr>
-            <th>
-              Feature</th>
-            <th>
-              Supported?</th></tr></thead>
-        <tbody>
-          
-          <tr><td>Compiler messages</td><td>Yes</td></tr>
-          <tr><td>Implicit arguments</td><td>Yes</td></tr>
-          <tr><td>Implicit conversions</td><td>Yes</td></tr>
-          <tr><td>Inferred .apply/.unapply</td><td>Yes</td></tr>
-          <tr><td>Inferred type arguments</td><td>Yes</td></tr>
-          <tr><td>Symbol at position</td><td>Yes</td></tr>
-          <tr><td>Symbol signature</td><td>Yes</td></tr>
-          <tr><td>Auto completion</td><td>No</td></tr>
-          <tr><td>Macro expansions</td><td>No</td></tr>
-          <tr><td>Type at position</td><td>No</td></tr>
-          <tr><td>Type members</td><td>No</td></tr></tbody></table></p>
+      Scalameta supports SemanticDB - a data format for semantic information
+      about programs in Scala and other languages. This ensures that our Semantic
+      API works consistently across compilers and even across languages.
+      Learn more about SemanticDB <a href="http://scalameta.org/tutorial/#SemanticDB">here</a>.
+</p>
     <p>
       <b>
-        Cross-platform.</b>
+        Multiple platforms.</b>
       Scalameta is available as a JVM library and as a JavaScript module
       via <a href="http://www.scala-js.org/">Scala.js</a>.
       Support for a native library via <a href="http://www.scala-native.org/">Scala Native</a> is
@@ -270,23 +245,23 @@ res0: scala.meta.parsers.Parsed[scala.meta.Source] =
         interactive explorer of Scala syntax trees.</li>
       <li>
         <a href="https://blog.buildo.io/metarpheus-a-custom-approach-to-api-contracts-f340a6792d43">Metarpheus</a>:
-        extract models and apis from a spray-based server.
+        extract models and apis from a spray-based server.</li>
+      <li>
+        <a href="https://geirsson.com/assets/metals/">Metals</a>:
+        <a href="https://microsoft.github.io/language-server-protocol">Language Server Protocol</a>
+        implementation.
 </li></ul>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Releases" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Releases<a class=" scalatex-site-Styles-headerLink" href="#Releases" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
 
     <p>
       <b>
-        Train model.</b>
-      Every six weeks, we publish a release with the latest changes.</p>
-    <p>
-      <b>
         Semantic versioning.</b>
-      With Scalameta 2.0 onwards, we follow
+      With Scalameta 2.0.0 onwards, we follow
       <a href="http://semver.org/">semantic versioning</a> enforced with
       <a href="https://github.com/typesafehub/migration-manager/">MiMa</a>.
-      Binary breaking changes bump up the major version (e.g., 2.0 -&gt; 3.0),
+      Binary breaking changes bump up the major version (e.g., 2.0.0 -&gt; 3.0.0),
       binary compatible improvements bump up the minor version (e.g.,
-      2.0 -&gt; 2.1).
+      2.0.0 -&gt; 2.1.0).
 </p>
     <p>
       <b>
@@ -310,16 +285,23 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Tutorial" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Tutorial<a class=" scalatex-site-Styles-headerLink" href="#Tutorial" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       To learn more about practical aspects of using scalameta, take a look at
-      our tutorial that is based on a workshop given by Ólafur Pall Geirsson at Scala World 2016:
+      our tutorial written by Ólafur Pall Geirsson:
       <a href="http://scalameta.org/tutorial">http://scalameta.org/tutorial</a>.
 </p>
   <div style="margin: 0px;color: #333;text-align: center;padding: 2.5em 2em 0;border-bottom: 1px solid #eee;display: block;" id="Roadmap" class=" scalatex-site-Styles-hoverContainer scalatex-site-Styles-headerTag"><h1 style="margin: 0.2em 0;font-size: 3em;font-weight: 300;">Roadmap<a class=" scalatex-site-Styles-headerLink" href="#Roadmap" style="position: absolute;right: 0px;"><i class="fa fa-link"></i></a></h1><br /></div>
     <p>
       <b>
-        Refactoring.</b>
+        Rewriting and linting.</b>
       <a href="https://scalacenter.github.io/scalafix/">Scalafix</a> is a
-      code rewriting tool developed at the <a href="https://scala.epfl.ch/">Scala Center</a>.
+      rewrite and linting tool for Scala developed at the <a href="https://scala.epfl.ch/">Scala Center</a>.
       Scalafix rewrites use the Scalameta to automate migration between different library and compiler versions.
+</p>
+    <p>
+      <b>
+        Language server protocol.</b>
+      <a href="https://geirsson.com/assets/metals/">Metals</a> is an experimental project
+      that use Scalameta-based tools to implement
+      <a href="https://microsoft.github.io/language-server-protocol">Language Server Protocol</a>.
 </p>
     <p>
       <b>
@@ -376,18 +358,18 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
     <p>
       
         <center>
-          <a href="https://twitter.com/"><img width="112" height="90" src="images/twitter.png" /></a>
+          <a href="https://twitter.com/"><img width="112" height="90" src="img/twitter.png" /></a>
           &nbsp; &nbsp;
-          <a href="https://www.jetbrains.com/"><img width="95" height="95" src="images/jetbrains.png" /></a>
+          <a href="https://www.jetbrains.com/"><img width="95" height="95" src="img/jetbrains.png" /></a>
           &nbsp; &nbsp;
-          <a href="https://www.codacy.com/"><img width="105" height="105" src="images/codacy.png" /></a>
+          <a href="https://www.codacy.com/"><img width="105" height="105" src="img/codacy.png" /></a>
           &nbsp; &nbsp;
-          <a href="https://scala.epfl.ch/"><img width="70" height="100" src="images/scala_center.png"/></a>
+          <a href="https://scala.epfl.ch/"><img width="70" height="100" src="img/scala_center.png"/></a>
           &nbsp; &nbsp;
-          <a href="https://www.evolutiongaming.com/"><img width="75" height="95" src="images/evolution_gaming.png"/></a>
+          <a href="https://www.evolutiongaming.com/"><img width="75" height="95" src="img/evolution_gaming.png"/></a>
         </center>
 </p></div>
-<div style="margin: 0px;color: #ccc;text-align: center;padding: 0.5em 2em 0.5em 0em;border-top: 1px solid #eee;display: block;">(c) 2014 - 2017 scalameta contributors</div>
+<div style="margin: 0px;color: #ccc;text-align: center;padding: 0.5em 2em 0.5em 0em;border-top: 1px solid #eee;display: block;">(c) 2014 - 2018 scalameta contributors</div>
 
 
   <a href="https://github.com/scalameta/scalameta"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
@@ -412,4 +394,4 @@ libraryDependencies += &quot;org.scalameta&quot; %% &quot;scalameta&quot; % &quo
         );
       })
     })
-  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+  </script></body></html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
