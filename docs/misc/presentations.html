@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Presentations · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="## How We Built Tools That Scale to Millions of Lines of Code (ScalaDays New York 2018)"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Presentations · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="## How We Built Tools That Scale to Millions of Lines of Code (ScalaDays New York 2018)"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/tutorial" target="_blank">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Community</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/quasiquotes.html">Quasiquotes</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scalafiddle.html">ScalaFiddle Playground</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/scalameta/tutorial/edit/master/docs/misc/presentations.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Presentations</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="how-we-built-tools-that-scale-to-millions-of-lines-of-code-scaladays-new-york-2018"></a><a href="#how-we-built-tools-that-scale-to-millions-of-lines-of-code-scaladays-new-york-2018" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How We Built Tools That Scale to Millions of Lines of Code (ScalaDays New York 2018)</h2>
+<p>This talk outlines the work that we did at Twitter to add semantic functionality
+to code browsing, code review and code evolution tools. We use SemanticDB - an
+opensource data model for semantic information developed in Scalameta. We have
+implemented experimental improvements to the Twitter development workflow,
+integrating opensource and closed-source solutions.</p>
+<ul>
+<li>Video:
+<a href="https://na.scaladays.org/schedule/how-we-built-tools-that-scale-to-millions-of-lines-of-code">https://na.scaladays.org/schedule/how-we-built-tools-that-scale-to-millions-of-lines-of-code</a></li>
+<li>Slides:
+<a href="http://scalameta.org/talks/2018-06-20-HowWeBuiltToolsThatScaleToMillionsOfLoc.pdf">http://scalameta.org/talks/2018-06-20-HowWeBuiltToolsThatScaleToMillionsOfLoc.pdf</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="six-steps-from-zero-to-ide-flatmaposlo-and-scaladays-berlin-2018"></a><a href="#six-steps-from-zero-to-ide-flatmaposlo-and-scaladays-berlin-2018" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Six Steps from Zero to IDE (flatMap(Oslo) and ScalaDays Berlin 2018)</h2>
+<p>This talk is about the Language Server Protocol and Metals, a language server
+for Scala that we are building with SemanticDB. The talk explains the
+architecture of Metals and what components are needed to build a good
+interactive editing experience for Scala.</p>
+<ul>
+<li>Video: <a href="https://slideslive.com/38908105/six-steps-from-zero-to-ide">https://slideslive.com/38908105/six-steps-from-zero-to-ide</a></li>
+<li>Slides: <a href="https://geirsson.com/assets/flatmap-2018.pdf">https://geirsson.com/assets/flatmap-2018.pdf</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="semanticdb-for-scala-developer-tools-scalasphere-krakow-2018"></a><a href="#semanticdb-for-scala-developer-tools-scalasphere-krakow-2018" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SemanticDB for Scala developer tools (ScalaSphere Krakow 2018)</h2>
+<p>This talk covers what SemanticDB is and how it enables a new way to build
+developer tools for Scala. We show how SemanticDB data looks like, explain how
+to use the utilities metac, metacp, mtags and mtags to produce and read
+SemanticDB, and how applications like Scalafix, Metadoc and Metals are using
+SemanticDB today.</p>
+<ul>
+<li>Video: <a href="https://youtu.be/1p_sYlgs7Lg">https://youtu.be/1p_sYlgs7Lg</a></li>
+<li>Slides: <a href="https://geirsson.com/assets/scalasphere-2018.pdf">https://geirsson.com/assets/scalasphere-2018.pdf</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="semantic-tooling-at-twitter-scaladays-copenhagen-2017"></a><a href="#semantic-tooling-at-twitter-scaladays-copenhagen-2017" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Semantic Tooling at Twitter (ScalaDays Copenhagen 2017)</h2>
+<p>This talk introduces semantic databases, the cornerstone of the Scalameta
+semantic API, and explains how semantic databases can be used to integrate with
+Kythe, a language-agnostic ecosystem for developer tools. In this talk, we
+presented our vision of next-generation semantic tooling for the Scala
+ecosystem.</p>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=4yqDFsdKciA">https://www.youtube.com/watch?v=4yqDFsdKciA</a></li>
+<li>Slides: <a href="http://scalameta.org/talks/2017-06-01-SemanticToolingAtTwitter.pdf">http://scalameta.org/talks/2017-06-01-SemanticToolingAtTwitter.pdf</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="metaprogramming-20-scaladays-berlin-2016"></a><a href="#metaprogramming-20-scaladays-berlin-2016" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metaprogramming 2.0 (ScalaDays Berlin 2016)</h2>
+<p>This talk explains the status of Scalameta, demonstrates key features, presents
+the early adopters and publishes our plans for the future. The centerpiece of
+the talk is the demo of a new macro system for Scala, which is no longer part of
+Scalameta. Nonetheless, the talk still does a good job of showcasing potential
+usecases for Scalameta and highlighting contributions from our amazing
+community.</p>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=IPnd_SZJ1nM">https://www.youtube.com/watch?v=IPnd_SZJ1nM</a></li>
+<li>Slides: <a href="http://scalamacros.org/paperstalks/2016-06-17-Metaprogramming20.pdf">http://scalamacros.org/paperstalks/2016-06-17-Metaprogramming20.pdf</a></li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/misc/built-with-scalameta.html"><span class="arrow-prev">← </span><span>Previous</span></a></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#how-we-built-tools-that-scale-to-millions-of-lines-of-code-scaladays-new-york-2018">How We Built Tools That Scale to Millions of Lines of Code (ScalaDays New York 2018)</a></li><li><a href="#six-steps-from-zero-to-ide-flatmaposlo-and-scaladays-berlin-2018">Six Steps from Zero to IDE (flatMap(Oslo) and ScalaDays Berlin 2018)</a></li><li><a href="#semanticdb-for-scala-developer-tools-scalasphere-krakow-2018">SemanticDB for Scala developer tools (ScalaSphere Krakow 2018)</a></li><li><a href="#semantic-tooling-at-twitter-scaladays-copenhagen-2017">Semantic Tooling at Twitter (ScalaDays Copenhagen 2017)</a></li><li><a href="#metaprogramming-20-scaladays-berlin-2016">Metaprogramming 2.0 (ScalaDays Berlin 2016)</a></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/tutorial" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2018 Scalameta</section></footer></div></body></html>

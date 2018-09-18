@@ -1,0 +1,376 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Quasiquotes Specification · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Below you can find a comprehensive map between Scala&#x27;s language constructs and"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Quasiquotes Specification · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="Below you can find a comprehensive map between Scala&#x27;s language constructs and"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/tutorial" target="_blank">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Trees</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/trees/quasiquotes.html">Quasiquotes</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scalafiddle.html">ScalaFiddle Playground</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/scalameta/tutorial/edit/master/docs/trees/quasiquotes.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Quasiquotes Specification</h1></header><article><div><span><p>Below you can find a comprehensive map between Scala's language constructs and
+various quasiquotes in scala.meta. If something's missing here, it's a bug that
+should be
+<a href="https://github.com/scalameta/scalameta/issues/new">submitted to our issue tracker</a>.</p>
+<p>This specification describes quasiquote syntax using a markedly condensed
+notation. If you have troubles decyphering it, consult the &quot;Legend&quot; section in
+the end of the document.</p>
+<h2><a class="anchor" aria-hidden="true" id="expressions-metaterm"></a><a href="#expressions-metaterm" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expressions (meta.Term)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Literal</td><td><code>q&quot;&lt;literal&gt;&quot;</code></td></tr>
+<tr><td>This</td><td><code>q&quot;this&quot;</code>, <code>q&quot;$name.this&quot;</code></td></tr>
+<tr><td>Super</td><td><code>q&quot;super&quot;</code>, <code>q&quot;$name.super&quot;</code>, <code>q&quot;super[$name]&quot;</code>, <code>q&quot;$name.super[$name]&quot;</code></td></tr>
+<tr><td>Name</td><td><code>q&quot;&lt;name&gt;&quot;</code></td></tr>
+<tr><td>Selection</td><td><code>q&quot;$expr.$ename&quot;</code></td></tr>
+<tr><td>Interpolation</td><td>Not supported yet</td></tr>
+<tr><td>Application</td><td><code>q&quot;$expr(...$exprss)&quot;</code></td></tr>
+<tr><td>Type Application</td><td><code>q&quot;$expr[..$tpesnel]&quot;</code></td></tr>
+<tr><td>Infix Application</td><td><code>q&quot;$expr $ename[..$tpes] $expr&quot;</code>, <code>q&quot;$expr $ename[..$tpes] (..$exprs)&quot;</code></td></tr>
+<tr><td>Unary Application</td><td><code>q&quot;!$expr&quot;, q&quot;~$expr&quot;, q&quot;-$expr&quot;, &quot;+$expr&quot;</code></td></tr>
+<tr><td>Assign</td><td><code>q&quot;$expr = $expr&quot;</code></td></tr>
+<tr><td>Return</td><td><code>q&quot;return $expr&quot;</code></td></tr>
+<tr><td>Throw</td><td><code>q&quot;throw $expr&quot;</code></td></tr>
+<tr><td>Ascribe</td><td><code>q&quot;$expr: $tpe&quot;</code></td></tr>
+<tr><td>Annotate</td><td><code>q&quot;$expr: ..@$annotsnel&quot;</code></td></tr>
+<tr><td>Tuple</td><td><code>q&quot;(..$exprsnel)&quot;</code></td></tr>
+<tr><td>Block</td><td><code>q&quot;{ ..$stats }&quot;</code></td></tr>
+<tr><td>If</td><td><code>q&quot;if ($expr) $expr else $expr&quot;</code></td></tr>
+<tr><td>Match</td><td><code>q&quot;$expr match { ..case $casesnel }&quot;</code></td></tr>
+<tr><td>Try</td><td><code>q&quot;try $expr catch { ..case $cases } finally $expropt&quot;</code></td></tr>
+<tr><td>Try With Handler</td><td><code>q&quot;try $expr catch $expr finally $expropt&quot;</code></td></tr>
+<tr><td>Function</td><td><code>q&quot;(..$params) =&gt; $expr&quot;</code></td></tr>
+<tr><td>Partial Function</td><td><code>q&quot;{ ..case $casesnel }&quot;</code></td></tr>
+<tr><td>While</td><td><code>q&quot;while ($expr) $expr&quot;</code></td></tr>
+<tr><td>Do While</td><td><code>q&quot;do $expr while($expr)&quot;</code></td></tr>
+<tr><td>For</td><td><code>q&quot;for (..$enumeratorsnel) $expr&quot;</code></td></tr>
+<tr><td>For Yield</td><td><code>q&quot;for (..$enumeratorsnel) yield $expr&quot;</code></td></tr>
+<tr><td>New</td><td><code>q&quot;new $init&quot;</code></td></tr>
+<tr><td>New Anonymous</td><td><code>q&quot;new { ..$stat } with ..$inits { $self =&gt; ..$stats }&quot;</code></td></tr>
+<tr><td>Placeholder</td><td><code>q&quot;_&quot;</code></td></tr>
+<tr><td>Eta Expansion</td><td><code>q&quot;$expr _&quot;</code></td></tr>
+<tr><td>Repeated</td><td><code>q&quot;$expr: _*&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="types-metatype"></a><a href="#types-metatype" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types (meta.Type)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Literal</td><td><code>t&quot;&lt;literal&gt;&quot;</code></td></tr>
+<tr><td>Name</td><td><code>t&quot;&lt;name&gt;&quot;</code></td></tr>
+<tr><td>Selection</td><td><code>t&quot;$eref.$tname&quot;</code></td></tr>
+<tr><td>Projection</td><td><code>t&quot;$tpe#$tname&quot;</code></td></tr>
+<tr><td>Singleton</td><td><code>t&quot;$eref.type&quot;</code></td></tr>
+<tr><td>Application</td><td><code>t&quot;$tpe[..$tpesnel]</code> (vote for #519 to support <code>q&quot;$expr[...$tpess]&quot;</code>)</td></tr>
+<tr><td>Infix Application</td><td><code>t&quot;$tpe $tname $tpe&quot;</code></td></tr>
+<tr><td>With</td><td><code>t&quot;$tpe with $tpe&quot;</code> (only for supported dialects)</td></tr>
+<tr><td>And</td><td><code>t&quot;$tpe &amp; $tpe&quot;</code> (only for supported dialects)</td></tr>
+<tr><td>Or</td><td><code>t&quot;$tpe | $tpe&quot;</code> (only for supported dialects)</td></tr>
+<tr><td>Function</td><td><code>t&quot;(..$tpes) =&gt; $tpe&quot;</code></td></tr>
+<tr><td>Implicit Function</td><td><code>t&quot;implicit (..$tpes) =&gt; $tpe&quot;</code></td></tr>
+<tr><td>Tuple</td><td><code>t&quot;(..$tpesnel)&quot;</code></td></tr>
+<tr><td>Refine</td><td><code>t&quot;$tpeopt { ..$stats }&quot;</code></td></tr>
+<tr><td>Existential</td><td><code>t&quot;$tpe forSome { ..$statsnel }&quot;</code></td></tr>
+<tr><td>Annotate</td><td><code>t&quot;$tpe ..@$annotsnel&quot;</code></td></tr>
+<tr><td>Lambda</td><td><code>t[..$tparams] =&gt; $tpe</code></td></tr>
+<tr><td>Method</td><td><code>t(...$paramss): $tpe</code></td></tr>
+<tr><td>Placeholder</td><td><code>t&quot;_ &gt;: $tpeopt &lt;: $tpeopt&quot;</code></td></tr>
+<tr><td>By Name</td><td><code>t&quot;=&gt; $tpe&quot;</code></td></tr>
+<tr><td>Repeated</td><td><code>t&quot;$tpe*&quot;</code></td></tr>
+<tr><td>Var</td><td>Not supported</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="patterns-metapat-and-cases-metacase"></a><a href="#patterns-metapat-and-cases-metacase" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Patterns (meta.Pat) and Cases (meta.Case)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Literal</td><td><code>p&quot;&lt;lit&gt;&quot;</code></td></tr>
+<tr><td>Wildcard</td><td><code>p&quot;_&quot;</code></td></tr>
+<tr><td>Sequence Wildcard</td><td><code>p&quot;_*&quot;</code></td></tr>
+<tr><td>Var</td><td><code>p&quot;&lt;name&gt;&quot;</code></td></tr>
+<tr><td>Bind</td><td><code>p&quot;$pat @ $pat&quot;</code></td></tr>
+<tr><td>Alternative</td><td><code>p&quot;$pat | $pat&quot;</code></td></tr>
+<tr><td>Tuple</td><td><code>p&quot;(..$patsnel)&quot;</code></td></tr>
+<tr><td>Extract</td><td><code>p&quot;$expr(..$pats)&quot;</code></td></tr>
+<tr><td>Infix Extract</td><td><code>p&quot;$pat $ename (..$pats)&quot;</code></td></tr>
+<tr><td>Interpolation</td><td>Not supported yet</td></tr>
+<tr><td>Typed</td><td><code>p&quot;$pat: $tpe&quot;</code></td></tr>
+<tr><td>Name</td><td><code>p&quot;`&lt;name&gt;`&quot;</code></td></tr>
+<tr><td>Selection</td><td><code>p&quot;$expr.$ename&quot;</code></td></tr>
+<tr><td>Case</td><td><code>p&quot;case $pat if $expropt =&gt; $expr&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="members-metamember"></a><a href="#members-metamember" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Members (meta.Member)</h2>
+<h3><a class="anchor" aria-hidden="true" id="declarations"></a><a href="#declarations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declarations</h3>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Val</td><td><code>q&quot;..$mods val ..$patsnel: $tpe&quot;</code></td></tr>
+<tr><td>Var</td><td><code>q&quot;..$mods var ..$patsnel: $tpe&quot;</code></td></tr>
+<tr><td>Def</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpe&quot;</code></td></tr>
+<tr><td>Type</td><td><code>q&quot;..$mods type $tname[..$tparams] &gt;: $tpeopt &lt;: $tpeopt&quot;</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="definitions"></a><a href="#definitions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definitions</h3>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Val</td><td><code>q&quot;..$mods val ..$patsnel: $tpeopt = $expr&quot;</code></td></tr>
+<tr><td>Var</td><td><code>q&quot;..$mods var ..$patsnel: $tpeopt = $expropt&quot;</code></td></tr>
+<tr><td>Def</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr&quot;</code></td></tr>
+<tr><td>Macro</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpeopt = macro $expr&quot;</code></td></tr>
+<tr><td>Type</td><td><code>q&quot;..$mods type $tname[..$tparams] = $tpe&quot;</code></td></tr>
+<tr><td>Class</td><td><code>q&quot;..$mods class $tname[..$tparams] ..$ctorMods (...$paramss) extends $template&quot;</code></td></tr>
+<tr><td>Trait</td><td><code>q&quot;..$mods trait $tname[..$tparams] extends $template&quot;</code></td></tr>
+<tr><td>Object</td><td><code>q&quot;..$mods object $ename extends $template&quot;</code></td></tr>
+<tr><td>Package Object</td><td><code>q&quot;package object $ename extends $template&quot;</code></td></tr>
+<tr><td>Package</td><td><code>q&quot;package $eref { ..$stats }&quot;</code></td></tr>
+<tr><td>Primary Ctor</td><td><code>q&quot;..$mods def this(...$paramss)&quot;</code></td></tr>
+<tr><td>Secondary Ctor</td><td><code>q&quot;..$mods def this(...$paramss) = $expr&quot;</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="value-parameters-metatermparam"></a><a href="#value-parameters-metatermparam" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Value Parameters (meta.Term.Param)</h3>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Term Param</td><td><code>param&quot;..$mods $name: $tpeopt = $expropt&quot;</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="type-parameters-metatypeparam"></a><a href="#type-parameters-metatypeparam" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type Parameters (meta.Type.Param)</h3>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Type Param</td><td><code>tparam&quot;..$mods $name[..$tparams] &gt;: $tpeopt &lt;: $tpeopt &lt;% ..$tpes : ..$tpes&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="inits-metainit"></a><a href="#inits-metainit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inits (meta.Init)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Init</td><td><code>init&quot;$tpe(...$exprss)&quot;</code>, <code>init&quot;this(...$exprss)&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="selfs-metaself"></a><a href="#selfs-metaself" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Selfs (meta.Self)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Self</td><td><code>self&quot;$name: $tpeopt&quot;</code>, <code>self&quot;this: $tpeopt&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="template-metatemplate"></a><a href="#template-metatemplate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Template (meta.Template)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Template</td><td><code>template&quot;{ ..$stats } with ..$inits { $self =&gt; ..$stats }&quot;</code> (first <code>stats</code> is early initializers, second <code>stats</code> is regular statements in the body of the template).</td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="modifiers-metamod"></a><a href="#modifiers-metamod" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modifiers (meta.Mod)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Annotation</td><td><code>mod&quot;@$annot&quot;</code></td></tr>
+<tr><td>Private</td><td><code>mod&quot;private[$ref]&quot;</code></td></tr>
+<tr><td>Protected</td><td><code>mod&quot;protected[$ref]&quot;</code></td></tr>
+<tr><td>Implicit</td><td><code>mod&quot;implicit&quot;</code></td></tr>
+<tr><td>Final</td><td><code>mod&quot;final&quot;</code></td></tr>
+<tr><td>Sealed</td><td><code>mod&quot;sealed&quot;</code></td></tr>
+<tr><td>Override</td><td><code>mod&quot;override&quot;</code></td></tr>
+<tr><td>Case</td><td><code>mod&quot;case&quot;</code></td></tr>
+<tr><td>Abstract</td><td><code>mod&quot;abstract&quot;</code></td></tr>
+<tr><td>Covariant</td><td><code>mod&quot;+&quot;</code></td></tr>
+<tr><td>Contravariant</td><td><code>mod&quot;-&quot;</code></td></tr>
+<tr><td>Lazy</td><td><code>mod&quot;lazy&quot;</code></td></tr>
+<tr><td>Val Param</td><td><code>mod&quot;valparam&quot;</code></td></tr>
+<tr><td>Var Param</td><td><code>mod&quot;varparam&quot;</code></td></tr>
+<tr><td>Inline</td><td><code>mod&quot;inline&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="enumerators-metaenum"></a><a href="#enumerators-metaenum" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enumerators (meta.Enum)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Generator</td><td><code>enumerator&quot;$pat &lt;- $expr&quot;</code></td></tr>
+<tr><td>Value</td><td><code>enumerator&quot;$pat = $expr&quot;</code></td></tr>
+<tr><td>Guard</td><td><code>enumerator&quot;if $expr&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="imports-metaimport"></a><a href="#imports-metaimport" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Imports (meta.Import)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Import</td><td><code>q&quot;import ..$importersnel&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="importer-metaimporter"></a><a href="#importer-metaimporter" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importer (meta.Importer)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Importer</td><td><code>importer&quot;$eref.{..$importeesnel}&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="importees-metaimportee"></a><a href="#importees-metaimportee" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importees (meta.Importee)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Name</td><td><code>importee&quot;$name&quot;</code></td></tr>
+<tr><td>Rename</td><td><code>importee&quot;$name =&gt; $name&quot;</code></td></tr>
+<tr><td>Unimport</td><td><code>importee&quot;$name =&gt; _&quot;</code></td></tr>
+<tr><td>Wildcard</td><td><code>importee&quot;_&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="sources-metasource"></a><a href="#sources-metasource" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sources (meta.Source)</h2>
+<table>
+<thead>
+<tr><th></th><th>Quasiquote</th></tr>
+</thead>
+<tbody>
+<tr><td>Source</td><td><code>source&quot;..$stats&quot;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="legend"></a><a href="#legend" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Legend</h2>
+<p>The tables above define quasiquote syntax using a notation called <em>quasiquote
+templates</em>. A quasiquote is valid if it conforms to exactly one quasiquote
+template according to the following rules:</p>
+<ol>
+<li><p>Any trivia token (e.g. whitespace and comments) in a quasiquote template or a
+quasiquote is insignificant and is ignored for the purposes of conformance
+testing.</p></li>
+<li><p>Any non-trivia token in a quasiquote template, except for an unquote
+template, means that exactly that token is required in a quasiquote, with the
+following exceptions:</p>
+<ol>
+<li>Parentheses, brackets and braces around unquotes are oftentimes dropped if
+they wrap empty lists, e.g. <code>q&quot;x + y&quot;</code> conforms to
+<code>q&quot;$expr $ename[..$tpes] $expr&quot;</code>.</li>
+<li><code>with</code> is dropped if there are zero or one inits, e.g. both <code>q&quot;new {}&quot;</code>
+and <code>q&quot;new C&quot;</code> conform to
+<code>q&quot;new { ..$stat } with ..$inits { $self =&gt; ..$stats }</code>.</li>
+<li>This list is probably incomplete. Please
+<a href="https://github.com/scalameta/scalameta/issues/new">submit an issue</a> if
+you find any discrepancies.</li>
+</ol></li>
+<li><p>An <em>unquote template</em> (<code>$smth</code>, <code>..$smth</code> or <code>...$smth</code>) works as follows:</p>
+<ol>
+<li><p>First, we strip standard suffixes from <code>smth</code> using the &quot;Suffixes&quot; table
+(e.g. <code>exprssnel</code> means a non-empty list of lists of <code>expr</code>).</p></li>
+<li><p>Second, we figure out the expected type of <code>smth</code> using the &quot;Shorthands&quot;
+table (e.g. <code>expr</code> means <code>Term</code>, so <code>exprssnel</code> means <code>List[List[Term]]</code>).</p></li>
+<li><p>Third, we apply an appropriate number of replications to the unquote
+template to have it match the corresponding part of a quasiquote that's
+being tested for conformance:</p>
+<ol>
+<li><code>$smth</code> can not be replicated.</li>
+<li><code>..$smth</code> means an arbitrary mix of <code>$smth</code> and <code>..$smth</code> unquote
+templates separated according to their location (e.g. an empty string,
+<code>[$tpe]</code>, <code>[..$tpes, $tpe]</code> all conform to <code>[..$tpes]</code>, and the
+separator is a comma, as appropriate for a list of type arguments).</li>
+<li><code>...$smth</code> means an arbitrary mix of <code>$smth</code>, <code>..$smth</code> and <code>...$smth</code>
+unquote templates, separated according to their location (e.g. an empty
+string, <code>(...$exprss)</code>, <code>(..$exprs)($expr1, $expr2)()</code> all conform to
+<code>(...$exprss)</code>, and the separator are matching parentheses, as
+appropriate for a list of arguments).</li>
+<li>If a suffix of <code>smth</code> says that it's a non-empty list, then replication
+can't result in an empty list.</li>
+<li>If a quasiquote is used as a pattern, then some replications may be
+illegal.</li>
+</ol></li>
+<li><p>Finally, we match the unquotes after replication against the corresponding
+parts of the quasiquote under conformance test. There are three
+possibilities for a match: scala syntax, unquote, lifted unquote.</p></li>
+</ol></li>
+<li><p>If not specified explicitly, quasiquote templates work for both construction
+and deconstruction. In some cases, a template is only applicable to
+construction (e.g. it's impossible to pattern match a name without specifying
+an expected type explicitly, because patterns like in
+<code>term match { case q&quot;$ename&quot; =&gt; }</code> will match any term, not limited to just
+term names).</p></li>
+</ol>
+<h3><a class="anchor" aria-hidden="true" id="shorthands"></a><a href="#shorthands" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shorthands</h3>
+<table>
+<thead>
+<tr><th>Type</th><th>Shorthand</th></tr>
+</thead>
+<tbody>
+<tr><td>meta.Case</td><td><code>$case</code></td></tr>
+<tr><td>meta.Enumerator</td><td><code>$enumerator</code></td></tr>
+<tr><td>meta.Mod</td><td><code>$mod</code></td></tr>
+<tr><td>meta.Mod.Annot</td><td><code>$annot</code></td></tr>
+<tr><td>meta.Name</td><td><code>$name</code></td></tr>
+<tr><td>meta.Importee</td><td><code>$importee</code></td></tr>
+<tr><td>meta.Importer</td><td><code>$importer</code></td></tr>
+<tr><td>meta.Init</td><td><code>$init</code></td></tr>
+<tr><td>meta.Pat</td><td><code>$pat</code></td></tr>
+<tr><td>meta.Ref</td><td><code>$ref</code></td></tr>
+<tr><td>meta.Self</td><td><code>$self</code></td></tr>
+<tr><td>meta.Stat</td><td><code>$stat</code></td></tr>
+<tr><td>meta.Template</td><td><code>$template</code></td></tr>
+<tr><td>meta.Term</td><td><code>$expr</code></td></tr>
+<tr><td>meta.Term.Name</td><td><code>$ename</code></td></tr>
+<tr><td>meta.Term.Ref</td><td><code>$eref</code></td></tr>
+<tr><td>meta.Term.Param</td><td><code>$param</code></td></tr>
+<tr><td>meta.Type</td><td><code>$tpe</code></td></tr>
+<tr><td>meta.Type.Name</td><td><code>$tname</code></td></tr>
+<tr><td>meta.Type.Param</td><td><code>$tparam</code></td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="suffixes"></a><a href="#suffixes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Suffixes</h3>
+<table>
+<thead>
+<tr><th>Suffix</th><th>Wrapped Type</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>-s</td><td><code>List[_]</code></td><td><code>exprs: List[meta.Term]</code></td></tr>
+<tr><td>-ss</td><td><code>List[List[_]]</code></td><td><code>exprss: List[List[meta.Term]]</code></td></tr>
+<tr><td>-opt</td><td><code>Option[_]</code></td><td><code>expropt: Option[meta.Term]</code></td></tr>
+<tr><td>-nel</td><td><code>_</code></td><td><code>tpesnel: List[meta.Type]</code></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/trees/guide.html"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/docs/trees/scalafiddle.html"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#expressions-metaterm">Expressions (meta.Term)</a></li><li><a href="#types-metatype">Types (meta.Type)</a></li><li><a href="#patterns-metapat-and-cases-metacase">Patterns (meta.Pat) and Cases (meta.Case)</a></li><li><a href="#members-metamember">Members (meta.Member)</a><ul class="toc-headings"><li><a href="#declarations">Declarations</a></li><li><a href="#definitions">Definitions</a></li><li><a href="#value-parameters-metatermparam">Value Parameters (meta.Term.Param)</a></li><li><a href="#type-parameters-metatypeparam">Type Parameters (meta.Type.Param)</a></li></ul></li><li><a href="#inits-metainit">Inits (meta.Init)</a></li><li><a href="#selfs-metaself">Selfs (meta.Self)</a></li><li><a href="#template-metatemplate">Template (meta.Template)</a></li><li><a href="#modifiers-metamod">Modifiers (meta.Mod)</a></li><li><a href="#enumerators-metaenum">Enumerators (meta.Enum)</a></li><li><a href="#imports-metaimport">Imports (meta.Import)</a></li><li><a href="#importer-metaimporter">Importer (meta.Importer)</a></li><li><a href="#importees-metaimportee">Importees (meta.Importee)</a></li><li><a href="#sources-metasource">Sources (meta.Source)</a></li><li><a href="#legend">Legend</a><ul class="toc-headings"><li><a href="#shorthands">Shorthands</a></li><li><a href="#suffixes">Suffixes</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/tutorial" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2018 Scalameta</section></footer></div></body></html>
