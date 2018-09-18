@@ -25,7 +25,7 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/scalameta/tutorial/edit/master/docs/trees/guide.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Tree Guide</h1></header><article><div><span><p>A core functionality of Scalameta is syntax trees, which enable you to read,
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Tree Guide</h1></header><article><div><span><p>A core functionality of Scalameta is syntax trees, which enable you to read,
 analyze, transform and generate Scala programs at a level of abstraction. In
 this guide, you will learn how to</p>
 <ul>
@@ -271,7 +271,7 @@ message &quot;invariant failed&quot;</p>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:15)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.internal$49(Trees.scala:82)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:82)</span>
-<span class="hljs-comment">//  at repl.Session.$anonfun$app$42(/Users/ollie/dev/scalameta-tutorial/docs/trees/guide.md:207)</span>
+<span class="hljs-comment">//  at repl.Session.$anonfun$app$42(/home/travis/build/scalameta/tutorial/docs/trees/guide.md:207)</span>
 </code></pre>
 <p>The quasiquote above is equivalent to calling the normal constructor
 <code>Type.ApplyType(.., typeArguments)</code>. Scalameta trees perform strict runtime
@@ -337,7 +337,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt;
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.Session.$anonfun$app$47(/Users/ollie/dev/scalameta-tutorial/docs/trees/guide.md:252)</span>
+<span class="hljs-comment">//  at repl.Session.$anonfun$app$47(/home/travis/build/scalameta/tutorial/docs/trees/guide.md:252)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
