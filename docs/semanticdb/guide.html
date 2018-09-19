@@ -44,9 +44,9 @@ Make sure you are using the latest coursier version (1.1.0-M6 or newer).</li>
 <li>Add the following aliases to your shell:</li>
 </ol>
 <p><a href="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12"><img src="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12/badge.svg" alt="Maven Central"></a></p>
-<pre><code class="hljs css language-bash"><span class="hljs-built_in">alias</span> metac=<span class="hljs-string">"coursier launch org.scalameta:metac_2.12.6:4.0.0-M10 -- -cp <span class="hljs-variable">$(coursier fetch -p org.scala-lang:scala-library:2.12.6)</span>"</span>
-<span class="hljs-built_in">alias</span> metacp=<span class="hljs-string">'coursier launch org.scalameta:metacp_2.12:4.0.0-M6 -- --dependency-classpath $(echo $JAVA_HOME/jre/lib/rt.jar):$(coursier fetch org.scala-lang:scala-library:2.12.4 -p)'</span>
-<span class="hljs-built_in">alias</span> metap=<span class="hljs-string">"coursier launch org.scalameta:metap_2.11:4.0.0-M10 --"</span>
+<pre><code class="hljs css language-bash"><span class="hljs-built_in">alias</span> metac=<span class="hljs-string">"coursier launch org.scalameta:metac_2.12.6:4.0.0 -- -cp <span class="hljs-variable">$(coursier fetch -p org.scala-lang:scala-library:2.12.6)</span>"</span>
+<span class="hljs-built_in">alias</span> metacp=<span class="hljs-string">'coursier launch org.scalameta:metacp_2.12:4.0.0 -- --dependency-classpath $(echo $JAVA_HOME/jre/lib/rt.jar):$(coursier fetch org.scala-lang:scala-library:2.12.6 -p)'</span>
+<span class="hljs-built_in">alias</span> metap=<span class="hljs-string">"coursier launch org.scalameta:metap_2.11:4.0.0 --"</span>
 </code></pre>
 <p>NOTE. These installation instructions are for the current unstable <code>master</code> branch,
 it's recommended to view this document at the latest git tag instead of <code>master</code>.</p>
@@ -61,7 +61,7 @@ version 1.1.0-M6 or later.</li>
 <li>Setup the <a href="http://www.scala-native.org/en/latest/user/setup.html#installing-clang-and-runtime-dependencies">development environment for Scala Native</a>.</li>
 <li>Link a native <code>metap</code> binary.</li>
 </ol>
-<pre><code class="hljs css language-bash">coursier bootstrap org.scalameta:metap_native0.3_2.11:4.0.0-M6 -o metap -f --native --main scala.meta.cli.Metap
+<pre><code class="hljs css language-bash">coursier bootstrap org.scalameta:metap_native0.3_2.11:4.0.0 -o metap -f --native --main scala.meta.cli.Metap
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
 <p>Let's generate SemanticDB for a simple Scala program. (At the moment,
@@ -336,7 +336,7 @@ check out <a href="#example">Example</a>.</p>
 <p>In order to enable <code>semanticdb-scalac</code> for your sbt project, add the following
 to your build. Note that the compiler plugin requires the <code>-Yrangepos</code> compiler
 option to be enabled.</p>
-<pre><code class="hljs css language-scala">addCompilerPlugin(<span class="hljs-string">"org.scalameta"</span> % <span class="hljs-string">"semanticdb-scalac"</span> % <span class="hljs-string">"4.0.0-M6"</span> cross <span class="hljs-type">CrossVersion</span>.full)
+<pre><code class="hljs css language-scala">addCompilerPlugin(<span class="hljs-string">"org.scalameta"</span> % <span class="hljs-string">"semanticdb-scalac"</span> % <span class="hljs-string">"4.0.0"</span> cross <span class="hljs-type">CrossVersion</span>.full)
 scalacOptions += <span class="hljs-string">"-Yrangepos"</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="javac-compiler-plugin"></a><a href="#javac-compiler-plugin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Javac compiler plugin</h3>
@@ -345,7 +345,7 @@ phase of the Java compiler. It currently only produces symbol information, not o
 <p>To use it, follow these instructions:</p>
 <ol>
 <li><p>Install the plugin by adding a dependency to <code>org.scalameta:semanticdb-javac</code> in your build, or by running:</p>
-<p><code>$ coursier fetch --intransitive org.scalameta:semanticdb-javac_2.12:4.0.0-M4</code></p></li>
+<p><code>$ coursier fetch --intransitive org.scalameta:semanticdb-javac_2.12:4.0.0</code></p></li>
 <li><p>Add the plugin to your build's compile classpath. If invoking <code>javac</code> directly add it as one of the listed <code>-cp</code> entries. Otherwise, adding the plugin as a library dependency in your build tool should be enough.</p></li>
 <li><p>Add the following javac option:</p>
 <p><code>&quot;-Xplugin:semanticdb &lt;target-dir&gt; --sourceroot &lt;source-root&gt;&quot;</code></p>
@@ -547,12 +547,12 @@ _empty_/<span class="hljs-keyword">Test</span>.main().(<span class="hljs-keyword
 bindings to <a href="https://github.com/scalameta/scalameta/blob/master/semanticdb/semanticdb/semanticdb.proto">the SemanticDB protobuf schema</a>. Using this
 library, one can model SemanticDB entities as Scala case classes and
 serialize/deserialize them into bytes and streams.</p>
-<pre><code class="hljs">libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"semanticdb"</span> % <span class="hljs-string">"4.0.0-M6"</span>
+<pre><code class="hljs">libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"semanticdb"</span> % <span class="hljs-string">"4.0.0"</span>
 </code></pre>
 <p><code>semanticdb</code> is available for all supported Scala platforms - JVM, Scala.js
 and Scala Native. For more information, check out autogenerated documentation for
-<a href="https://static.javadoc.io/org.scalameta/semanticdb_2.11/4.0.0-M6/scala/meta/internal/semanticdb/TextDocuments.html">Scala 2.11</a>
-and <a href="https://static.javadoc.io/org.scalameta/semanticdb_2.12/4.0.0-M6/scala/meta/internal/semanticdb/TextDocuments.html">Scala 2.12</a>.</p>
+<a href="https://static.javadoc.io/org.scalameta/semanticdb_2.11/4.0.0/scala/meta/internal/semanticdb/TextDocuments.html">Scala 2.11</a>
+and <a href="https://static.javadoc.io/org.scalameta/semanticdb_2.12/4.0.0/scala/meta/internal/semanticdb/TextDocuments.html">Scala 2.12</a>.</p>
 <p>Caveats:</p>
 <ul>
 <li>At the moment, there are no compatibility guarantees for Scala bindings to the SemanticDB
