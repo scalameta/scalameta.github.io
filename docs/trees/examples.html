@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Tree Examples · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This document lists examples of how Scala source code maps to Scalameta tree nodes."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Tree Examples · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="This document lists examples of how Scala source code maps to Scalameta tree nodes."/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Trees</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/quasiquotes.html">Quasiquotes</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/trees/examples.html">Examples</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scalafiddle.html">ScalaFiddle Playground</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/astexplorer.html">AST Explorer</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Tree Examples</h1></header><article><div><span><p>This document lists examples of how Scala source code maps to Scalameta tree nodes.</p>
+<h2><a class="anchor" aria-hidden="true" id="top-level-metasource-metapkg-metapkgobject"></a><a href="#top-level-metasource-metapkg-metapkgobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Top level (<code>meta.Source</code>, <code>meta.Pkg</code>, <code>meta.Pkg.Object</code>)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"package a"</span>.parse[<span class="hljs-type">Source</span>].get.structure
+
+<span class="hljs-type">Source</span>(stats = <span class="hljs-type">List</span>(<span class="hljs-type">Pkg</span>(ref = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>), stats = <span class="hljs-type">Nil</span>)))
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="declarations-metadecl"></a><a href="#declarations-metadecl" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declarations (<code>meta.Decl</code>)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"val a: Int"</span>.parse[<span class="hljs-type">Stat</span>].get.structure
+
+<span class="hljs-type">Decl</span>.<span class="hljs-type">Val</span>(
+  mods = <span class="hljs-type">Nil</span>,
+  pats = <span class="hljs-type">List</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(name = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>))),
+  decltpe = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"Int"</span>)
+)
+</code></pre>
+<table>
+<thead>
+<tr><th>Decl</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Decl.Val</code></td><td><code>val a: Int</code></td></tr>
+<tr><td><code>Decl.Var</code></td><td><code>var a: Int</code></td></tr>
+<tr><td><code>Decl.Def</code></td><td><code>def f: Int</code></td></tr>
+<tr><td><code>Decl.Type</code></td><td><code>type T</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="definitions-metadefn"></a><a href="#definitions-metadefn" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definitions (<code>meta.Defn</code>)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"val a = 1"</span>.parse[<span class="hljs-type">Stat</span>].get.structure
+
+<span class="hljs-type">Defn</span>.<span class="hljs-type">Val</span>(
+  mods = <span class="hljs-type">Nil</span>,
+  pats = <span class="hljs-type">List</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(name = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>))),
+  decltpe = <span class="hljs-type">None</span>,
+  rhs = <span class="hljs-type">Lit</span>.<span class="hljs-type">Int</span>(value = <span class="hljs-number">1</span>)
+)
+</code></pre>
+<table>
+<thead>
+<tr><th>Defn</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Defn.Val</code></td><td><code>val a = 1</code></td></tr>
+<tr><td><code>Defn.Var</code></td><td><code>var a = 1</code></td></tr>
+<tr><td><code>Defn.Def</code></td><td><code>def f = 1</code></td></tr>
+<tr><td><code>Defn.Macro</code></td><td><code>def f = macro impl</code></td></tr>
+<tr><td><code>Defn.Type</code></td><td><code>type T = Int</code></td></tr>
+<tr><td><code>Defn.Class</code></td><td><code>class A</code></td></tr>
+<tr><td><code>Defn.Trait</code></td><td><code>trait A</code></td></tr>
+<tr><td><code>Defn.Object</code></td><td><code>object A</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="terms-metaterm"></a><a href="#terms-metaterm" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Terms (<code>meta.Term</code>)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"1 + 1"</span>.parse[<span class="hljs-type">Term</span>].get.structure
+
+<span class="hljs-type">Term</span>.<span class="hljs-type">ApplyInfix</span>(
+  lhs = <span class="hljs-type">Lit</span>.<span class="hljs-type">Int</span>(value = <span class="hljs-number">1</span>),
+  op = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"+"</span>),
+  targs = <span class="hljs-type">Nil</span>,
+  args = <span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">Int</span>(value = <span class="hljs-number">1</span>))
+)
+</code></pre>
+<table>
+<thead>
+<tr><th>Ref</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Term.This</code></td><td><code>this</code>, <code>a.this</code></td></tr>
+<tr><td><code>Term.Super</code></td><td><code>super</code>, <code>a.super</code>, <code>super[a]</code>, <code>a.super[b]</code></td></tr>
+<tr><td><code>Term.Name</code></td><td><code>a</code></td></tr>
+<tr><td><code>Term.Select</code></td><td><code>a.b</code></td></tr>
+<tr><td><code>Term.ApplyUnary</code></td><td><code>!a</code>, <code>~a</code>, <code>-a</code>, <code>a</code></td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><th>Term</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Term.Apply</code></td><td><code>f(42)</code></td></tr>
+<tr><td><code>Term.ApplyType</code></td><td><code>implicitly[Ordering[Int]]</code></td></tr>
+<tr><td><code>Term.ApplyInfix</code></td><td><code>a + a</code></td></tr>
+<tr><td><code>Term.Assign</code></td><td><code>a = 1</code></td></tr>
+<tr><td><code>Term.Return</code></td><td><code>return a</code></td></tr>
+<tr><td><code>Term.Throw</code></td><td><code>throw e</code></td></tr>
+<tr><td><code>Term.Ascribe</code></td><td><code>a: Int</code></td></tr>
+<tr><td><code>Term.Annotate</code></td><td><code>(x: @annot)</code></td></tr>
+<tr><td><code>Term.Tuple</code></td><td><code>(1, 1)</code></td></tr>
+<tr><td><code>Term.Block</code></td><td><code>{ f1(); f2() }</code></td></tr>
+<tr><td><code>Term.If</code></td><td><code>if (p) t else f</code></td></tr>
+<tr><td><code>Term.Match</code></td><td><code>x match { case _ =&gt; }</code></td></tr>
+<tr><td><code>Term.Try</code></td><td><code>try f catch { case _ =&gt; }</code></td></tr>
+<tr><td><code>Term.TryWithHandler</code></td><td><code>try f catch (h)</code></td></tr>
+<tr><td><code>Term.Function</code></td><td><code>(a, b) =&gt; a + b</code></td></tr>
+<tr><td><code>Term.PartialFunction</code></td><td><code>{ case _ =&gt; }</code></td></tr>
+<tr><td><code>Term.While</code></td><td><code>while(p){ f() }</code></td></tr>
+<tr><td><code>Term.Do</code></td><td><code>do { f() } while(p)</code></td></tr>
+<tr><td><code>Term.For</code></td><td><code>for{x &lt;- xs} f(x)</code></td></tr>
+<tr><td><code>Term.ForYield</code></td><td><code>for{x &lt;- xs} yield f(x)</code></td></tr>
+<tr><td><code>Term.New</code></td><td><code>new A</code></td></tr>
+<tr><td><code>Term.NewAnonymous</code></td><td><code>new A { }</code></td></tr>
+<tr><td><code>Term.Placeholder</code></td><td><code>_</code></td></tr>
+<tr><td><code>Term.Eta</code></td><td><code>f _</code></td></tr>
+<tr><td><code>Term.Repeated</code></td><td><code>f(x: _*)</code></td></tr>
+<tr><td><code>Term.Param</code></td><td><code>x: Int</code> in <code>def f(x: Int)</code></td></tr>
+<tr><td><code>Term.Interpolate</code></td><td><code>s&quot;Hello $name&quot;</code></td></tr>
+<tr><td><code>Term.Xml</code></td><td><code>&lt;h1&gt;Hello {name}&lt;/h1&gt;</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="types-metatype"></a><a href="#types-metatype" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types (<code>meta.Type</code>)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"A with B"</span>.parse[<span class="hljs-type">Type</span>].get.structure
+
+<span class="hljs-type">Type</span>.<span class="hljs-type">With</span>(lhs = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"A"</span>), rhs = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"B"</span>))
+</code></pre>
+<table>
+<thead>
+<tr><th>Ref</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Type.Name</code></td><td><code>B</code></td></tr>
+<tr><td><code>Type.Select</code></td><td><code>a.B</code></td></tr>
+<tr><td><code>Type.Project</code></td><td><code>a#B</code></td></tr>
+<tr><td><code>Type.Singleton</code></td><td><code>a.type</code></td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><th>Type</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Type.Apply</code></td><td><code>F[T]</code></td></tr>
+<tr><td><code>Type.ApplyInfix</code></td><td><code>K Map V</code></td></tr>
+<tr><td><code>Type.Function</code></td><td><code>A =&gt; B</code></td></tr>
+<tr><td><code>Type.ImplicitFunction</code></td><td><code>implicit A =&gt; B</code></td></tr>
+<tr><td><code>Type.Tuple</code></td><td><code>(A, B)</code></td></tr>
+<tr><td><code>Type.With</code></td><td><code>A with B</code></td></tr>
+<tr><td><code>Type.And</code></td><td><code>A &amp; B</code></td></tr>
+<tr><td><code>Type.Or</code></td><td><code> A | B </code></td></tr>
+<tr><td><code>Type.Refine</code></td><td><code>A { def f: Int }</code></td></tr>
+<tr><td><code>Type.Existential</code></td><td><code>A forSome { type T }</code></td></tr>
+<tr><td><code>Type.Annotate</code></td><td><code>T @annot</code></td></tr>
+<tr><td><code>Type.Lambda</code></td><td><code>[T] =&gt; (T, T)</code> (only for supported dialects)</td></tr>
+<tr><td><code>Type.Method</code></td><td><code>(x: T): T</code> (only for supported dialects)</td></tr>
+<tr><td><code>Type.Placeholder</code></td><td><code>_</code> in <code>T[_]</code></td></tr>
+<tr><td><code>Type.Bounds</code></td><td><code>T &gt;: Lower &lt;: Upper</code> in <code>def F[T &gt;: Lower &lt;: Upper] = 1</code></td></tr>
+<tr><td><code>Type.ByName</code></td><td><code>=&gt;T</code> in <code>def f(x: =&gt; T) = x</code></td></tr>
+<tr><td><code>Type.Repeated</code></td><td><code>T*</code> in <code>def f(x: T*): Unit</code></td></tr>
+<tr><td><code>Type.Var</code></td><td><code>t</code> in <code>case _: List[t] =&gt;</code></td></tr>
+<tr><td><code>Type.Param</code></td><td><code>X</code> in <code>trait A[X]</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="patterns-metapat-and-cases-metacase"></a><a href="#patterns-metapat-and-cases-metacase" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Patterns (meta.Pat) and Cases (meta.Case)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"_: A | _: B"</span>.parse[<span class="hljs-type">Pat</span>].get.structure
+
+<span class="hljs-type">Pat</span>.<span class="hljs-type">Alternative</span>(
+  <span class="hljs-type">Pat</span>.<span class="hljs-type">Typed</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Wildcard</span>(), <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"A"</span>)),
+  <span class="hljs-type">Pat</span>.<span class="hljs-type">Typed</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Wildcard</span>(), <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"B"</span>))
+)
+</code></pre>
+<table>
+<thead>
+<tr><th>Pat</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Lit</code></td><td><code>&quot;literal&quot;</code></td></tr>
+<tr><td><code>Pat.Wildcard</code></td><td><code>_</code></td></tr>
+<tr><td><code>Pat.SeqWildcard</code></td><td><code>_*</code> in <code>case List(xs @ _*) =&gt;</code></td></tr>
+<tr><td><code>Pat.Var</code></td><td><code>a</code> in <code>case a =&gt;</code></td></tr>
+<tr><td><code>Pat.Bind</code></td><td><code>a @ A()</code></td></tr>
+<tr><td><code>Pat.Alternative</code></td><td><code>1 | 2 </code></td></tr>
+<tr><td><code>Pat.Tuple</code></td><td><code>(a, b)</code></td></tr>
+<tr><td><code>Pat.Extract</code></td><td><code>A(a, b)</code></td></tr>
+<tr><td><code>Pat.ExtractInfix</code></td><td><code>a E b</code></td></tr>
+<tr><td><code>Pat.Interpolate</code></td><td><code>r&quot;Hello (.+)$name&quot;</code></td></tr>
+<tr><td><code>Pat.Xml</code></td><td><code>&lt;h1&gt;Hello, World!&lt;/h1&gt;</code></td></tr>
+<tr><td><code>Pat.Typed</code></td><td><code>a: Int</code></td></tr>
+<tr><td><code>Term.Select</code></td><td><code>a.b</code></td></tr>
+</tbody>
+</table>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"case a =&gt; ()"</span>.parse[<span class="hljs-type">Case</span>].get.structure
+
+<span class="hljs-type">Case</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(<span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>)), <span class="hljs-type">None</span>, <span class="hljs-type">Lit</span>.<span class="hljs-type">Unit</span>(()))
+</code></pre>
+<table>
+<thead>
+<tr><th>Case</th><th>Examples</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Case</code></td><td><code>case a if p =&gt; f()</code></td></tr>
+</tbody>
+</table>
+<h2><a class="anchor" aria-hidden="true" id="name-metaname"></a><a href="#name-metaname" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Name (<code>meta.Name</code>)</h2>
+<p><code>meta.Name.Anonymous()</code></p>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"class B { }"</span>.parse[<span class="hljs-type">Source</span>].get.structure
+
+<span class="hljs-type">Source</span>(
+  stats = <span class="hljs-type">List</span>(
+    <span class="hljs-type">Defn</span>.<span class="hljs-type">Class</span>(
+      mods = <span class="hljs-type">Nil</span>,
+      name = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"B"</span>),
+      tparams = <span class="hljs-type">Nil</span>,
+      ctor = <span class="hljs-type">Ctor</span>.<span class="hljs-type">Primary</span>(
+        mods = <span class="hljs-type">Nil</span>,
+        name = <span class="hljs-type">Name</span>.<span class="hljs-type">Anonymous</span>(),
+        paramss = <span class="hljs-type">Nil</span>
+      ),
+      templ = <span class="hljs-type">Template</span>(
+        early = <span class="hljs-type">Nil</span>,
+        inits = <span class="hljs-type">Nil</span>,
+        self = <span class="hljs-type">Self</span>(
+          name = <span class="hljs-type">Name</span>.<span class="hljs-type">Anonymous</span>(),
+          decltpe = <span class="hljs-type">None</span>
+        ),
+        stats = <span class="hljs-type">Nil</span>
+      )
+    )
+  )
+)
+</code></pre>
+<p><code>meta.name.Indeterminate()</code></p>
+<p>Is it a type, or is it a term? Indeterminate.</p>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"import a.b"</span>.parse[<span class="hljs-type">Source</span>].get.structure
+
+<span class="hljs-type">Source</span>(
+  stats = <span class="hljs-type">List</span>(
+    <span class="hljs-type">Import</span>(
+      importers = <span class="hljs-type">List</span>(
+        <span class="hljs-type">Importer</span>(
+          ref = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>),
+          importees = <span class="hljs-type">List</span>(
+            <span class="hljs-type">Importee</span>.<span class="hljs-type">Name</span>(
+              name = <span class="hljs-type">Name</span>.<span class="hljs-type">Indeterminate</span>(
+                value = b
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="literals-metalit"></a><a href="#literals-metalit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Literals (<code>meta.Lit</code>)</h2>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"null"</span>.parse[<span class="hljs-type">Term</span>].get.structure
+
+<span class="hljs-type">Lit</span>.<span class="hljs-type">Null</span>()
+</code></pre>
+<table>
+<thead>
+<tr><th>Lit</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Null</code></td><td><code>null</code></td></tr>
+<tr><td><code>Boolean</code></td><td><code>true</code></td></tr>
+<tr><td><code>Unit</code></td><td><code>()</code></td></tr>
+<tr><td><code>Int</code></td><td><code>1</code></td></tr>
+<tr><td><code>Double</code></td><td><code>1.0</code></td></tr>
+<tr><td><code>Float</code></td><td><code>1.0F</code></td></tr>
+<tr><td><code>Long</code></td><td><code>1L</code></td></tr>
+<tr><td><code>Byte</code></td><td>(no available syntax)</td></tr>
+<tr><td><code>Short</code></td><td>(no available syntax)</td></tr>
+<tr><td><code>Char</code></td><td><code>'a'</code></td></tr>
+<tr><td><code>Symbol</code></td><td><code>'a</code></td></tr>
+<tr><td><code>String</code></td><td><code>&quot;A&quot;</code></td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/trees/quasiquotes.html"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/docs/trees/scalafiddle.html"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#top-level-metasource-metapkg-metapkgobject">Top level (<code>meta.Source</code>, <code>meta.Pkg</code>, <code>meta.Pkg.Object</code>)</a></li><li><a href="#declarations-metadecl">Declarations (<code>meta.Decl</code>)</a></li><li><a href="#definitions-metadefn">Definitions (<code>meta.Defn</code>)</a></li><li><a href="#terms-metaterm">Terms (<code>meta.Term</code>)</a></li><li><a href="#types-metatype">Types (<code>meta.Type</code>)</a></li><li><a href="#patterns-metapat-and-cases-metacase">Patterns (meta.Pat) and Cases (meta.Case)</a></li><li><a href="#name-metaname">Name (<code>meta.Name</code>)</a></li><li><a href="#literals-metalit">Literals (<code>meta.Lit</code>)</a></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2018 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+              var search = docsearch({
+                
+                apiKey: '0460d1c693a278bc1ad07ada3fb96c63',
+                indexName: 'scalameta',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
