@@ -249,7 +249,7 @@ hardlinking, we don't need to invent global symbols to remain convenient to
 SemanticDB consumers.</p>
 <h3><a class="anchor" aria-hidden="true" id="constant"></a><a href="#constant" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constant</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Constant</span> </span>{
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     UnitConstant unit_constant = <span class="hljs-number">1</span>;
     BooleanConstant boolean_constant = <span class="hljs-number">2</span>;
     ByteConstant byte_constant = <span class="hljs-number">3</span>;
@@ -311,7 +311,7 @@ values of the nine primitive types on the JVM, as well as strings and <code>null
 <h3><a class="anchor" aria-hidden="true" id="type"></a><a href="#type" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Type</span> </span>{
   reserved <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>;
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     TypeRef type_ref = <span class="hljs-number">2</span>;
     SingleType single_type = <span class="hljs-number">20</span>;
     ThisType this_type = <span class="hljs-number">21</span>;
@@ -434,7 +434,7 @@ over <code>type_parameters</code>. Type parameters are modelled by a <a href="#s
 <p><code>RepeatedType</code> represents a signature of a repeated parameter.</p>
 <h3><a class="anchor" aria-hidden="true" id="signature"></a><a href="#signature" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Signature</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Signature</span> </span>{
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     ClassSignature class_signature = <span class="hljs-number">1</span>;
     MethodSignature method_signature = <span class="hljs-number">2</span>;
     TypeSignature type_signature = <span class="hljs-number">3</span>;
@@ -704,7 +704,7 @@ information on how annotations in supported languages map onto this
 data structure.</p>
 <h3><a class="anchor" aria-hidden="true" id="access"></a><a href="#access" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Access</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Access</span> </span>{
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     PrivateAccess private_access = <span class="hljs-number">1</span>;
     PrivateThisAccess private_this_access = <span class="hljs-number">2</span>;
     PrivateWithinAccess private_within_access = <span class="hljs-number">3</span>;
@@ -832,7 +832,7 @@ The piece of the source file is given as a <a href="#range">Range</a>, and the n
 synthetic AST is given as a <a href="#tree">Tree</a>.</p>
 <h3><a class="anchor" aria-hidden="true" id="tree"></a><a href="#tree" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tree</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Tree</span> </span>{
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     ApplyTree apply_tree = <span class="hljs-number">1</span>;
     FunctionTree function_tree = <span class="hljs-number">2</span>;
     IdTree id_tree = <span class="hljs-number">3</span>;
@@ -1066,7 +1066,7 @@ must be modelled:</p>
 <p><a name="scala-type"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="type-1"></a><a href="#type-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type</h3>
 <pre><code class="hljs css language-protobuf">  reserved <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>;
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     TypeRef typeRef = <span class="hljs-number">2</span>;
     SingleType singleType = <span class="hljs-number">20</span>;
     ThisType thisType = <span class="hljs-number">21</span>;
@@ -2182,7 +2182,7 @@ unlikely that expression annotations will be supported in the future.</li>
 <p><a name="scala-access"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="access-1"></a><a href="#access-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Access</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Access</span> </span>{
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     PrivateAccess privateAccess = <span class="hljs-number">1</span>;
     PrivateThisAccess privateThisAccess = <span class="hljs-number">2</span>;
     PrivateWithinAccess privateWithinAccess = <span class="hljs-number">3</span>;
@@ -2628,7 +2628,7 @@ must be modelled:</p>
 <p><a name="java-type"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="type-2"></a><a href="#type-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type</h3>
 <pre><code class="hljs css language-protobuf">  reserved <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>;
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     TypeRef typeRef = <span class="hljs-number">2</span>;
     SingleType singleType = <span class="hljs-number">20</span>;
     ThisType thisType = <span class="hljs-number">21</span>;
@@ -3256,7 +3256,7 @@ We may improve on this in the future.</p>
 <p><a name="java-access"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="access-2"></a><a href="#access-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Access</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Access</span> </span>{
-  oneof sealed_value {
+  <span class="hljs-keyword">oneof</span> sealed_value {
     PrivateAccess privateAccess = <span class="hljs-number">1</span>;
     PrivateThisAccess privateThisAccess = <span class="hljs-number">2</span>;
     PrivateWithinAccess privateWithinAccess = <span class="hljs-number">3</span>;
@@ -3362,6 +3362,17 @@ the Java language. We intend to improve on this in the future.</p>
 <p>At this moment, there is no tool that supports Synthetic for
 the Java language. We may improve on this in the future.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/semanticdb/guide.html"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/docs/misc/built-with-scalameta.html"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#data-model">Data Model</a><ul class="toc-headings"><li><a href="#textdocument">TextDocument</a></li><li><a href="#language">Language</a></li><li><a href="#uri">URI</a></li><li><a href="#range">Range</a></li><li><a href="#location">Location</a></li><li><a href="#symbol">Symbol</a></li><li><a href="#scope">Scope</a></li><li><a href="#constant">Constant</a></li><li><a href="#type">Type</a></li><li><a href="#signature">Signature</a></li><li><a href="#symbolinformation">SymbolInformation</a></li><li><a href="#annotation">Annotation</a></li><li><a href="#access">Access</a></li><li><a href="#symboloccurrence">SymbolOccurrence</a></li><li><a href="#diagnostic">Diagnostic</a></li><li><a href="#synthetic">Synthetic</a></li><li><a href="#tree">Tree</a></li></ul></li><li><a href="#data-schemas">Data Schemas</a><ul class="toc-headings"><li><a href="#protobuf">Protobuf</a></li></ul></li><li><a href="#languages">Languages</a><ul class="toc-headings"><li><a href="#notation">Notation</a></li></ul></li><li><a href="#scala">Scala</a><ul class="toc-headings"><li><a href="#symbol-1">Symbol</a></li><li><a href="#type-1">Type</a></li><li><a href="#signature-1">Signature</a></li><li><a href="#symbolinformation-1">SymbolInformation</a></li><li><a href="#annotation-1">Annotation</a></li><li><a href="#access-1">Access</a></li><li><a href="#symboloccurrence-1">SymbolOccurrence</a></li><li><a href="#synthetic-1">Synthetic</a></li></ul></li><li><a href="#java">Java</a><ul class="toc-headings"><li><a href="#symbol-2">Symbol</a></li><li><a href="#type-2">Type</a></li><li><a href="#signature-2">Signature</a></li><li><a href="#symbolinformation-2">SymbolInformation</a></li><li><a href="#annotation-2">Annotation</a></li><li><a href="#access-2">Access</a></li><li><a href="#symboloccurrence-2">SymbolOccurrence</a></li><li><a href="#synthetic-2">Synthetic</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2018 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
               var search = docsearch({
                 
                 apiKey: '0460d1c693a278bc1ad07ada3fb96c63',
