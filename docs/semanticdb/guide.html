@@ -46,7 +46,7 @@ Make sure you are using the latest coursier version (1.1.0-M6 or newer).</li>
 <p><a href="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12"><img src="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12/badge.svg" alt="Maven Central"></a></p>
 <pre><code class="hljs css language-bash"><span class="hljs-built_in">alias</span> metac=<span class="hljs-string">"coursier launch org.scalameta:metac_2.12.6:4.0.0 -- -cp <span class="hljs-variable">$(coursier fetch org.scala-lang:scala-library:2.12.6 -p)</span>"</span>
 <span class="hljs-built_in">alias</span> metacp=<span class="hljs-string">'coursier launch org.scalameta:metacp_2.12:4.0.0 -- --dependency-classpath $(echo $JAVA_HOME/jre/lib/rt.jar):$(coursier fetch org.scala-lang:scala-library:2.12.6 -p)'</span>
-<span class="hljs-built_in">alias</span> metap=<span class="hljs-string">"coursier launch org.scalameta:metap_2.11:4.0.0 --"</span>
+<span class="hljs-built_in">alias</span> metap=<span class="hljs-string">"coursier launch org.scalameta:metap_2.12:4.0.0 --"</span>
 </code></pre>
 <p>NOTE. These installation instructions are for the current unstable <code>master</code> branch,
 it's recommended to view this document at the latest git tag instead of <code>master</code>.</p>
