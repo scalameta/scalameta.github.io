@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>SemanticDB Specification · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="SemanticDB is a data model for semantic information such as symbols and types about "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="SemanticDB Specification · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types about "/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>SemanticDB</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/quasiquotes.html">Quasiquotes</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/examples.html">Examples</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scalafiddle.html">ScalaFiddle Playground</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/astexplorer.html">AST Explorer</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scaladoc.html">Scaladoc</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>SemanticDB Specification · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="SemanticDB is a data model for semantic information such as symbols and types"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="SemanticDB Specification · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>SemanticDB</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/quasiquotes.html">trees/quasiquotes</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/examples.html">trees/examples</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scalafiddle.html">ScalaFiddle Playground</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/astexplorer.html">AST Explorer</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scaladoc.html">Scaladoc</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
             var coll = document.getElementsByClassName('collapsible');
             var checkActiveCategory = true;
             for (var i = 0; i < coll.length; i++) {
@@ -54,53 +54,54 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">SemanticDB Specification</h1></header><article><div><span><p>SemanticDB is a data model for semantic information such as symbols and types about
-programs in Scala and other languages. SemanticDB decouples production and consumption
-of semantic information, establishing documented means for communication between tools.</p>
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">SemanticDB Specification</h1></header><article><div><span><p>SemanticDB is a data model for semantic information such as symbols and types
+about programs in Scala and other languages. SemanticDB decouples production and
+consumption of semantic information, establishing documented means for
+communication between tools.</p>
 <h2><a class="anchor" aria-hidden="true" id="motivation"></a><a href="#motivation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Motivation</h2>
 <p>Nowadays, there is a clear trend towards standards for communication between
-developer tools. Language Server Protocol (LSP) <a href="https://microsoft.github.io/language-server-protocol/">[2]</a>, a protocol
-that connects programming language implementations and text editors, has gained
-strong industrial support and at the time of writing has implementations
-for many programming languages and editors. Build Server Protocol (BSP)
-<a href="https://scalacenter.github.io/bsp/">[3]</a> follows in LSP's tracks with an ambition to define a protocol
-for communication between language servers and build tools.</p>
+developer tools. Language Server Protocol (LSP) <a href="https://microsoft.github.io/language-server-protocol/">[2]</a>, a protocol that
+connects programming language implementations and text editors, has gained
+strong industrial support and at the time of writing has implementations for
+many programming languages and editors. Build Server Protocol (BSP) <a href="https://scalacenter.github.io/bsp/">[3]</a>
+follows in LSP's tracks with an ambition to define a protocol for communication
+between language servers and build tools.</p>
 <p>While lots of work in the open-source community has been invested in unifying
 user experience (by codifying commonly used operations like go to definition or
 find all references), relatively less work went into unifying implementor
 experience. For example, at the moment, there exist five different LSP
-implementations for Scala [<a href="https://github.com/dragos/dragos-vscode-scala">4</a>, <a href="http://dotty.epfl.ch/docs/usage/ide-support.html">5</a>, <a href="http://www.scala-sbt.org/1.x-beta/docs/sbt-server.html">6</a>, <a href="https://github.com/ensime/ensime-server/pull/1888">7</a>, <a href="https://github.com/scalameta/language-server">8</a>].
-They all implement the same protocol that works with code, but they all use
-different data structures to represent that code.</p>
-<p>Without a standard way to share information between tools, implementors have
-two unpleasant choices. First, they can use compiler internals, which are often
+implementations for Scala [<a href="https://github.com/dragos/dragos-vscode-scala">4</a>, <a href="http://dotty.epfl.ch/docs/usage/ide-support.html">5</a>, <a href="http://www.scala-sbt.org/1.x-beta/docs/sbt-server.html">6</a>, <a href="https://github.com/ensime/ensime-server/pull/1888">7</a>, <a href="https://github.com/scalameta/language-server">8</a>]. They all
+implement the same protocol that works with code, but they all use different
+data structures to represent that code.</p>
+<p>Without a standard way to share information between tools, implementors have two
+unpleasant choices. First, they can use compiler internals, which are often
 underdocumented and lack compatibility guarantees. Otherwise, they have to
 reimplement compiler internals, which usually leads to duplication of effort and
 inconsistent user experience. For example, Scala IDE <a href="http://scala-ide.org/">[9]</a> uses Scala
-compiler internals, which has known stability problems in interactive mode.
-To the contrast, IntelliJ <a href="https://confluence.jetbrains.com/display/SCA/Scala+Plugin+for+IntelliJ+IDEA">[10]</a> has its own Scala typechecker, which
-is more stable but is known for spurious red squiggles.</p>
-<p>This demonstrates the necessity for portable metaprogramming APIs -
-something that we have been working on within Scalameta <a href="http://scalameta.org/">[11]</a>.
-In the previous years, we shipped portable syntactic APIs for Scala,
-including abstract syntax trees, parsing and prettyprinting <a href="http://scalameta.org/tutorial/">[12]</a>.
-SemanticDB is our take on portable semantic APIs.</p>
+compiler internals, which has known stability problems in interactive mode. To
+the contrast, IntelliJ <a href="https://confluence.jetbrains.com/display/SCA/Scala+Plugin+for+IntelliJ+IDEA">[10]</a> has its own Scala typechecker, which is more
+stable but is known for spurious red squiggles.</p>
+<p>This demonstrates the necessity for portable metaprogramming APIs - something
+that we have been working on within Scalameta <a href="http://scalameta.org/">[11]</a>. In the previous
+years, we shipped portable syntactic APIs for Scala, including abstract syntax
+trees, parsing and prettyprinting <a href="http://scalameta.org/tutorial/">[12]</a>. SemanticDB is our take on
+portable semantic APIs.</p>
 <h2><a class="anchor" aria-hidden="true" id="data-model"></a><a href="#data-model" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Data Model</h2>
 <p>SemanticDB is a data model for semantic information such as symbols and types
-about programs in Scala and other languages. SemanticDB decouples production
-and consumption of semantic information, establishing documented means for
+about programs in Scala and other languages. SemanticDB decouples production and
+consumption of semantic information, establishing documented means for
 communication between tools.</p>
 <p>In this section, we describe the SemanticDB data model by going through the
-individual sections of the associated Protocol Buffers <a href="https://developers.google.com/protocol-buffers/">[13]</a> schema.
-In the future, we may also support other kinds of schemas, including
-JSON <a href="https://www.json.org/">[14]</a> and SQL <a href="https://en.wikipedia.org/wiki/SQL">[15]</a>. See <a href="#data-schemas">Data Schemas</a>
-for more information.</p>
-<p>The data structures in the SemanticDB data model are language-agnostic, but
-the entities corresponding to these data structures may be language-dependent.
-For example, <a href="#range">Range</a> and <a href="#location">Location</a> mean the same thing in
-all languages, while <a href="#symbol">Symbol</a> format relies on scoping rules that
-generally vary across languages. See <a href="#languages">Languages</a>
-for more information about language-dependent aspects of the specification.</p>
+individual sections of the associated Protocol Buffers <a href="https://developers.google.com/protocol-buffers/">[13]</a> schema. In
+the future, we may also support other kinds of schemas, including JSON
+<a href="https://www.json.org/">[14]</a> and SQL <a href="https://en.wikipedia.org/wiki/SQL">[15]</a>. See <a href="#data-schemas">Data Schemas</a> for more
+information.</p>
+<p>The data structures in the SemanticDB data model are language-agnostic, but the
+entities corresponding to these data structures may be language-dependent. For
+example, <a href="#range">Range</a> and <a href="#location">Location</a> mean the same thing in all
+languages, while <a href="#symbol">Symbol</a> format relies on scoping rules that generally
+vary across languages. See <a href="#languages">Languages</a> for more information about
+language-dependent aspects of the specification.</p>
 <h3><a class="anchor" aria-hidden="true" id="textdocument"></a><a href="#textdocument" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TextDocument</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TextDocuments</span> </span>{
   <span class="hljs-keyword">repeated</span> TextDocument documents = <span class="hljs-number">1</span>;
@@ -119,9 +120,9 @@ for more information about language-dependent aspects of the specification.</p>
   <span class="hljs-keyword">repeated</span> Synthetic synthetics = <span class="hljs-number">12</span>;
 }
 </code></pre>
-<p><code>TextDocument</code> provides semantic information about a code snippet.
-It is the central data structure of the SemanticDB model, and its entities
-are also called &quot;SemanticDB payloads&quot;.</p>
+<p><code>TextDocument</code> provides semantic information about a code snippet. It is the
+central data structure of the SemanticDB model, and its entities are also called
+&quot;SemanticDB payloads&quot;.</p>
 <p>SemanticDB payloads must include the version of the SemanticDB model in the
 <code>schema</code> field. The following versions of the model are supported:</p>
 <table>
@@ -153,16 +154,16 @@ of the project's workspace.</p>
 <code>text</code> is empty, the combination of the <code>uri</code> field and a sourceroot enables
 tools to retrieve the text document contents from disk.</p>
 <p><code>md5</code> defines the hexadecimal formatted MD5 fingerprint of the source file
-contents. When <code>text</code> is empty, the MD5 fingerprint can be used to ensure
-a SemanticDB payload is up-to-date with the file contents on disk.</p>
-<p><code>language</code> defines the <a href="#language">Language</a> in which the code snippet
-is written. See <a href="#languages">Languages</a> for the list of supported programming
+contents. When <code>text</code> is empty, the MD5 fingerprint can be used to ensure a
+SemanticDB payload is up-to-date with the file contents on disk.</p>
+<p><code>language</code> defines the <a href="#language">Language</a> in which the code snippet is
+written. See <a href="#languages">Languages</a> for the list of supported programming
 languages.</p>
 <p>Semantic information about code snippets is stored in so called sections -
-repeated fields within <code>TextDocument</code> - as described below.
-These sections are optional, which means that documents providing only part
-of semantic information for the corresponding snippet
-(or no semantic information at all) are completely legal.</p>
+repeated fields within <code>TextDocument</code> - as described below. These sections are
+optional, which means that documents providing only part of semantic information
+for the corresponding snippet (or no semantic information at all) are completely
+legal.</p>
 <h3><a class="anchor" aria-hidden="true" id="language"></a><a href="#language" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Language</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Language</span> </span>{
   UNKNOWN_LANGUAGE = <span class="hljs-number">0</span>;
@@ -179,8 +180,8 @@ that are not included in the list above. Moreover, <code>Language</code> does no
 capabilities to specify the associated language or compiler version. We may
 improve on this in the future.</p>
 <h3><a class="anchor" aria-hidden="true" id="uri"></a><a href="#uri" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>URI</h3>
-<p>URIs are unique resource identifiers as defined in <a href="http://tools.ietf.org/html/rfc3986">[16]</a>.
-In the SemanticDB model, URIs are represented as strings.</p>
+<p>URIs are unique resource identifiers as defined in <a href="http://tools.ietf.org/html/rfc3986">[16]</a>. In the
+SemanticDB model, URIs are represented as strings.</p>
 <h3><a class="anchor" aria-hidden="true" id="range"></a><a href="#range" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Range</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Range</span> </span>{
   <span class="hljs-built_in">int32</span> start_line = <span class="hljs-number">1</span>;
@@ -189,10 +190,10 @@ In the SemanticDB model, URIs are represented as strings.</p>
   <span class="hljs-built_in">int32</span> end_character = <span class="hljs-number">4</span>;
 }
 </code></pre>
-<p><code>Range</code> in SemanticDB directly corresponds to <code>Range</code> in LSP <a href="https://microsoft.github.io/language-server-protocol/">[2]</a>.
-It represents a range between start and end points in a document. Both points
-are represented by zero-based line and zero-based character offsets.
-The start point is inclusive, and the end point is exclusive.</p>
+<p><code>Range</code> in SemanticDB directly corresponds to <code>Range</code> in LSP <a href="https://microsoft.github.io/language-server-protocol/">[2]</a>. It
+represents a range between start and end points in a document. Both points are
+represented by zero-based line and zero-based character offsets. The start point
+is inclusive, and the end point is exclusive.</p>
 <h3><a class="anchor" aria-hidden="true" id="location"></a><a href="#location" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Location</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Location</span> </span>{
   <span class="hljs-built_in">string</span> uri = <span class="hljs-number">1</span>;
@@ -202,46 +203,45 @@ The start point is inclusive, and the end point is exclusive.</p>
 <p><code>Location</code> in SemanticDB directly corresponds to <code>Location</code> in LSP <a href="https://microsoft.github.io/language-server-protocol/">[2]</a>.
 It represents a location inside a document, such as a line inside a text file.</p>
 <h3><a class="anchor" aria-hidden="true" id="symbol"></a><a href="#symbol" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Symbol</h3>
-<p>Symbols are tokens that are used to correlate references and definitions.
-In the SemanticDB model, symbols are represented as strings.</p>
+<p>Symbols are tokens that are used to correlate references and definitions. In the
+SemanticDB model, symbols are represented as strings.</p>
 <p>At the moment, symbols are not guaranteed to be globally unique, which means
 that there may be limitations for using symbols as keys in maps or databases.
-Read below for more information about uniqueness guarantees for different
-symbol categories.</p>
+Read below for more information about uniqueness guarantees for different symbol
+categories.</p>
 <p><strong>Global symbols</strong>. Correspond to a definition that can be referenced outside
 the document where the definition is located.</p>
-<p>Global symbol format accommodates scoping rules of the underlying language,
-and is therefore language-dependent. For example, the <code>Int</code> class in
-the Scala standard library is modelled as <code>scala.Int#</code>, where
-the pound sign (<code>#</code>) at the end of the symbol means that the symbol corresponds
-to a class as opposed to an object that would end with a dot (<code>.</code>).
-See <a href="#languages">Languages</a> for more information.</p>
-<p>Global symbols must be unique across the universe of documents that
-a SemanticDB-based is working with at any given time. For example,
-if in such a universe, there exist multiple definitions of <code>Int</code> -
-e.g. coming from multiple different versions of Scala - then all references
-to those definitions will have <code>SymbolOccurrence.symbol</code> equal to the same
-<code>scala.Int#</code> symbol, and SemanticDB will not be able to provide
-information to distinguish these references from each other.</p>
-<p>In the future, we may extend SemanticDB to allow for multiple definitions
-that under current rules would correspond to the same global symbol.
-In the meanwhile, when global uniqueness is required, tool authors are advised
-to accompany global symbols with out-of-band metadata.</p>
+<p>Global symbol format accommodates scoping rules of the underlying language, and
+is therefore language-dependent. For example, the <code>Int</code> class in the Scala
+standard library is modelled as <code>scala.Int#</code>, where the pound sign (<code>#</code>) at the
+end of the symbol means that the symbol corresponds to a class as opposed to an
+object that would end with a dot (<code>.</code>). See <a href="#languages">Languages</a> for more
+information.</p>
+<p>Global symbols must be unique across the universe of documents that a
+SemanticDB-based is working with at any given time. For example, if in such a
+universe, there exist multiple definitions of <code>Int</code> - e.g. coming from multiple
+different versions of Scala - then all references to those definitions will have
+<code>SymbolOccurrence.symbol</code> equal to the same <code>scala.Int#</code> symbol, and SemanticDB
+will not be able to provide information to distinguish these references from
+each other.</p>
+<p>In the future, we may extend SemanticDB to allow for multiple definitions that
+under current rules would correspond to the same global symbol. In the
+meanwhile, when global uniqueness is required, tool authors are advised to
+accompany global symbols with out-of-band metadata.</p>
 <p><strong>Local symbols</strong>. Correspond to a definition that isn't global (see above).</p>
-<p>Local symbol format is language-agnostic and is a concatenation of <code>local</code>,
-a decimal number and an optional suffix that consists of a plus (<code>+</code>) and
-another decimal number. For example, <code>x</code> in a Scala method
-<code>def identity[T](x: T): T</code> may be modelled by local symbols <code>local0</code>, <code>local1</code>,
-<code>local2+1</code>, etc. The same logic applies to the type parameter <code>T</code>, which is
-also a local definition.</p>
+<p>Local symbol format is language-agnostic and is a concatenation of <code>local</code>, a
+decimal number and an optional suffix that consists of a plus (<code>+</code>) and another
+decimal number. For example, <code>x</code> in a Scala method <code>def identity[T](x: T): T</code>
+may be modelled by local symbols <code>local0</code>, <code>local1</code>, <code>local2+1</code>, etc. The same
+logic applies to the type parameter <code>T</code>, which is also a local definition.</p>
 <p>Local symbols must be unique within the underlying document, but they don't have
-to be unique across multiple documents. For example, at the time of writing
-the Scalac-based SemanticDB producer generates local symbols named <code>local0</code>,
+to be unique across multiple documents. For example, at the time of writing the
+Scalac-based SemanticDB producer generates local symbols named <code>local0</code>,
 <code>local1</code>, etc, with the counter resetting to zero for every new document.</p>
-<p>In the future, we may extend SemanticDB to make local symbols more unique,
-but we haven't yet found a way to do that without sacrificing performance
-and payload size. In the meanwhile, when global uniqueness is required,
-tool authors are advised to accompany local symbols with <code>TextDocument.uri</code>.</p>
+<p>In the future, we may extend SemanticDB to make local symbols more unique, but
+we haven't yet found a way to do that without sacrificing performance and
+payload size. In the meanwhile, when global uniqueness is required, tool authors
+are advised to accompany local symbols with <code>TextDocument.uri</code>.</p>
 <h3><a class="anchor" aria-hidden="true" id="scope"></a><a href="#scope" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scope</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Scope</span> </span>{
   <span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> symlinks = <span class="hljs-number">1</span>;
@@ -249,27 +249,27 @@ tool authors are advised to accompany local symbols with <code>TextDocument.uri<
 }
 </code></pre>
 <p><code>Scope</code> represents a container for definitions such as type parameters,
-parameters or class declarations. Depending on the <a href="#language">Language</a>
-and the implementation, scopes specify their members as follows:</p>
+parameters or class declarations. Depending on the <a href="#language">Language</a> and the
+implementation, scopes specify their members as follows:</p>
 <ul>
 <li>Via symbolic links to members, i.e. using <a href="#symbol">Symbol</a>.</li>
 <li>Or via direct embedding of member metadata, i.e. using
 <a href="#symbolinformation">SymbolInformation</a>.</li>
 </ul>
-<p>Hardlinking comes in handy in situations when an advanced type such
-as <code>StructuralType</code>, <code>ExistentialType</code> or <code>UniversalType</code> ends up being
-part of the type signature of a global symbol. For example, in the following
-Scala program, method <code>m</code> has a structural type <code>AnyRef { def x: Int }</code>:</p>
+<p>Hardlinking comes in handy in situations when an advanced type such as
+<code>StructuralType</code>, <code>ExistentialType</code> or <code>UniversalType</code> ends up being part of the
+type signature of a global symbol. For example, in the following Scala program,
+method <code>m</code> has a structural type <code>AnyRef { def x: Int }</code>:</p>
 <pre><code class="hljs css language-scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> </span>{
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m</span> </span>= <span class="hljs-keyword">new</span> { <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">x</span></span>: <span class="hljs-type">Int</span> = ??? }
 }
 </code></pre>
-<p>At the time of writing, we haven't found a way to model the method <code>x</code>,
-which constitutes a logical part of this structural type, as a global symbol.
+<p>At the time of writing, we haven't found a way to model the method <code>x</code>, which
+constitutes a logical part of this structural type, as a global symbol.
 Therefore, this method has to be modelled as a local symbol.</p>
 <p>However, turning <code>x</code> into a local symbol that is part of the
-<a href="#symbolinformation">&quot;Symbols&quot;</a> section presents certain difficulties.
-In that case, in order to analyze public signatures of the containing
+<a href="#symbolinformation">&quot;Symbols&quot;</a> section presents certain difficulties. In that
+case, in order to analyze public signatures of the containing
 <a href="#textdocument">TextDocument</a>, SemanticDB consumers have to load the entire
 &quot;Symbols&quot; section, which has adverse performance characteristics.</p>
 <p>Hardlinking solves this conundrum by storing symbol metadata related to advanced
@@ -358,12 +358,12 @@ values of the nine primitive types on the JVM, as well as strings and <code>null
   }
 }
 </code></pre>
-<p><code>Type</code> represents expression types. Definition signatures are modelled
-with <a href="#signature">Signature</a>.</p>
+<p><code>Type</code> represents expression types. Definition signatures are modelled with
+<a href="#signature">Signature</a>.</p>
 <p>The SemanticDB type system is a superset of the type systems of supported
-languages - currently modelled after the Scala type system <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>.
-This section describes the model, while <a href="#languages">Languages</a> elaborates
-on how language types map onto this model.</p>
+languages - currently modelled after the Scala type system <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>. This
+section describes the model, while <a href="#languages">Languages</a> elaborates on how
+language types map onto this model.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TypeRef</span> </span>{
   Type prefix = <span class="hljs-number">1</span>;
   <span class="hljs-built_in">string</span> symbol = <span class="hljs-number">2</span>;
@@ -372,37 +372,36 @@ on how language types map onto this model.</p>
 </code></pre>
 <p><code>TypeRef</code> is the bread-and-butter type of SemanticDB. It represents a reference
 to a <a href="#symbol">Symbol</a>, possibly parameterized by <code>type_arguments</code>. To model
-references to nested type definitions, e.g. path-dependent types in Scala,
-type refs include <code>prefix</code>.</p>
+references to nested type definitions, e.g. path-dependent types in Scala, type
+refs include <code>prefix</code>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SingleType</span> </span>{
   Type prefix = <span class="hljs-number">1</span>;
   <span class="hljs-built_in">string</span> symbol = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p><code>SingleType</code> is a singleton type that is inhabited only by the value of
-the definition represented by <code>symbol</code> and the accompanying <code>prefix</code>.</p>
+<p><code>SingleType</code> is a singleton type that is inhabited only by the value of the
+definition represented by <code>symbol</code> and the accompanying <code>prefix</code>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ThisType</span> </span>{
   <span class="hljs-built_in">string</span> symbol = <span class="hljs-number">1</span>;
 }
 </code></pre>
-<p><code>ThisType</code> is a singleton type that is inhabited only by the value
-of <code>this</code> reference to the definition represented by <code>symbol</code>,
-only visible inside the lexical extent of the enclosing definition.</p>
+<p><code>ThisType</code> is a singleton type that is inhabited only by the value of <code>this</code>
+reference to the definition represented by <code>symbol</code>, only visible inside the
+lexical extent of the enclosing definition.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SuperType</span> </span>{
   Type prefix = <span class="hljs-number">1</span>;
   <span class="hljs-built_in">string</span> symbol = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p><code>SuperType</code> is a singleton type that is inhabited only by the value
-of <code>super</code> reference to the definition represented by <code>symbol</code>,
-prefixed by an optional <code>prefix</code>, only visible inside the lexical extent
-of the enclosing definition.</p>
+<p><code>SuperType</code> is a singleton type that is inhabited only by the value of <code>super</code>
+reference to the definition represented by <code>symbol</code>, prefixed by an optional
+<code>prefix</code>, only visible inside the lexical extent of the enclosing definition.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ConstantType</span> </span>{
   Constant constant = <span class="hljs-number">1</span>;
 }
 </code></pre>
-<p><code>ConstantType</code> is a singleton type that is inhabited only by the value
-of a <a href="#constant">Constant</a>.</p>
+<p><code>ConstantType</code> is a singleton type that is inhabited only by the value of a
+<a href="#constant">Constant</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">IntersectionType</span> </span>{
   <span class="hljs-keyword">repeated</span> Type types = <span class="hljs-number">1</span>;
 }
@@ -441,16 +440,16 @@ and <code>declarations</code>. Declarations are modelled by a <a href="#scope">S
   Scope declarations = <span class="hljs-number">3</span>;
 }
 </code></pre>
-<p><code>ExistentialType</code> represents a type <code>tpe</code> existentially quantified
-over <code>declarations</code>. Declarations are modelled by a <a href="#scope">Scope</a>.</p>
+<p><code>ExistentialType</code> represents a type <code>tpe</code> existentially quantified over
+<code>declarations</code>. Declarations are modelled by a <a href="#scope">Scope</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">UniversalType</span> </span>{
   reserved <span class="hljs-number">1</span>;
   Scope type_parameters = <span class="hljs-number">3</span>;
   Type tpe = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p><code>UniversalType</code> represents a type <code>tpe</code> universally quantified
-over <code>type_parameters</code>. Type parameters are modelled by a <a href="#scope">Scope</a>.</p>
+<p><code>UniversalType</code> represents a type <code>tpe</code> universally quantified over
+<code>type_parameters</code>. Type parameters are modelled by a <a href="#scope">Scope</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ByNameType</span> </span>{
   Type tpe = <span class="hljs-number">1</span>;
 }
@@ -471,12 +470,12 @@ over <code>type_parameters</code>. Type parameters are modelled by a <a href="#s
   }
 }
 </code></pre>
-<p><code>Signature</code> represents definition signatures. Expression types are modelled
-with <a href="#type">Type</a>.</p>
+<p><code>Signature</code> represents definition signatures. Expression types are modelled with
+<a href="#type">Type</a>.</p>
 <p>The SemanticDB type system is a superset of the type systems of supported
-languages - currently modelled after the Scala type system <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>.
-This section describes the model, while <a href="#languages">Languages</a> elaborates
-on how language types map onto this model.</p>
+languages - currently modelled after the Scala type system <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>. This
+section describes the model, while <a href="#languages">Languages</a> elaborates on how
+language types map onto this model.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ClassSignature</span> </span>{
   Scope type_parameters = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Type parents = <span class="hljs-number">2</span>;
@@ -485,8 +484,8 @@ on how language types map onto this model.</p>
 }
 </code></pre>
 <p><code>ClassSignature</code> represents signatures of objects, package objects, classes,
-traits and interfaces. Both type parameters and declarations are modelled by
-a <a href="#scope">Scope</a>. <code>self</code> represents an optional self-type <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#templates">[99]</a>.</p>
+traits and interfaces. Both type parameters and declarations are modelled by a
+<a href="#scope">Scope</a>. <code>self</code> represents an optional self-type <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#templates">[99]</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">MethodSignature</span> </span>{
   Scope type_parameters = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Scope parameter_lists = <span class="hljs-number">2</span>;
@@ -495,24 +494,24 @@ a <a href="#scope">Scope</a>. <code>self</code> represents an optional self-type
 </code></pre>
 <p><code>MethodSignature</code> represents signatures of methods (including getters and
 setters), constructors and macros. It features <code>type_parameters</code>,
-<code>parameter_lists</code> and a <code>return_type</code>. Both type parameters and parameters
-are modelled by <a href="#scope">Scopes</a>. Moreover, in order to support multiple
-parameter lists in Scala methods, <code>parameter_lists</code> is a list of lists.</p>
+<code>parameter_lists</code> and a <code>return_type</code>. Both type parameters and parameters are
+modelled by <a href="#scope">Scopes</a>. Moreover, in order to support multiple parameter
+lists in Scala methods, <code>parameter_lists</code> is a list of lists.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TypeSignature</span> </span>{
   Scope type_parameters = <span class="hljs-number">1</span>;
   Type lower_bound = <span class="hljs-number">2</span>;
   Type upper_bound = <span class="hljs-number">3</span>;
 }
 </code></pre>
-<p><code>TypeSignature</code> represents signatures of type parameters or type members.
-It features <code>type_parameters</code> as well as <code>lower_bound</code> and <code>upper_bound</code>.
-Type parameters are modelled by a <a href="#scope">Scope</a>.</p>
+<p><code>TypeSignature</code> represents signatures of type parameters or type members. It
+features <code>type_parameters</code> as well as <code>lower_bound</code> and <code>upper_bound</code>. Type
+parameters are modelled by a <a href="#scope">Scope</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ValueSignature</span> </span>{
   Type tpe = <span class="hljs-number">1</span>;
 }
 </code></pre>
-<p><code>ValueSignature</code> represents signatures of locals, fields and self parameters.
-It encapsulates an underlying type of the definition.</p>
+<p><code>ValueSignature</code> represents signatures of locals, fields and self parameters. It
+encapsulates an underlying type of the definition.</p>
 <h3><a class="anchor" aria-hidden="true" id="symbolinformation"></a><a href="#symbolinformation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SymbolInformation</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SymbolInformation</span> </span>{
   reserved <span class="hljs-number">2</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>;
@@ -528,11 +527,11 @@ It encapsulates an underlying type of the definition.</p>
 </code></pre>
 <p>&quot;Symbols&quot; is a section of a <a href="#textdocument">TextDocument</a> that stores
 information about <a href="#symbol">Symbols</a> that are defined in the underlying
-document. In a sense, this section is analogous to a symbol table
-<a href="https://en.wikipedia.org/wiki/Symbol_table">[19]</a> in a compiler.</p>
+document. In a sense, this section is analogous to a symbol table <a href="https://en.wikipedia.org/wiki/Symbol_table">[19]</a>
+in a compiler.</p>
 <p><code>language</code>. <a href="#language">Language</a> that defines the corresponding definition.</p>
-<p><code>kind</code>. Enumeration that defines the kind of the corresponding definition.
-See <a href="#languages">Languages</a> for information on how definitions in supported
+<p><code>kind</code>. Enumeration that defines the kind of the corresponding definition. See
+<a href="#languages">Languages</a> for information on how definitions in supported
 languages map onto these kinds.</p>
 <table>
   <tr>
@@ -618,8 +617,8 @@ languages map onto these kinds.</p>
     <td>Interface, e.g. <code>interface I</code>.</td>
   </tr>
 </table>
-<p><code>properties</code>. Bitmask of miscellaneous bits of metadata.
-See <a href="#languages">Languages</a> for information on how definitions in supported
+<p><code>properties</code>. Bitmask of miscellaneous bits of metadata. See
+<a href="#languages">Languages</a> for information on how definitions in supported
 languages map onto these properties.</p>
 <table>
   <tr>
@@ -712,15 +711,15 @@ languages map onto these properties.</p>
     <td>Is a default parameter or a default method?</td>
   </tr>
 </table>
-<p><code>display_name</code>. Display name of the definition, i.e. how this definition
-should be presented to humans, e.g. in code browsers or integrated development
+<p><code>display_name</code>. Display name of the definition, i.e. how this definition should
+be presented to humans, e.g. in code browsers or integrated development
 environments.</p>
 <p>This is not necessarily the same as the symbol name of the corresponding
 <a href="#symbol">Symbol</a>. See <a href="#languages">Languages</a> for more information on which
 definitions have which display and symbol names in supported languages.</p>
 <p><code>signature</code>. <a href="#signature">Signature</a> that represents the definition signature.
-See <a href="#languages">Languages</a> for more information on which definitions have
-which signatures in supported languages.</p>
+See <a href="#languages">Languages</a> for more information on which definitions have which
+signatures in supported languages.</p>
 <p><code>annotation</code>. <a href="#annotation">Annotations</a> of the corresponding definition.</p>
 <p><code>access</code>. <a href="#access">Access</a> modifier of the corresponding definition.</p>
 <h3><a class="anchor" aria-hidden="true" id="annotation"></a><a href="#annotation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Annotation</h3>
@@ -728,9 +727,8 @@ which signatures in supported languages.</p>
   Type tpe = <span class="hljs-number">1</span>;
 }
 </code></pre>
-<p><code>Annotation</code> represents annotations. See <a href="#languages">Languages</a> for
-information on how annotations in supported languages map onto this
-data structure.</p>
+<p><code>Annotation</code> represents annotations. See <a href="#languages">Languages</a> for information
+on how annotations in supported languages map onto this data structure.</p>
 <h3><a class="anchor" aria-hidden="true" id="access"></a><a href="#access" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Access</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Access</span> </span>{
   <span class="hljs-keyword">oneof</span> sealed_value {
@@ -770,8 +768,8 @@ data structure.</p>
 <p><code>Access</code> represents access modifiers of definitions, including <code>private</code> and
 <code>protected</code>, as well as variants: 1) limited to the current object instance,
 and 2) limited to the given <code>symbol</code>. See <a href="#languages">Languages</a> for
-information on how access modifiers in supported languages map onto this
-data structure.</p>
+information on how access modifiers in supported languages map onto this data
+structure.</p>
 <h3><a class="anchor" aria-hidden="true" id="symboloccurrence"></a><a href="#symboloccurrence" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SymbolOccurrence</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SymbolOccurrence</span> </span>{
   Range range = <span class="hljs-number">1</span>;
@@ -813,10 +811,10 @@ supported languages map onto this data structure.</p>
 </code></pre>
 <p>&quot;Diagnostics&quot; is a section of a <a href="#textdocument">TextDocument</a> that stores
 diagnostic messages produced by compilers, linters and other developer tools.</p>
-<p><code>Diagnostic</code> in SemanticDB directly correspond to <code>Diagnostic</code>
-in LSP <a href="https://microsoft.github.io/language-server-protocol/">[2]</a>. It has a <a href="#range">Range</a>, a severity and an associated
-message. If the severity is unknown, it is up to the consumer to interpret
-diagnostics as error, warning, information or hint.</p>
+<p><code>Diagnostic</code> in SemanticDB directly correspond to <code>Diagnostic</code> in LSP
+<a href="https://microsoft.github.io/language-server-protocol/">[2]</a>. It has a <a href="#range">Range</a>, a severity and an associated message. If
+the severity is unknown, it is up to the consumer to interpret diagnostics as
+error, warning, information or hint.</p>
 <table>
   <tr>
     <td><b>Value</b></td>
@@ -850,15 +848,13 @@ diagnostics as error, warning, information or hint.</p>
   Tree tree = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>&quot;Synthetics&quot; is a section of a <a href="#textdocument">TextDocument</a> that stores
-trees added by compilers that do not appear in the original source.
-Examples include inferred type arguments, implicit parameters, or desugarings of
-for loops.</p>
+<p>&quot;Synthetics&quot; is a section of a <a href="#textdocument">TextDocument</a> that stores trees
+added by compilers that do not appear in the original source. Examples include
+inferred type arguments, implicit parameters, or desugarings of for loops.</p>
 <p><code>Synthetic</code> models one of these synthetics as a transformation of a piece of the
 original source file to a synthetic AST that may still use quotes of the
-original source.
-The piece of the source file is given as a <a href="#range">Range</a>, and the new
-synthetic AST is given as a <a href="#tree">Tree</a>.</p>
+original source. The piece of the source file is given as a <a href="#range">Range</a>, and
+the new synthetic AST is given as a <a href="#tree">Tree</a>.</p>
 <h3><a class="anchor" aria-hidden="true" id="tree"></a><a href="#tree" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tree</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Tree</span> </span>{
   <span class="hljs-keyword">oneof</span> sealed_value {
@@ -873,12 +869,11 @@ synthetic AST is given as a <a href="#tree">Tree</a>.</p>
   }
 }
 </code></pre>
-<p>A <code>Tree</code> represents a typed abstract syntax tree.
-The trees are similar to Scalameta and Rsc trees, except for
-<code>OriginalTree</code>, which represents a quote of the original source file.
-We only support a small subset of Scala syntax necessary to model
-<a href="#synthetic">Synthetics</a>.
-At the moment, we do not have plans to add more trees.</p>
+<p>A <code>Tree</code> represents a typed abstract syntax tree. The trees are similar to
+Scalameta and Rsc trees, except for <code>OriginalTree</code>, which represents a quote of
+the original source file. We only support a small subset of Scala syntax
+necessary to model <a href="#synthetic">Synthetics</a>. At the moment, we do not have plans
+to add more trees.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ApplyTree</span> </span>{
   Tree function = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Tree arguments = <span class="hljs-number">2</span>;
@@ -890,8 +885,8 @@ At the moment, we do not have plans to add more trees.</p>
   Tree body = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>A <code>FunctionTree</code> represents a function literal with parameter declarations and
-a body.</p>
+<p>A <code>FunctionTree</code> represents a function literal with parameter declarations and a
+body.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">IdTree</span> </span>{
   <span class="hljs-built_in">string</span> symbol = <span class="hljs-number">1</span>;
 }
@@ -907,17 +902,16 @@ a body.</p>
   Type tpe = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>A <code>MacroExpansionTree</code> represents a macro expansion. The <code>before_expansion</code> can be
-an <code>OriginalTree</code> (expansion of original code) or any other <code>Tree</code>
-(expansion of synthetic code).</p>
+<p>A <code>MacroExpansionTree</code> represents a macro expansion. The <code>before_expansion</code> can
+be an <code>OriginalTree</code> (expansion of original code) or any other <code>Tree</code> (expansion
+of synthetic code).</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">OriginalTree</span> </span>{
   Range range = <span class="hljs-number">1</span>;
 }
 </code></pre>
 <p>An <code>OriginalTree</code> represents a quote from the text of the enclosing
-<code>TextDocument</code>, given as the range of that quote from the original text.
-These represent trees that have direct correspondents with the original
-source file.</p>
+<code>TextDocument</code>, given as the range of that quote from the original text. These
+represent trees that have direct correspondents with the original source file.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SelectTree</span> </span>{
   Tree qualifier = <span class="hljs-number">1</span>;
   IdTree id = <span class="hljs-number">2</span>;
@@ -929,15 +923,15 @@ source file.</p>
   <span class="hljs-keyword">repeated</span> Type type_arguments = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>A <code>TypeApplyTree</code> represents the type application of a method, providing
-that method with type arguments.</p>
+<p>A <code>TypeApplyTree</code> represents the type application of a method, providing that
+method with type arguments.</p>
 <h2><a class="anchor" aria-hidden="true" id="data-schemas"></a><a href="#data-schemas" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Data Schemas</h2>
 <h3><a class="anchor" aria-hidden="true" id="protobuf"></a><a href="#protobuf" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Protobuf</h3>
 <p><a href="https://github.com/scalameta/scalameta/blob/master/semanticdb/semanticdb/semanticdb.proto">semanticdb.proto</a></p>
 <h2><a class="anchor" aria-hidden="true" id="languages"></a><a href="#languages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Languages</h2>
 <p>In this section, we describe language-dependent SemanticDB entities, i.e.
-symbols, types, symbol informations, annotations, access modifiers and
-symbol occurrences:</p>
+symbols, types, symbol informations, annotations, access modifiers and symbol
+occurrences:</p>
 <ul>
 <li><a href="#scala">Scala</a>
 <ul>
@@ -962,18 +956,18 @@ symbol occurrences:</p>
 </ul></li>
 </ul>
 <h3><a class="anchor" aria-hidden="true" id="notation"></a><a href="#notation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Notation</h3>
-<p>We use a concise notation to describe SemanticDB entities.
-In this notation, <code>M(v1, v2, ...)</code> corresponds a Protocol Buffers message
-<code>M</code> with fields set to values <code>v1</code>, <code>v2</code>, etc. Literals correspond to
-scalar values, <code>List(x1, x2, ...)</code> corresponds to repeated values, <code>None</code>
-corresponds to missing optional values.
-Moreover, <code>&lt;X&gt;</code> corresponds to an entity that represents <code>X</code>.</p>
+<p>We use a concise notation to describe SemanticDB entities. In this notation,
+<code>M(v1, v2, ...)</code> corresponds a Protocol Buffers message <code>M</code> with fields set to
+values <code>v1</code>, <code>v2</code>, etc. Literals correspond to scalar values,
+<code>List(x1, x2, ...)</code> corresponds to repeated values, <code>None</code> corresponds to
+missing optional values. Moreover, <code>&lt;X&gt;</code> corresponds to an entity that
+represents <code>X</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="scala"></a><a href="#scala" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scala</h2>
-<p>In this section, we exhaustively map Scala language features onto SemanticDB.
-As a reference, we use the Scala Language Specification <a href="https://www.scala-lang.org/files/archive/spec/2.12/">[17]</a>
-(referred to as &quot;SLS&quot; in the text below), as well as additional resources
-[<a href="https://github.com/scala/scala/pull/5310">25</a>, <a href="http://www.scala-lang.org/api/2.12.0/scala/annotation/meta/index.html">40</a>, <a href="https://docs.scala-lang.org/overviews/macros/overview.html">51</a>, <a href="https://docs.scala-lang.org/overviews/core/implicit-classes.html">56</a>, <a href="https://docs.scala-lang.org/overviews/core/value-classes.html">57</a>] in the areas where SLS
-is incomplete or out of date.</p>
+<p>In this section, we exhaustively map Scala language features onto SemanticDB. As
+a reference, we use the Scala Language Specification <a href="https://www.scala-lang.org/files/archive/spec/2.12/">[17]</a> (referred to
+as &quot;SLS&quot; in the text below), as well as additional resources [<a href="https://github.com/scala/scala/pull/5310">25</a>,
+<a href="http://www.scala-lang.org/api/2.12.0/scala/annotation/meta/index.html">40</a>, <a href="https://docs.scala-lang.org/overviews/macros/overview.html">51</a>, <a href="https://docs.scala-lang.org/overviews/core/implicit-classes.html">56</a>, <a href="https://docs.scala-lang.org/overviews/core/value-classes.html">57</a>] in the areas where SLS is incomplete or
+out of date.</p>
 <p><a name="scala-symbol"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="symbol-1"></a><a href="#symbol-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Symbol</h3>
 <p>In this section, we describe the Scala symbol format, but don't cover the
@@ -1029,40 +1023,39 @@ created for which Scala definitions, what their metadata is, etc). See
 <li>For other package, parent package.</li>
 <li>For package object, its associated package.</li>
 <li>For other top-level definition, its package.</li>
-<li>For other global definition, the innermost enclosing definition,
-i.e. the definition whose <a href="#location">Location</a> in source code most
-tightly encloses the <a href="#location">Location</a> of the original definition.</li>
+<li>For other global definition, the innermost enclosing definition, i.e. the
+definition whose <a href="#location">Location</a> in source code most tightly encloses
+the <a href="#location">Location</a> of the original definition.</li>
 <li>For other definition, <code>None</code>.</li>
 </ul>
 <p><strong>Descriptor</strong> is:</p>
 <ul>
 <li>For <code>LOCAL</code>, unsupported.</li>
 <li>For <code>PACKAGE</code>, concatenation of its symbol name and a forward slash (<code>/</code>).</li>
-<li>For <code>OBJECT</code> or <code>PACKAGE_OBJECT</code>,
-concatenation of its symbol name and a dot (<code>.</code>).</li>
-<li>Exceptionally, for <code>VAL</code> <code>METHOD</code>,
-concatenation of its symbol name and a dot (<code>.</code>).</li>
-<li>For other <code>METHOD</code>, <code>CONSTRUCTOR</code>, or <code>MACRO</code>,
-concatenation of its symbol name, a disambiguator and a dot (<code>.</code>).</li>
-<li>For <code>TYPE</code>, <code>CLASS</code> or <code>TRAIT</code>, concatenation of its
-symbol name and a pound sign (<code>#</code>).</li>
-<li>For <code>PARAMETER</code>, concatenation of a left parenthesis (<code>(</code>), its
-symbol name and a right parenthesis (<code>)</code>).</li>
+<li>For <code>OBJECT</code> or <code>PACKAGE_OBJECT</code>, concatenation of its symbol name and a dot
+(<code>.</code>).</li>
+<li>Exceptionally, for <code>VAL</code> <code>METHOD</code>, concatenation of its symbol name and a dot
+(<code>.</code>).</li>
+<li>For other <code>METHOD</code>, <code>CONSTRUCTOR</code>, or <code>MACRO</code>, concatenation of its symbol
+name, a disambiguator and a dot (<code>.</code>).</li>
+<li>For <code>TYPE</code>, <code>CLASS</code> or <code>TRAIT</code>, concatenation of its symbol name and a pound
+sign (<code>#</code>).</li>
+<li>For <code>PARAMETER</code>, concatenation of a left parenthesis (<code>(</code>), its symbol name
+and a right parenthesis (<code>)</code>).</li>
 <li>For <code>SELF_PARAMETER</code>, unsupported.</li>
-<li>For <code>TYPE_PARAMETER</code>, concatenation of a left bracket (<code>[</code>), its
-symbol name and a right bracket (<code>]</code>).</li>
-<li>See <a href="#scala-symbolinformation">SymbolInformation</a> for details on
-which Scala definitions are modelled by which symbols.</li>
+<li>For <code>TYPE_PARAMETER</code>, concatenation of a left bracket (<code>[</code>), its symbol name
+and a right bracket (<code>]</code>).</li>
+<li>See <a href="#scala-symbolinformation">SymbolInformation</a> for details on which Scala
+definitions are modelled by which symbols.</li>
 </ul>
 <p><strong>Disambiguator</strong> is:</p>
 <ul>
-<li>Concatenation of a left parenthesis (<code>(</code>), a tag
-and a right parenthesis (<code>)</code>).
-If the definition is not overloaded, the tag is empty.
-Two definitions are overloaded if they have the same name and both require
-a disambiguator. If the definition is overloaded, the tag is computed from
-the order of appearance of overloads in the source code (see
-&quot;Function declarations and definitions&quot; below for an example):
+<li>Concatenation of a left parenthesis (<code>(</code>), a tag and a right parenthesis
+(<code>)</code>). If the definition is not overloaded, the tag is empty. Two definitions
+are overloaded if they have the same name and both require a disambiguator. If
+the definition is overloaded, the tag is computed from the order of appearance
+of overloads in the source code (see &quot;Function declarations and definitions&quot;
+below for an example):
 <ul>
 <li>Empty string for the definition that appears first.</li>
 <li><code>+1</code> for the definition that appears second.</li>
@@ -1078,8 +1071,8 @@ the order of appearance of overloads in the source code (see
 <li>For constructor, <code>&lt;init&gt;</code>.</li>
 <li>For anonymous definition, implementation-dependent name.</li>
 <li>For other definition, the name of the binding introduced by the definition
-<a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>. If the name is not a Java identifier <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">[22]</a>, it is
-wrapped in backticks.</li>
+<a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>. If the name is not a Java identifier <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">[22]</a>, it is wrapped
+in backticks.</li>
 </ul>
 <p>For example, this is how some of the definitions from the Scala standard library
 must be modelled:</p>
@@ -1112,20 +1105,20 @@ must be modelled:</p>
     RepeatedType repeatedType = <span class="hljs-number">14</span>;
   }
 </code></pre>
-<p>In Scala, <a href="#type">Type</a> represents value types <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>.
-Non-value types <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a> are modelled with a separate data structure
-called <a href="#signature">Signature</a> (see <a href="#scala-signature">below</a> for examples).</p>
+<p>In Scala, <a href="#type">Type</a> represents value types <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>. Non-value types
+<a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a> are modelled with a separate data structure called
+<a href="#signature">Signature</a> (see <a href="#scala-signature">below</a> for examples).</p>
 <p>In the examples below:</p>
 <ul>
-<li><code>E</code> is the lexically enclosing class of the location where the example
-types are defined or computed.</li>
+<li><code>E</code> is the lexically enclosing class of the location where the example types
+are defined or computed.</li>
 <li><code>C</code> is a class that extends a trait <code>M</code>.</li>
 <li><code>T</code>, <code>T1</code>, <code>T2</code>, etc are type aliases.</li>
 <li><code>t</code> is a type parameter.</li>
 <li><code>p</code> and <code>x</code> are local values.</li>
 <li><code>scala</code> is the <code>scala</code> package from the Scala standard library.</li>
-<li><code>Int</code>, <code>List</code>, <code>TupleN</code> and <code>FunctionN</code> are classes from the Scala
-standard library.</li>
+<li><code>Int</code>, <code>List</code>, <code>TupleN</code> and <code>FunctionN</code> are classes from the Scala standard
+library.</li>
 <li><code>@ann1</code>, <code>@ann2</code>, etc are annotations.</li>
 <li><code>M1</code>, <code>M2</code>, etc are members.</li>
 </ul>
@@ -1241,33 +1234,33 @@ standard library.</li>
 <li>We diverge from SLS on the matter of handling prefixes (see definitions of
 <code>TypeRef</code> and <code>SingleType</code> for more information).
 <ul>
-<li>In SLS, all types that can have a prefix must have it specified
-explicitly, even if the prefix is trivial. For example in Scalac, <code>Int</code> must
-be represented as <code>TypeRef(&lt;scala.this.type&gt;, &lt;Int&gt;, List())</code> <a href="https://www.scala-lang.org/files/archive/spec/2.12/03-types.html#type-designators">[27]</a>.</li>
+<li>In SLS, all types that can have a prefix must have it specified explicitly,
+even if the prefix is trivial. For example in Scalac, <code>Int</code> must be
+represented as <code>TypeRef(&lt;scala.this.type&gt;, &lt;Int&gt;, List())</code> <a href="https://www.scala-lang.org/files/archive/spec/2.12/03-types.html#type-designators">[27]</a>.</li>
 <li>In SemanticDB, all types that have a trivial prefix must not have it
 specified explicitly. For example in SemanticDB, <code>Int</code> must be represented
 as <code>TypeRef(None, &lt;Int&gt;, List())</code>. Moreover, even <code>scala.Int</code> must be
 represented as <code>TypeRef(None, &lt;Int&gt;, List())</code>.</li>
 <li>By a trivial prefix, we mean either empty prefix (for definitions that
 aren't members of any other definition, e.g. parameters or type parameters)
-or <code>ThisType</code> of the enclosing class, trait, interface, object, package object
-or package (for all other definitions), as well as types equivalent to them.</li>
+or <code>ThisType</code> of the enclosing class, trait, interface, object, package
+object or package (for all other definitions), as well as types equivalent
+to them.</li>
 </ul></li>
-<li>We leave the mapping between type syntax written in source code and
-<code>Type</code> entities deliberately unspecified. Some producers may transform
-types in unspecified ways (e.g. Scalac transforms all <code>this.type</code> types
-into qualified <code>X.this.type</code> types), and our experience <a href="http://scalamacros.org/paperstalks/2016-02-11-WhatDidWeLearnInScalaMeta.pdf">[38]</a> shows
-that reverse engineering these transformations is very hard. We may improve
-on this in the future, but this is highly unlikely. In the meanwhile,
-use <a href="#symboloccurrence">Occurrences</a> for figuring out semantics of syntax
-written in source code.</li>
+<li>We leave the mapping between type syntax written in source code and <code>Type</code>
+entities deliberately unspecified. Some producers may transform types in
+unspecified ways (e.g. Scalac transforms all <code>this.type</code> types into qualified
+<code>X.this.type</code> types), and our experience <a href="http://scalamacros.org/paperstalks/2016-02-11-WhatDidWeLearnInScalaMeta.pdf">[38]</a> shows that reverse
+engineering these transformations is very hard. We may improve on this in the
+future, but this is highly unlikely. In the meanwhile, use
+<a href="#symboloccurrence">Occurrences</a> for figuring out semantics of syntax written
+in source code.</li>
 </ul>
 <p><a name="scala-signature"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="signature-1"></a><a href="#signature-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Signature</h3>
-<p>In Scala, <a href="#signature">Signature</a> represents definition signatures,
-which also includes non-value types <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>.
-See <a href="#scala-symbolinformation">below</a> to learn which Scala definitions
-have which signatures.</p>
+<p>In Scala, <a href="#signature">Signature</a> represents definition signatures, which also
+includes non-value types <a href="https://www.scala-lang.org/files/archive/spec/2.11/03-types.html">[18]</a>. See <a href="#scala-symbolinformation">below</a> to
+learn which Scala definitions have which signatures.</p>
 <p><a name="scala-symbolinformation"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="symbolinformation-1"></a><a href="#symbolinformation-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SymbolInformation</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SymbolInformation</span> </span>{
@@ -1325,10 +1318,10 @@ symbols, with the exact number of symbols, their kinds, properties, signatures
 and access modifiers dependent on the corresponding value:</p>
 <ul>
 <li>Local symbol of kind <code>LOCAL</code> is created for all local values.</li>
-<li>Getter symbol of kind <code>METHOD</code> is created for all member values to model
-the getter method associated with the corresponding member value.</li>
-<li>Parameter symbol of kind <code>PARAMETER</code> is created for <code>val</code> parameters
-of primary constructors to model the corresponding constructor parameter.</li>
+<li>Getter symbol of kind <code>METHOD</code> is created for all member values to model the
+getter method associated with the corresponding member value.</li>
+<li>Parameter symbol of kind <code>PARAMETER</code> is created for <code>val</code> parameters of
+primary constructors to model the corresponding constructor parameter.</li>
 </ul>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span>(<span class="hljs-params">val xp: <span class="hljs-type">Int</span></span>) </span>{
   <span class="hljs-keyword">val</span> xm: <span class="hljs-type">Int</span> = ???
@@ -1337,7 +1330,7 @@ of primary constructors to model the corresponding constructor parameter.</li>
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m</span> </span>= {
     <span class="hljs-keyword">val</span> xl: <span class="hljs-type">Int</span> = ???
     <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">S</span> </span>= { <span class="hljs-keyword">val</span> xs: <span class="hljs-type">Int</span> }
-    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">E</span> </span>= xe.<span class="hljs-keyword">type</span> <span class="hljs-keyword">forSome</span> { <span class="hljs-keyword">val</span> xe: <span class="hljs-type">AnyRef</span> }
+    <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">E</span> </span>= xe<span class="hljs-class">.<span class="hljs-keyword">type</span> <span class="hljs-title">forSome</span> </span>{ <span class="hljs-keyword">val</span> xe: <span class="hljs-type">AnyRef</span> }
   }
 }
 </code></pre>
@@ -1399,20 +1392,20 @@ of primary constructors to model the corresponding constructor parameter.</li>
 </table>
 <p>Notes:</p>
 <ul>
-<li>As described in SLS <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a>, there are some language constructs
-that are desugared into values. For these language constructs,
-symbols are created from desugared values.
+<li>As described in SLS <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a>, there are some language constructs that are
+desugared into values. For these language constructs, symbols are created from
+desugared values.
 <ul>
-<li><code>val p = e</code> (symbols are created for bound variables <code>x1</code>, ...,
-<code>xm</code> that are defined in <code>p</code> in order of their appearance in source code;
-symbols are NOT created for the synthetic value used in the desugaring).</li>
-<li><code>val x1, ..., xn: T</code> (symbols are created for <code>x1</code>, ..., <code>xn</code>
-in order of their appearance in source code).</li>
+<li><code>val p = e</code> (symbols are created for bound variables <code>x1</code>, ..., <code>xm</code> that
+are defined in <code>p</code> in order of their appearance in source code; symbols are
+NOT created for the synthetic value used in the desugaring).</li>
+<li><code>val x1, ..., xn: T</code> (symbols are created for <code>x1</code>, ..., <code>xn</code> in order of
+their appearance in source code).</li>
 <li><code>val p1, ..., pn = e</code> (symbols are created for bound variables <code>x1</code>, ...,
 <code>xm</code> that are defined in patterns <code>p1</code>, ..., <code>pn</code> in order of their
 appearance in source code).</li>
-<li><code>val p1, ..., pn: T = e</code> (symbols are created for bound variables <code>x1</code>,
-..., <code>xm</code> that are defined in patterns <code>p1</code>, ..., <code>pn</code> in order of their
+<li><code>val p1, ..., pn: T = e</code> (symbols are created for bound variables <code>x1</code>, ...,
+<code>xm</code> that are defined in patterns <code>p1</code>, ..., <code>pn</code> in order of their
 appearance in source code).</li>
 </ul></li>
 <li>Supported properties for value symbols are:
@@ -1428,15 +1421,15 @@ appearance in source code).</li>
 <li><code>LAZY</code>: set for all corresponding symbols of <code>lazy</code> values.</li>
 <li><code>VAL</code>: set for all corresponding symbols.</li>
 </ul></li>
-<li>Display name for value symbols is equal to the name of the binding
-introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
-<li>If the type of the value is not provided in source code, it is inferred
-from the right-hand side of the value according to the rules described
-in SLS <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a>. Corresponding signature is computed from the inferred
-type as explained in <a href="#scala-type">Type</a>.</li>
+<li>Display name for value symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
+<li>If the type of the value is not provided in source code, it is inferred from
+the right-hand side of the value according to the rules described in SLS
+<a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a>. Corresponding signature is computed from the inferred type as
+explained in <a href="#scala-type">Type</a>.</li>
 <li>Depending on their meta annotations, value annotations may end up as
-<code>Annotation</code> entities associated with multiple corresponding symbols.
-See <a href="http://www.scala-lang.org/api/2.12.0/scala/annotation/meta/index.html">[40]</a> for more information.</li>
+<code>Annotation</code> entities associated with multiple corresponding symbols. See
+<a href="http://www.scala-lang.org/api/2.12.0/scala/annotation/meta/index.html">[40]</a> for more information.</li>
 <li>Supported access modifiers for value symbols are:
 <ul>
 <li><code>PrivateAccess</code>: set for getters of <code>private</code> values.</li>
@@ -1455,13 +1448,13 @@ signatures and access modifiers dependent on the corresponding value:</p>
 <li>Getter and setter symbols of kind <code>METHOD</code> are created for all member
 variables to model the getter and setter methods associated with the
 corresponding member variable.</li>
-<li>Parameter symbol of kind <code>PARAMETER</code> is created for <code>var</code> parameters
-of primary constructors to model the corresponding constructor parameter.</li>
+<li>Parameter symbol of kind <code>PARAMETER</code> is created for <code>var</code> parameters of
+primary constructors to model the corresponding constructor parameter.</li>
 </ul>
 <p>Notes:</p>
 <ul>
-<li>Variable symbols are modelled exactly the same as value symbols
-(see &quot;Value symbols and declarations&quot;), with the exceptions described below.</li>
+<li>Variable symbols are modelled exactly the same as value symbols (see &quot;Value
+symbols and declarations&quot;), with the exceptions described below.</li>
 <li>Setter symbols have the following metadata:
 <ul>
 <li><code>kind</code>: <code>METHOD</code>.</li>
@@ -1487,13 +1480,13 @@ definitions cannot be <code>lazy</code>.</li>
 <li><code>VAR</code>: set for all corresponding symbols.</li>
 </ul></li>
 </ul>
-<p><strong>Pattern variables</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#variable-patterns">[65]</a> are represented differently depending
-on where they are defined:</p>
+<p><strong>Pattern variables</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#variable-patterns">[65]</a> are represented differently depending on
+where they are defined:</p>
 <ul>
-<li>Local symbol is created for pattern variables in pattern matching
-expressions <a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#pattern-matching-expressions">[66]</a>.</li>
-<li>A combination of local, field, getter and setter symbols is created
-for pattern variables in pattern definitions <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a>.</li>
+<li>Local symbol is created for pattern variables in pattern matching expressions
+<a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#pattern-matching-expressions">[66]</a>.</li>
+<li>A combination of local, field, getter and setter symbols is created for
+pattern variables in pattern definitions <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a>.</li>
 </ul>
 <pre><code class="hljs css language-scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> </span>{
   ??? <span class="hljs-keyword">match</span> { <span class="hljs-keyword">case</span> <span class="hljs-type">List</span>(x) =&gt; ??? }
@@ -1535,21 +1528,20 @@ for pattern variables in pattern definitions <a href="https://www.scala-lang.org
 </table>
 <p>Notes:</p>
 <ul>
-<li>In the future, we may decide to introduce a dedicated symbol kind
-for regular pattern variables, so that they can be distinguished from
-local value definitions.</li>
+<li>In the future, we may decide to introduce a dedicated symbol kind for regular
+pattern variables, so that they can be distinguished from local value
+definitions.</li>
 <li>Pattern variable symbols don't support any properties.</li>
 <li>Display name for pattern variable symbols is equal to the name of the binding
 introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Pattern definitions <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions">[39]</a> do not exist as a first-class language
 feature. Instead, they are desugared into zero or more synthetic value
-definitions and only then modelled as symbols as described in
-&quot;Value declarations and definitions&quot; and &quot;Variable declarations and
-definitions&quot;.</li>
+definitions and only then modelled as symbols as described in &quot;Value
+declarations and definitions&quot; and &quot;Variable declarations and definitions&quot;.</li>
 <li>Pattern variable symbols don't support any access modifiers.</li>
 </ul>
-<p><strong>Type declarations and type aliases</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#type-declarations-and-type-aliases">[42]</a> are represented with
-<code>TYPE</code> symbols.</p>
+<p><strong>Type declarations and type aliases</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#type-declarations-and-type-aliases">[42]</a> are represented with <code>TYPE</code>
+symbols.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> </span>{
   <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">T1</span> <span class="hljs-title">&lt;</span></span>: <span class="hljs-type">Hi</span>
   <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">T2</span> <span class="hljs-title">&gt;</span></span>: <span class="hljs-type">Lo</span>
@@ -1589,12 +1581,12 @@ definitions&quot;.</li>
 <li><code>ABSTRACT</code>: set for type declarations.</li>
 <li><code>FINAL</code>: set for <code>final</code> type aliases.</li>
 </ul></li>
-<li>Display name for type symbols is equal to the name of the binding
-introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
-<li>We leave the mapping between type syntax written in source code and
-<code>Type</code> entities deliberately unspecified. For example, a producer may
-represent the signature of <code>T1</code> as <code>TypeSignature(List(), &lt;Nothing&gt;, &lt;Hi&gt;)</code>.
-See <a href="#scala-type">Types</a> for more information.</li>
+<li>Display name for type symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
+<li>We leave the mapping between type syntax written in source code and <code>Type</code>
+entities deliberately unspecified. For example, a producer may represent the
+signature of <code>T1</code> as <code>TypeSignature(List(), &lt;Nothing&gt;, &lt;Hi&gt;)</code>. See
+<a href="#scala-type">Types</a> for more information.</li>
 <li>If present, type parameters of type declarations and type aliases are
 represented as described below in order of their appearance in source code.</li>
 <li>Type symbols support <a href="#scala-access">all Scala access modifiers</a>.</li>
@@ -1620,19 +1612,18 @@ represented as described below in order of their appearance in source code.</li>
 </table>
 <p>Notes:</p>
 <ul>
-<li>In the future, we may decide to introduce a dedicated symbol kind
-for type variables, so that they can be distinguished from
-local type definitions.</li>
+<li>In the future, we may decide to introduce a dedicated symbol kind for type
+variables, so that they can be distinguished from local type definitions.</li>
 <li>Type variable symbols are always <code>ABSTRACT</code>.a</li>
 <li>Display name for type variable symbols is equal to:
 <ul>
 <li>The name of the binding introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Except, in case of anonymous type variables via the <code>_</code> syntax, <code>_</code>.</li>
 </ul></li>
-<li>We leave the mapping between type syntax written in source code and
-<code>Type</code> entities deliberately unspecified. For example, a producer may
-represent the signature of <code>t</code> as <code>TypeSignature(List(), &lt;Nothing&gt;, &lt;Any&gt;)</code>.
-See <a href="#scala-type">Types</a> for more information.</li>
+<li>We leave the mapping between type syntax written in source code and <code>Type</code>
+entities deliberately unspecified. For example, a producer may represent the
+signature of <code>t</code> as <code>TypeSignature(List(), &lt;Nothing&gt;, &lt;Any&gt;)</code>. See
+<a href="#scala-type">Types</a> for more information.</li>
 <li>Type variable symbols don't support any access modifiers.</li>
 </ul>
 <p><strong>Self parameters</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.11/05-classes-and-objects.html#templates">[64]</a> are represented with <code>SELF_PARAMETER</code> symbols.</p>
@@ -1672,8 +1663,8 @@ located, which means that they are represented by local symbols.</li>
 <li>Display name for self parameter symbols is equal to:
 <ul>
 <li>The name of the binding introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
-<li>Except, in case of anonymous self parameters via <code>_: T =&gt;</code>, <code>this: T =&gt;</code>
-or corresponding typeless syntaxes, <code>_</code>.</li>
+<li>Except, in case of anonymous self parameters via <code>_: T =&gt;</code>, <code>this: T =&gt;</code> or
+corresponding typeless syntaxes, <code>_</code>.</li>
 </ul></li>
 <li>Self parameter symbols don't support any access modifiers.</li>
 </ul>
@@ -1722,24 +1713,24 @@ or corresponding typeless syntaxes, <code>_</code>.</li>
 <li><code>COVARIANT</code>: set for covariant type parameters.</li>
 <li><code>CONTRAVARIANT</code>: set for contravariant type parameters.</li>
 </ul></li>
-<li>If present, (higher-order) type parameters of type parameters are
-represented as described here in order of their appearance in source code.</li>
+<li>If present, (higher-order) type parameters of type parameters are represented
+as described here in order of their appearance in source code.</li>
 <li>Display name for type parameter symbols is equal to:
 <ul>
 <li>The name of the binding introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Except, in case of anonymous type variables via the <code>_</code> syntax, <code>_</code>.</li>
 </ul></li>
-<li>We leave the mapping between type syntax written in source code and
-<code>Type</code> entities deliberately unspecified. For example, a producer may
-represent the signature of <code>T1</code> as <code>TypeSignature(List(), &lt;Nothing&gt;, &lt;Any&gt;)</code>.
-See <a href="#scala-type">Types</a> for more information.</li>
+<li>We leave the mapping between type syntax written in source code and <code>Type</code>
+entities deliberately unspecified. For example, a producer may represent the
+signature of <code>T1</code> as <code>TypeSignature(List(), &lt;Nothing&gt;, &lt;Any&gt;)</code>. See
+<a href="#scala-type">Types</a> for more information.</li>
 <li>If present, context bounds and value bounds of type parameters are desugared
 into parameters of the enclosing definition as described in <a href="https://www.scala-lang.org/files/archive/spec/2.12/07-implicits.html#context-bounds-and-view-bounds">[44]</a> and
 are represented with corresponding <code>PARAMETER</code> symbols.</li>
 </ul>
-<p><strong>Parameters</strong> are represented with <code>PARAMETER</code> symbols.
-(There is no section in SLS dedicated to parameters, so we aggregate information
-about parameters from multiple sections).</p>
+<p><strong>Parameters</strong> are represented with <code>PARAMETER</code> symbols. (There is no section in
+SLS dedicated to parameters, so we aggregate information about parameters from
+multiple sections).</p>
 <pre><code class="hljs css language-scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span>(<span class="hljs-params">p1: <span class="hljs-type">Int</span></span>) </span>{
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m2</span></span>(p2: <span class="hljs-type">Int</span>) = ???
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m3</span></span>(p3: <span class="hljs-type">Int</span> = <span class="hljs-number">42</span>) = ???
@@ -1807,9 +1798,8 @@ about parameters from multiple sections).</p>
 <p>Notes:</p>
 <ul>
 <li>As described above, some values and variables are represented with multiple
-symbols, including parameter symbols. For more information, see
-&quot;Value declarations and definitions&quot; and &quot;Variable declarations and
-definitions&quot;.</li>
+symbols, including parameter symbols. For more information, see &quot;Value
+declarations and definitions&quot; and &quot;Variable declarations and definitions&quot;.</li>
 <li>Supported properties for parameter symbols are:
 <ul>
 <li><code>IMPLICIT</code>: set for <code>implicit</code> parameters, as well as desugared context
@@ -1818,8 +1808,8 @@ bounds and view bounds (see above).</li>
 <li><code>VAR</code>: set for <code>var</code> parameters of primary constructors.</li>
 <li><code>DEFAULT</code>: set for parameters with default values.</li>
 </ul></li>
-<li>Scalac semantic model does not distinguish parameters in <code>class C(x: Int)</code>
-and <code>class C(private[this] val x: Int)</code>. As a result, due to implementation
+<li>Scalac semantic model does not distinguish parameters in <code>class C(x: Int)</code> and
+<code>class C(private[this] val x: Int)</code>. As a result, due to implementation
 restrictions <code>private[this] val</code> parameters currently don't have the <code>VAL</code>
 property.</li>
 <li>Display name for parameter symbols is equal to:
@@ -1827,21 +1817,19 @@ property.</li>
 <li>The name of the binding introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Except, in case of anonymous type variables via the <code>_</code> syntax, <code>_</code>.</li>
 </ul></li>
-<li>Unlike some other metaprogramming systems for Scala, we do not
-distinguish regular parameters from parameters with default arguments
-<a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#default-arguments">[45]</a>. However, we do create method symbols for synthetic methods
-that compute default arguments with names and signatures defined
-by <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#default-arguments">[45]</a>.</li>
+<li>Unlike some other metaprogramming systems for Scala, we do not distinguish
+regular parameters from parameters with default arguments <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#default-arguments">[45]</a>.
+However, we do create method symbols for synthetic methods that compute
+default arguments with names and signatures defined by <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#default-arguments">[45]</a>.</li>
 <li>Signatures of by-name parameters <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#by-name-parameters">[46]</a> and repeated parameters
 <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#repeated-parameters">[47]</a> are represented with special types (<code>ByNameType</code> and
 <code>RepeatedType</code> correspondingly).</li>
-<li>According to <a href="https://www.scala-lang.org/files/archive/spec/2.12/07-implicits.html#context-bounds-and-view-bounds">[44]</a>, context bounds and view bounds are desugared
-as parameters of enclosing definitions. Since SLS does not specify
-the names for such parameters (only their signatures), we also leave
-the names unspecified.</li>
+<li>According to <a href="https://www.scala-lang.org/files/archive/spec/2.12/07-implicits.html#context-bounds-and-view-bounds">[44]</a>, context bounds and view bounds are desugared as
+parameters of enclosing definitions. Since SLS does not specify the names for
+such parameters (only their signatures), we also leave the names unspecified.</li>
 </ul>
-<p><strong>Function declarations and definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#function-declarations-and-definitions">[48]</a> are represented
-with <code>METHOD</code> symbols.</p>
+<p><strong>Function declarations and definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#function-declarations-and-definitions">[48]</a> are represented with
+<code>METHOD</code> symbols.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> </span>{
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m1</span></span>: <span class="hljs-type">Int</span> = ???
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m2</span></span>(): <span class="hljs-type">Int</span> = ???
@@ -1904,9 +1892,9 @@ with <code>METHOD</code> symbols.</p>
 </table>
 <p>Notes:</p>
 <ul>
-<li>According to SLS, some language features involve synthetic methods that
-are not written in source code. Symbols for synthetic methods must be included
-in SemanticDB payloads alongside normal methods. Detailed information about
+<li>According to SLS, some language features involve synthetic methods that are
+not written in source code. Symbols for synthetic methods must be included in
+SemanticDB payloads alongside normal methods. Detailed information about
 synthetic methods is provided in various subsections of
 <a href="#scala-symbolinformation">SymbolInformation</a> together with related language
 features, and here we provide a comprehensive list of such methods:
@@ -1924,22 +1912,22 @@ features, and here we provide a comprehensive list of such methods:
 <li><code>FINAL</code>: set for <code>final</code> methods.</li>
 <li><code>IMPLICIT</code>: set for <code>implicit</code> methods.</li>
 </ul></li>
-<li>Display name for method symbols is equal to the name of the binding
-introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
-<li>If present, type parameters of methods are
-represented as described above in order of their appearance in source code.</li>
-<li>If present, parameters of methods are
-represented as described above in order of their appearance in source code.</li>
+<li>Display name for method symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
+<li>If present, type parameters of methods are represented as described above in
+order of their appearance in source code.</li>
+<li>If present, parameters of methods are represented as described above in order
+of their appearance in source code.</li>
 <li>For procedures <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#procedures">[49]</a>, the return type is assumed to be <code>Unit</code>.
-Corresponding signature is computed using the assumed return
-type as explained in <a href="#scala-type">Type</a>.</li>
+Corresponding signature is computed using the assumed return type as explained
+in <a href="#scala-type">Type</a>.</li>
 <li>If the return type is not provided in source code, it is inferred from the
-right-hand side of the method according to the rules described
-in SLS <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#method-return-type-inference">[50]</a>. Corresponding signature is computed using the inferred
-retyrb type as explained in <a href="#scala-type">Type</a>.</li>
+right-hand side of the method according to the rules described in SLS
+<a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#method-return-type-inference">[50]</a>. Corresponding signature is computed using the inferred retyrb
+type as explained in <a href="#scala-type">Type</a>.</li>
 <li>Method symbols support <a href="#scala-access">all Scala access modifiers</a>.</li>
-<li>The <code>OBJECT</code> symbol <code>m3.</code> and <code>VAL METHOD</code> symbol <code>m4.</code> do not contribute
-to the disambiguator tag for the method symbols <code>m3().</code>, <code>m3(+1).</code> and <code>m4().</code>
+<li>The <code>OBJECT</code> symbol <code>m3.</code> and <code>VAL METHOD</code> symbol <code>m4.</code> do not contribute to
+the disambiguator tag for the method symbols <code>m3().</code>, <code>m3(+1).</code> and <code>m4().</code>
 because <code>OBJECT</code> and (exceptionally) <code>VAL METHOD</code> symbols do not require a
 disambiguator.</li>
 </ul>
@@ -1968,15 +1956,15 @@ similarly to function definitions (see above).</p>
 <ul>
 <li>Supported properties for macro symbols are the same as for method symbols,
 except for <code>ABSTRACT</code> because macros cannot be <code>abstract</code>.</li>
-<li>Display name for macro symbols is equal to the name of the binding
-introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
+<li>Display name for macro symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Return type inference for macros is not supported.</li>
 <li>At the moment, <code>SymbolInformation</code> for macros does not contain information
 about corresponding macro implementations. We may improve this in the future.</li>
 <li>Macro symbols support <a href="#scala-access">all Scala access modifiers</a>.</li>
 </ul>
-<p><strong>Constructors</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#class-definitions">52</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#constructor-definitions">53</a>] are represented with <code>CONSTRUCTOR</code>
-symbols similarly to function definitions (see above).</p>
+<p><strong>Constructors</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#class-definitions">52</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#constructor-definitions">53</a>] are represented with <code>CONSTRUCTOR</code> symbols
+similarly to function definitions (see above).</p>
 <pre><code class="hljs css language-scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span>(<span class="hljs-params">x: <span class="hljs-type">Int</span></span>) </span>{
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">this</span></span>() = <span class="hljs-keyword">this</span>(<span class="hljs-number">42</span>)
 }
@@ -2011,10 +1999,10 @@ synthetic constructor symbols for traits and objects.</li>
 </ul></li>
 <li>Display name for constructor symbols is equal to <code>&lt;init&gt;</code>.</li>
 <li>Constructors don't have type parameters and return types, but we still
-represent their signatures with <code>MethodSignature</code>. In these signatures,
-type parameters are equal to <code>List()</code> and the return type is <code>None</code>.</li>
-<li>Primary constructor parameters with <code>val</code> and <code>var</code> modifiers give rise
-to multiple different symbols as described above.</li>
+represent their signatures with <code>MethodSignature</code>. In these signatures, type
+parameters are equal to <code>List()</code> and the return type is <code>None</code>.</li>
+<li>Primary constructor parameters with <code>val</code> and <code>var</code> modifiers give rise to
+multiple different symbols as described above.</li>
 <li>Constructor symbols support <a href="#scala-access">all Scala access modifiers</a>.</li>
 </ul>
 <p><strong>Class definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#class-definitions">[54]</a> are represented with <code>CLASS</code> symbols.</p>
@@ -2112,17 +2100,17 @@ to multiple different symbols as described above.</li>
 <li><code>IMPLICIT</code>: set for <code>implicit</code> classes.</li>
 <li><code>CASE</code>: set for <code>case</code> classes.</li>
 </ul></li>
-<li>Display name for class symbols is equal to the name of the binding
-introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
+<li>Display name for class symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>We leave the mapping between parent syntax written in source code and
-<code>ClassSignature.parents</code> deliberately unspecified. Some producers are known
-to insert <code>&lt;AnyRef&gt;</code> into <code>parents</code> under certain circumstances, so we can't
-guarantee a one-to-one mapping of parent clauses in source code and
-entities in <code>parents</code>. We may improve on this in the future.</li>
+<code>ClassSignature.parents</code> deliberately unspecified. Some producers are known to
+insert <code>&lt;AnyRef&gt;</code> into <code>parents</code> under certain circumstances, so we can't
+guarantee a one-to-one mapping of parent clauses in source code and entities
+in <code>parents</code>. We may improve on this in the future.</li>
 <li><code>ClassSignature.declarations</code> must be ordered as follows:
 <ul>
-<li>For every parameter of the primary constructor, its field symbol, then
-its getter symbol, then its setter symbol.</li>
+<li>For every parameter of the primary constructor, its field symbol, then its
+getter symbol, then its setter symbol.</li>
 <li>Symbol of the primary constructor.</li>
 <li>Symbols of declared members in order of their appearance in source code.
 (Inherited members must not be part of <code>declarations</code>.)</li>
@@ -2140,30 +2128,30 @@ details, see:
 </ul></li>
 <li>Class symbols support <a href="#scala-access">all Scala access modifiers</a>.</li>
 </ul>
-<p><strong>Traits</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#traits">[58]</a> are represented by <code>TRAIT</code> symbols
-similarly to class definitions (see above). Concretely, the differences
-between trait symbols and class symbols are:</p>
+<p><strong>Traits</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#traits">[58]</a> are represented by <code>TRAIT</code> symbols similarly to class
+definitions (see above). Concretely, the differences between trait symbols and
+class symbols are:</p>
 <ul>
 <li>Trait symbols only support <code>SEALED</code> property.</li>
 <li>Traits don't have constructors.</li>
 </ul>
 <p><strong>Object definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#object-definitions">[59]</a> are represented by <code>OBJECT</code> symbols
-similarly to class definitions (see above). Concretely, the differences
-between object symbols and class symbols are:</p>
+similarly to class definitions (see above). Concretely, the differences between
+object symbols and class symbols are:</p>
 <ul>
 <li>Object symbols are always <code>FINAL</code>.</li>
 <li>Apart from <code>FINAL</code>, object symbols only support <code>CASE</code> and <code>IMPLICIT</code>
 properties.</li>
-<li>Display name for object symbols is equal to the name of the binding
-introduced by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
+<li>Display name for object symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Objects don't have type parameters, but we still represent their signatures
-with <code>ClassSignature</code>. In these signatures, type parameters are equal
-to <code>List()</code>.</li>
+with <code>ClassSignature</code>. In these signatures, type parameters are equal to
+<code>List()</code>.</li>
 <li>Objects don't have constructors.</li>
 </ul>
 <p><strong>Package objects</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/09-top-level-definitions.html#package-objects">[60]</a> are represented by <code>PACKAGE_OBJECT</code> symbols
-similarly to object definitions (see above). Concretely, the differences
-between package object symbols and object symbols are:</p>
+similarly to object definitions (see above). Concretely, the differences between
+package object symbols and object symbols are:</p>
 <ul>
 <li>Package object symbols are always <code>FINAL</code>.</li>
 <li>Apart from <code>FINAL</code>, package object symbols don't support any properties.</li>
@@ -2200,13 +2188,13 @@ introduced by the definition <a href="https://www.scala-lang.org/files/archive/s
   </tr>
 </table>
 <ul>
-<li>At the moment, <code>Annotation</code> can't represent annotation arguments,
-which means that the annotation in <code>@ann(x, y, z) def m: T</code> is
-represented as <code>Annotation(&lt;ann&gt;)</code>. We may improve on this in the future.</li>
-<li>At the moment, SemanticDB cannot represent expressions, which means
-that it cannot represent expression annotations as well. We do not
-plan to add support for expressions in SemanticDB, so it is highly
-unlikely that expression annotations will be supported in the future.</li>
+<li>At the moment, <code>Annotation</code> can't represent annotation arguments, which means
+that the annotation in <code>@ann(x, y, z) def m: T</code> is represented as
+<code>Annotation(&lt;ann&gt;)</code>. We may improve on this in the future.</li>
+<li>At the moment, SemanticDB cannot represent expressions, which means that it
+cannot represent expression annotations as well. We do not plan to add support
+for expressions in SemanticDB, so it is highly unlikely that expression
+annotations will be supported in the future.</li>
 </ul>
 <p><a name="scala-access"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="access-1"></a><a href="#access-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Access</h3>
@@ -2338,21 +2326,20 @@ unlikely that expression annotations will be supported in the future.</li>
   Role role = <span class="hljs-number">3</span>;
 }
 </code></pre>
-<p>There is a Scala compiler plugin
-that generates <a href="#symboloccurrence">SymbolOccurrences</a> for Scala code.
-The implementation is used at Twitter scale, and it works well -
-both in terms of handling sizeable codebases and understanding esoteric
-language constructs and idioms. However, but we do not yet have a specification
-that comprehensively describes how Scala language features map onto symbol
-occurrences. We intend to improve on this in the future.</p>
+<p>There is a Scala compiler plugin that generates
+<a href="#symboloccurrence">SymbolOccurrences</a> for Scala code. The implementation is
+used at Twitter scale, and it works well - both in terms of handling sizeable
+codebases and understanding esoteric language constructs and idioms. However,
+but we do not yet have a specification that comprehensively describes how Scala
+language features map onto symbol occurrences. We intend to improve on this in
+the future.</p>
 <p><a name="scala-synthetic"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="synthetic-1"></a><a href="#synthetic-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Synthetic</h3>
 <p>The following is an exhaustive list of the kinds of synthetics that are
 generated by the Scala compiler plugin, along with examples.</p>
-<p>Synthetics generated from represent for loops are quite massive,
-so we use a shorthand notation for them.
-In that notation, OriginalTree trees are represented by <code>orig(&lt;code&gt;)</code>
-and other trees are represented by their syntax.</p>
+<p>Synthetics generated from represent for loops are quite massive, so we use a
+shorthand notation for them. In that notation, OriginalTree trees are
+represented by <code>orig(&lt;code&gt;)</code> and other trees are represented by their syntax.</p>
 <table>
 <tr>
   <td width="220px"><b>Category</b></td>
@@ -2536,10 +2523,10 @@ and other trees are represented by their syntax.</p>
 <tr>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="java"></a><a href="#java" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Java</h2>
-<p>In this section, we exhaustively map Java language features onto SemanticDB.
-As a reference, we use the Java Language Specification <a href="https://docs.oracle.com/javase/specs/jls/se8/html">[85]</a> (referred
-to as &quot;JLS&quot; in the text below) and Java Virtual Machine Specification
-<a href="https://docs.oracle.com/javase/specs/jvms/se8/html/index.html">[91]</a> (referred to as &quot;JVMS&quot; in the text below).</p>
+<p>In this section, we exhaustively map Java language features onto SemanticDB. As
+a reference, we use the Java Language Specification <a href="https://docs.oracle.com/javase/specs/jls/se8/html">[85]</a> (referred to as
+&quot;JLS&quot; in the text below) and Java Virtual Machine Specification <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/index.html">[91]</a>
+(referred to as &quot;JVMS&quot; in the text below).</p>
 <p><a name="java-symbol"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="symbol-2"></a><a href="#symbol-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Symbol</h3>
 <p>In this section, we describe the Java symbol format.</p>
@@ -2590,9 +2577,9 @@ to as &quot;JLS&quot; in the text below) and Java Virtual Machine Specification
 <li>For top-level named package, root package.</li>
 <li>For other named package, parent package.</li>
 <li>For other top-level definition, its package.</li>
-<li>For other global definition, the innermost enclosing definition,
-i.e. the definition whose <a href="#location">Location</a> in source code most
-tightly encloses the <a href="#location">Location</a> of the original definition.</li>
+<li>For other global definition, the innermost enclosing definition, i.e. the
+definition whose <a href="#location">Location</a> in source code most tightly encloses
+the <a href="#location">Location</a> of the original definition.</li>
 <li>For other declarations, <code>None</code>.</li>
 </ul>
 <p><strong>Descriptor</strong> is:</p>
@@ -2600,32 +2587,31 @@ tightly encloses the <a href="#location">Location</a> of the original definition
 <li>For <code>LOCAL</code>, unsupported.</li>
 <li>For <code>PACKAGE</code>, concatenation of its symbol name and a forward slash (<code>/</code>).</li>
 <li>For <code>FIELD</code>, concatenation of its symbol name and a dot (<code>.</code>).</li>
-<li>For <code>METHOD</code> or <code>CONSTRUCTOR</code>, concatenation of its symbol name,
-a disambiguator and a dot (<code>.</code>).</li>
-<li>For <code>CLASS</code> or <code>INTERFACE</code>, concatenation of its symbol name and
-a pound sign (<code>#</code>).</li>
-<li>For <code>PARAMETER</code>, concatenation of a left parenthesis (<code>(</code>), its symbol
-name and a right parenthesis (<code>)</code>).</li>
-<li>For <code>TYPE_PARAMETER</code>, concatenation of a left bracket (<code>[</code>), its symbol
-name and a right bracket (<code>]</code>).</li>
-<li>See <a href="#java-symbolinformation">SymbolInformation</a> for details on
-which Java definitions are modelled by which symbols.</li>
+<li>For <code>METHOD</code> or <code>CONSTRUCTOR</code>, concatenation of its symbol name, a
+disambiguator and a dot (<code>.</code>).</li>
+<li>For <code>CLASS</code> or <code>INTERFACE</code>, concatenation of its symbol name and a pound sign
+(<code>#</code>).</li>
+<li>For <code>PARAMETER</code>, concatenation of a left parenthesis (<code>(</code>), its symbol name
+and a right parenthesis (<code>)</code>).</li>
+<li>For <code>TYPE_PARAMETER</code>, concatenation of a left bracket (<code>[</code>), its symbol name
+and a right bracket (<code>]</code>).</li>
+<li>See <a href="#java-symbolinformation">SymbolInformation</a> for details on which Java
+definitions are modelled by which symbols.</li>
 </ul>
 <p><strong>Disambiguator</strong> is:</p>
 <ul>
-<li><p>Concatenation of a left parenthesis (<code>(</code>), a tag
-and a right parenthesis (<code>)</code>).
-If the definition is not overloaded, the tag is empty.
-If the definition is overloaded, the tag is computed depending on where
-the definition appears in the following order:</p>
+<li><p>Concatenation of a left parenthesis (<code>(</code>), a tag and a right parenthesis
+(<code>)</code>). If the definition is not overloaded, the tag is empty. If the
+definition is overloaded, the tag is computed depending on where the
+definition appears in the following order:</p>
 <ul>
-<li>non-static overloads first, following the same order as they
-appear in the original source,</li>
-<li>static overloads secondly, following the same order as they
-appear in the original source</li>
+<li>non-static overloads first, following the same order as they appear in the
+original source,</li>
+<li>static overloads secondly, following the same order as they appear in the
+original source</li>
 </ul>
-<p><code>FIELD</code> definitions are not included in the list of overloads.
-Given this order, the tag becomes</p>
+<p><code>FIELD</code> definitions are not included in the list of overloads. Given this
+order, the tag becomes</p>
 <ul>
 <li>Empty string for the definition that appears first.</li>
 <li><code>+1</code> for the definition that appears second.</li>
@@ -2640,9 +2626,8 @@ Given this order, the tag becomes</p>
 <li>For unnamed package, <code>_empty_</code>.</li>
 <li>For constructor, <code>&lt;init&gt;</code>.</li>
 <li>For anonymous definition, implementation-dependent name.</li>
-<li>For other definition, the name of the binding introduced by the definition.
-If the name is not a Java identifier <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">[22]</a>, it is wrapped
-in backticks.</li>
+<li>For other definition, the name of the binding introduced by the definition. If
+the name is not a Java identifier <a href="https://docs.oracle.com/javase/specs/jls/se9/html/jls-3.html#jls-3.8">[22]</a>, it is wrapped in backticks.</li>
 </ul>
 <p>For example, this is how some of the definitions from the Java standard library
 must be modelled:</p>
@@ -2762,16 +2747,16 @@ must be modelled:</p>
 <p>Notes:</p>
 <ul>
 <li>Primitive and array types are converted to their equivalent
-<a href="#scala-type">Scala type</a> representations. We may improve on this
-in the future.</li>
+<a href="#scala-type">Scala type</a> representations. We may improve on this in the
+future.</li>
 <li>Since Java doesn't support path-dependent types, prefixes in type refs are
 always empty.</li>
 </ul>
 <p><a name="java-signature"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="signature-2"></a><a href="#signature-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Signature</h3>
-<p>In Java, <a href="#signature">Signature</a> represents definition signatures.
-See <a href="#java-symbolinformation">below</a> to learn which Java definitions
-have which signatures.</p>
+<p>In Java, <a href="#signature">Signature</a> represents definition signatures. See
+<a href="#java-symbolinformation">below</a> to learn which Java definitions have which
+signatures.</p>
 <p><a name="java-symbolinformation"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="symbolinformation-2"></a><a href="#symbolinformation-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SymbolInformation</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">SymbolInformation</span> </span>{
@@ -2823,8 +2808,8 @@ have which signatures.</p>
     <td>Explained below on per-definition basis.</td>
   </tr>
 </table>
-<p><strong>Class declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1">[76]</a> are represented by a single symbol with
-the <code>CLASS</code> kind.</p>
+<p><strong>Class declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.1">[76]</a> are represented by a single symbol with the
+<code>CLASS</code> kind.</p>
 <pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> a;
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">S1</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">I</span> </span>{
   T1 m1;
@@ -2937,11 +2922,11 @@ representation of Java classes where non-static members are grouped under a
 <code>CLASS</code> symbol and static members are grouped under an <code>OBJECT</code> symbol.</li>
 <li>The method <code>m3(+2)</code> has a higher disambiguator tag number than <code>m3(+1)</code> even
 if <code>m3(+2)</code> appears earlier in the source code. This is because <code>m3(+2)</code> is
-static and the disambiguator tag is computed from non-static members first
-and static members second. The reason for this required order is to ensure
-that it's possible to compute correct method symbols inside the Scala
-compiler, which groups static member under an <code>OBJECT</code> symbol and non-static
-members under a <code>CLASS</code> symbol.</li>
+static and the disambiguator tag is computed from non-static members first and
+static members second. The reason for this required order is to ensure that
+it's possible to compute correct method symbols inside the Scala compiler,
+which groups static member under an <code>OBJECT</code> symbol and non-static members
+under a <code>CLASS</code> symbol.</li>
 <li>Supported properties for <code>CLASS</code> symbols are
 <ul>
 <li><code>FINAL</code> set for all final classes</li>
@@ -2949,16 +2934,16 @@ members under a <code>CLASS</code> symbol.</li>
 <li><code>STATIC</code> set for static inner classes</li>
 <li><code>ENUM</code> set for enum types</li>
 </ul></li>
-<li>Display name for class symbols is equal to the name of the binding
-introduced by the definition.</li>
+<li>Display name for class symbols is equal to the name of the binding introduced
+by the definition.</li>
 <li>Class declarations support <a href="#java-access">all Java access modifiers</a>.</li>
 <li>Class members without explicit access modifiers have access
 <code>PrivateWithinAccess</code> within the enclosing package.</li>
 <li>The disambiguators for <code>m3()</code>, <code>m3(+1)</code> and <code>m3(+2)</code> do not take into account
 overloaded field <code>m3.</code>.</li>
 </ul>
-<p><strong>Enum declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9">[84]</a> are represented by a single symbol
-with the <code>CLASS</code> kind.</p>
+<p><strong>Enum declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9">[84]</a> are represented by a single symbol with the
+<code>CLASS</code> kind.</p>
 <pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> a;
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Coin {
   PENNY, NICKEL
@@ -3011,25 +2996,25 @@ with the <code>CLASS</code> kind.</p>
 <li><code>STATIC</code>: implicitly set for all enum declarations.</li>
 <li><code>ENUM</code>: implicitly set for all enum declarations.</li>
 </ul></li>
-<li>Display name for enum symbols is equal to the name of the binding
-introduced by the definition.</li>
+<li>Display name for enum symbols is equal to the name of the binding introduced
+by the definition.</li>
 <li>JLS mandates the following synthetic members for enum declarations
 <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.9.3">[86]</a>:
 <ul>
-<li>Enum fields have kind <code>FIELD</code>, properties <code>FINAL</code>, <code>STATIC</code> and <code>ENUM</code>,
-are named after the corresponding enum constants, have the type of the
-enum declaration and <code>PublicAccess</code> access.</li>
-<li><code>valueOf</code> has kind <code>METHOD</code>, property <code>STATIC</code>, have a method type that
-goes from a <code>&lt;String&gt;</code> parameter to the enum declaration and
+<li>Enum fields have kind <code>FIELD</code>, properties <code>FINAL</code>, <code>STATIC</code> and <code>ENUM</code>, are
+named after the corresponding enum constants, have the type of the enum
+declaration and <code>PublicAccess</code> access.</li>
+<li><code>valueOf</code> has kind <code>METHOD</code>, property <code>STATIC</code>, have a method type that goes
+from a <code>&lt;String&gt;</code> parameter to the enum declaration and <code>PublicAccess</code>
+access.</li>
+<li><code>values</code> has kind <code>METHOD</code>, property <code>STATIC</code>, have a method type that goes
+from an empty parameter list to an array of the enum declaration and
 <code>PublicAccess</code> access.</li>
-<li><code>values</code> has kind <code>METHOD</code>, property <code>STATIC</code>, have a method type that
-goes from an empty parameter list to an array of the enum declaration
-and <code>PublicAccess</code> access.</li>
 </ul></li>
 <li>Enum declarations support <a href="#java-access">all Java access modifiers</a>.</li>
 </ul>
-<p><strong>Interface declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.1">[77]</a> are represented by a single symbol
-like classes but with the <code>INTERFACE</code> kind.</p>
+<p><strong>Interface declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.1">[77]</a> are represented by a single symbol like
+classes but with the <code>INTERFACE</code> kind.</p>
 <pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> a;
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">I</span> </span>{
   <span class="hljs-function">T <span class="hljs-title">head</span><span class="hljs-params">()</span></span>;
@@ -3064,14 +3049,13 @@ like classes but with the <code>INTERFACE</code> kind.</p>
 </ul></li>
 <li>Display name for interface symbols is equal to the name of the binding
 introduced by the definition.</li>
-<li>Interface declarations support
-<a href="#java-access">all Java access modifiers</a>.</li>
-<li>Interface members without explicit access modifiers have access
-<code>PublicAccess</code> by default instead of <code>PrivateWithinAccess</code>.</li>
+<li>Interface declarations support <a href="#java-access">all Java access modifiers</a>.</li>
+<li>Interface members without explicit access modifiers have access <code>PublicAccess</code>
+by default instead of <code>PrivateWithinAccess</code>.</li>
 </ul>
-<p><strong>Method declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4">[82]</a> are represented by a single symbol with
-the <code>METHOD</code> kind and one symbol for each type parameter with kind
-<code>TYPE_PARAMETER</code> and formal parameter with kind <code>PARAMETER</code>.</p>
+<p><strong>Method declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4">[82]</a> are represented by a single symbol with the
+<code>METHOD</code> kind and one symbol for each type parameter with kind <code>TYPE_PARAMETER</code>
+and formal parameter with kind <code>PARAMETER</code>.</p>
 <pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> a;
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> </span>{
   <span class="hljs-function">A <span class="hljs-title">m1</span><span class="hljs-params">()</span></span>;
@@ -3132,16 +3116,16 @@ the <code>METHOD</code> kind and one symbol for each type parameter with kind
 <p>Notes:</p>
 <ul>
 <li>For type bounds of type parameters, we leave the mapping between type syntax
-written in source code and <code>Type</code> entities deliberately unspecified.
-For example, a producer may represent the signature of <code>T2</code> as
+written in source code and <code>Type</code> entities deliberately unspecified. For
+example, a producer may represent the signature of <code>T2</code> as
 <code>TypeSignature(List(), None, &lt;Object&gt;)</code> instead of
 <code>TypeSignature(List(), None, None)</code>.</li>
 <li>When compiled with the compiler option <code>-parameters</code>, both display and symbol
 names of method parameters match their names written in source. Otherwise,
 parameters have both display and symbol names <code>paramN</code> where <code>N</code> is the index
 of that given parameter starting at index 0.</li>
-<li>Variable arity parameters have the type equals to <code>RepeatedType(&lt;tpe&gt;)</code>,
-where <code>&lt;tpe&gt;</code> is their type as declared in original source.</li>
+<li>Variable arity parameters have the type equals to <code>RepeatedType(&lt;tpe&gt;)</code>, where
+<code>&lt;tpe&gt;</code> is their type as declared in original source.</li>
 <li>Method throws clauses are not modelled in SemanticDB. We may improve on this
 in the future.</li>
 <li>Supported properties for method symbols are:
@@ -3151,13 +3135,13 @@ in the future.</li>
 <li><code>ABSTRACT</code>: set for <code>abstract</code> methods.</li>
 <li><code>DEFAULT</code>: set for <code>default</code> methods.</li>
 </ul></li>
-<li>Display name for method symbols is equal to the name of the binding
-introduced by the definition.</li>
-<li>Method declarations support <a href="#java-access">all Java access modifiers</a>,
-however method declarations in interfaces can only be <code>PublicAccess</code>.</li>
+<li>Display name for method symbols is equal to the name of the binding introduced
+by the definition.</li>
+<li>Method declarations support <a href="#java-access">all Java access modifiers</a>, however
+method declarations in interfaces can only be <code>PublicAccess</code>.</li>
 </ul>
-<p><strong>Field declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.3">[83]</a> are represented by a single symbol with
-the <code>FIELD</code> kind.</p>
+<p><strong>Field declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.3">[83]</a> are represented by a single symbol with the
+<code>FIELD</code> kind.</p>
 <pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> a;
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> </span>{
   A field;
@@ -3190,10 +3174,10 @@ the <code>FIELD</code> kind.</p>
 <li><code>FINAL</code>: set for <code>final</code> fields and interface fields.</li>
 <li><code>STATIC</code>: set for <code>static</code> fields and interface fields.</li>
 </ul></li>
-<li>Display name for field symbols is equal to the name of the binding
-introduced by the definition.</li>
-<li>Field declarations support <a href="#java-access">all Java access modifiers</a>.
-However, field declarations in interfaces can only be <code>PublicAccess</code>.</li>
+<li>Display name for field symbols is equal to the name of the binding introduced
+by the definition.</li>
+<li>Field declarations support <a href="#java-access">all Java access modifiers</a>. However,
+field declarations in interfaces can only be <code>PublicAccess</code>.</li>
 </ul>
 <p><strong>Constructor declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.8">[90]</a> are represented by a single symbol
 with display and symbol name <code>&lt;init&gt;</code> and the <code>CONSTRUCTOR</code> kind. Constructor
@@ -3242,23 +3226,21 @@ parameters.</p>
 <p>Notes:</p>
 <ul>
 <li>Constructors don't have type parameters and return types, but we still
-represent their signatures with <code>MethodSignature</code>. In these signatures,
-type parameters are equal to <code>List()</code> and the return type is <code>None</code>.</li>
+represent their signatures with <code>MethodSignature</code>. In these signatures, type
+parameters are equal to <code>List()</code> and the return type is <code>None</code>.</li>
 <li>Constructor declarations support no properties.</li>
 <li>Display name for constructor symbols is equal to <code>&lt;init&gt;</code>.</li>
-<li>Constructor declarations support
-<a href="#java-access">all Java access modifiers</a>.</li>
+<li>Constructor declarations support <a href="#java-access">all Java access modifiers</a>.</li>
 </ul>
 <p><strong>Packages</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-7.html">[94]</a> are not included in the
 <a href="#symbolinformation">&quot;Symbols&quot;</a> section.</p>
 <p><a name="java-root-package"></a></p>
 <h4><a class="anchor" aria-hidden="true" id="root-package"></a><a href="#root-package" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Root package</h4>
-<p>The root package is a synthetic package that does not exist in the JLS but
-has an equivalent in the SLS <a href="https://www.scala-lang.org/files/archive/spec/2.12/09-top-level-definitions.html#package-references">[20]</a>.
-The root package is the owner of all unnamed and all top-level named packages.
-The motivation to define a root package for the Java language is to keep
-consistency with how package owners are modelled in
-<a href="#scala-symbol">Scala symbols</a>.</p>
+<p>The root package is a synthetic package that does not exist in the JLS but has
+an equivalent in the SLS <a href="https://www.scala-lang.org/files/archive/spec/2.12/09-top-level-definitions.html#package-references">[20]</a>. The root package is the owner of all
+unnamed and all top-level named packages. The motivation to define a root
+package for the Java language is to keep consistency with how package owners are
+modelled in <a href="#scala-symbol">Scala symbols</a>.</p>
 <p><a name="java-annotation"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="annotation-2"></a><a href="#annotation-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Annotation</h3>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Annotation</span> </span>{
@@ -3266,8 +3248,8 @@ consistency with how package owners are modelled in
 }
 </code></pre>
 <p>In Java, <a href="#annotation">Annotation</a> represents <code>access_flags</code> in the JVMS <code>class</code>
-file format <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html">[92]</a> but not the actual annotations <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.7">[93]</a>.
-We may improve on this in the future.</p>
+file format <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html">[92]</a> but not the actual annotations <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.7">[93]</a>. We may
+improve on this in the future.</p>
 <table>
   <tr>
     <td><b>Value</b></td>
@@ -3319,8 +3301,7 @@ We may improve on this in the future.</p>
 <span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">PublicAccess</span> </span>{
 }
 </code></pre>
-<p>In Java, <a href="#access">Access</a> represents access control <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html#jls-6.6">[87]</a>
-of names.</p>
+<p>In Java, <a href="#access">Access</a> represents access control <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-6.html#jls-6.6">[87]</a> of names.</p>
 <table>
   <tr>
     <td><b>Access</b></td>
@@ -3379,18 +3360,18 @@ of names.</p>
 </table>
 <p>Notes:</p>
 <ul>
-<li><code>PrivateThisAccess</code>, <code>ProtectedThisAccess</code>, <code>ProtectedWithinAccess</code>
-are not supported in the Java language.</li>
+<li><code>PrivateThisAccess</code>, <code>ProtectedThisAccess</code>, <code>ProtectedWithinAccess</code> are not
+supported in the Java language.</li>
 </ul>
 <p><a name="java-symboloccurrence"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="symboloccurrence-2"></a><a href="#symboloccurrence-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SymbolOccurrence</h3>
-<p>At this moment, there is no tool that supports SymbolOccurrences for
-the Java language. We intend to improve on this in the future.</p>
+<p>At this moment, there is no tool that supports SymbolOccurrences for the Java
+language. We intend to improve on this in the future.</p>
 <p><a name="java-synthetic"></a></p>
 <h3><a class="anchor" aria-hidden="true" id="synthetic-2"></a><a href="#synthetic-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Synthetic</h3>
-<p>At this moment, there is no tool that supports Synthetic for
-the Java language. We may improve on this in the future.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/semanticdb/guide.html"><span class="arrow-prev">← </span><span>Guide</span></a><a class="docs-next button" href="/docs/misc/built-with-scalameta.html"><span>Built with Scalameta</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#data-model">Data Model</a><ul class="toc-headings"><li><a href="#textdocument">TextDocument</a></li><li><a href="#language">Language</a></li><li><a href="#uri">URI</a></li><li><a href="#range">Range</a></li><li><a href="#location">Location</a></li><li><a href="#symbol">Symbol</a></li><li><a href="#scope">Scope</a></li><li><a href="#constant">Constant</a></li><li><a href="#type">Type</a></li><li><a href="#signature">Signature</a></li><li><a href="#symbolinformation">SymbolInformation</a></li><li><a href="#annotation">Annotation</a></li><li><a href="#access">Access</a></li><li><a href="#symboloccurrence">SymbolOccurrence</a></li><li><a href="#diagnostic">Diagnostic</a></li><li><a href="#synthetic">Synthetic</a></li><li><a href="#tree">Tree</a></li></ul></li><li><a href="#data-schemas">Data Schemas</a><ul class="toc-headings"><li><a href="#protobuf">Protobuf</a></li></ul></li><li><a href="#languages">Languages</a><ul class="toc-headings"><li><a href="#notation">Notation</a></li></ul></li><li><a href="#scala">Scala</a><ul class="toc-headings"><li><a href="#symbol-1">Symbol</a></li><li><a href="#type-1">Type</a></li><li><a href="#signature-1">Signature</a></li><li><a href="#symbolinformation-1">SymbolInformation</a></li><li><a href="#annotation-1">Annotation</a></li><li><a href="#access-1">Access</a></li><li><a href="#symboloccurrence-1">SymbolOccurrence</a></li><li><a href="#synthetic-1">Synthetic</a></li></ul></li><li><a href="#java">Java</a><ul class="toc-headings"><li><a href="#symbol-2">Symbol</a></li><li><a href="#type-2">Type</a></li><li><a href="#signature-2">Signature</a></li><li><a href="#symbolinformation-2">SymbolInformation</a></li><li><a href="#annotation-2">Annotation</a></li><li><a href="#access-2">Access</a></li><li><a href="#symboloccurrence-2">SymbolOccurrence</a></li><li><a href="#synthetic-2">Synthetic</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2019 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+<p>At this moment, there is no tool that supports Synthetic for the Java language.
+We may improve on this in the future.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/semanticdb/guide.html"><span class="arrow-prev">← </span><span>Guide</span></a><a class="docs-next button" href="/docs/misc/built-with-scalameta.html"><span>Built with Scalameta</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#data-model">Data Model</a><ul class="toc-headings"><li><a href="#textdocument">TextDocument</a></li><li><a href="#language">Language</a></li><li><a href="#uri">URI</a></li><li><a href="#range">Range</a></li><li><a href="#location">Location</a></li><li><a href="#symbol">Symbol</a></li><li><a href="#scope">Scope</a></li><li><a href="#constant">Constant</a></li><li><a href="#type">Type</a></li><li><a href="#signature">Signature</a></li><li><a href="#symbolinformation">SymbolInformation</a></li><li><a href="#annotation">Annotation</a></li><li><a href="#access">Access</a></li><li><a href="#symboloccurrence">SymbolOccurrence</a></li><li><a href="#diagnostic">Diagnostic</a></li><li><a href="#synthetic">Synthetic</a></li><li><a href="#tree">Tree</a></li></ul></li><li><a href="#data-schemas">Data Schemas</a><ul class="toc-headings"><li><a href="#protobuf">Protobuf</a></li></ul></li><li><a href="#languages">Languages</a><ul class="toc-headings"><li><a href="#notation">Notation</a></li></ul></li><li><a href="#scala">Scala</a><ul class="toc-headings"><li><a href="#symbol-1">Symbol</a></li><li><a href="#type-1">Type</a></li><li><a href="#signature-1">Signature</a></li><li><a href="#symbolinformation-1">SymbolInformation</a></li><li><a href="#annotation-1">Annotation</a></li><li><a href="#access-1">Access</a></li><li><a href="#symboloccurrence-1">SymbolOccurrence</a></li><li><a href="#synthetic-1">Synthetic</a></li></ul></li><li><a href="#java">Java</a><ul class="toc-headings"><li><a href="#symbol-2">Symbol</a></li><li><a href="#type-2">Type</a></li><li><a href="#signature-2">Signature</a></li><li><a href="#symbolinformation-2">SymbolInformation</a></li><li><a href="#annotation-2">Annotation</a></li><li><a href="#access-2">Access</a></li><li><a href="#symboloccurrence-2">SymbolOccurrence</a></li><li><a href="#synthetic-2">Synthetic</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2020 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
