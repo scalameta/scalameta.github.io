@@ -65,39 +65,11 @@ with SemanticDB. If you're looking for a comprehensive reference of SemanticDB
 features, check out <a href="specification.html">the specification</a>.</p>
 <h2><a class="anchor" aria-hidden="true" id="installation"></a><a href="#installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p>This guide covers several non-standard command-line tools: <code>metac</code> and <code>metap</code>.
-To install these tools on your computer, you can do the following:</p>
-<ul>
-<li>Install the <code>coursier</code> command-line tool by following the
-<a href="https://github.com/coursier/coursier/#command-line">instructions here</a>. Make
-sure you are using the latest coursier version (1.1.0-M6 or newer).</li>
-</ul>
-<pre><code class="hljs css language-bash">curl -Lo coursier https://git.io/coursier-cli &amp;&amp; chmod +x coursier
-</code></pre>
-<ul>
-<li>Add the following aliases to your shell:</li>
-</ul>
+First, install the <code>coursier</code> command-line tool by following the
+<a href="https://get-coursier.io/docs/cli-installation">instructions here</a>. Next, use
+coursier to install metac and metap.</p>
 <p><a href="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12"><img src="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12/badge.svg" alt="Maven Central"></a></p>
-<pre><code class="hljs css language-bash"><span class="hljs-built_in">alias</span> metac=<span class="hljs-string">"coursier launch org.scalameta:metac_2.12.8:4.1.9 -- -cp <span class="hljs-variable">$(coursier fetch -p org.scala-lang:scala-library:2.12.8)</span>"</span>
-<span class="hljs-built_in">alias</span> metap=<span class="hljs-string">"coursier launch  -M scala.meta.cli.Metap org.scalameta:scalameta_2.11:4.1.9 --"</span>
-</code></pre>
-<p>NOTE. These installation instructions are for the current unstable <code>master</code>
-branch, it's recommended to view this document at the latest git tag instead of
-<code>master</code>.</p>
-<p>(Optional) Instead of running <code>metap</code> on the JVM, you can build a native binary
-on macOS or Linux. Thanks to
-<a href="https://scala-native.readthedocs.io/en/latest/">Scala Native</a>, native Metap
-works much faster than regular Metap (on a personal laptop of one of the authors
-of this guide, a simple Metap invocation takes 500+ ms on JVM and 10 ms on
-native).</p>
-<ol>
-<li>Install the
-<a href="https://github.com/coursier/coursier/#command-line-1"><code>coursier</code></a>
-command-line version 1.1.0-M6 or later.</li>
-<li>Setup the
-<a href="http://www.scala-native.org/en/latest/user/setup.html#installing-clang-and-runtime-dependencies">development environment for Scala Native</a>.</li>
-<li>Link a native <code>metap</code> binary.</li>
-</ol>
-<pre><code class="hljs css language-bash">coursier bootstrap org.scalameta:metap_native0.3_2.11:4.1.0 -o metap -f --native --main scala.meta.cli.Metap
+<pre><code class="hljs">cs <span class="hljs-keyword">install</span> metac metap
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
 <p>Let's generate SemanticDB for a simple Scala program. (At the moment, our
@@ -115,13 +87,11 @@ yet).</p>
 <p>In order to obtain a SemanticDB corresponding to this program, let's use the
 Metac command-line tool. For more information on other tools that can produce
 SemanticDB, <a href="#producing-semanticdb">see below</a>.</p>
-<pre><code class="hljs">$ metac <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Test</span>.</span></span>scala
+<pre><code class="hljs css language-sh">metac Test.scala
 </code></pre>
 <p><code>metac</code> is a thin wrapper over the Scala compiler. It supports the same
 command-line arguments as <code>scalac</code> supports, but instead of generating .class
-files it generates .semanticdb files. Newer versions of Metac may also generate
-an accompanying .semanticidx file, but it's an experimental feature, so we won't
-be discussing it in this document.</p>
+files it generates .semanticdb files.</p>
 <pre><code class="hljs">$ tree
 .
 ├── <span class="hljs-keyword">META</span>-<span class="hljs-keyword">INF</span>
@@ -374,40 +344,8 @@ example of using Metac, check out <a href="#example">Example</a>.</p>
 <p>In order to enable <code>semanticdb-scalac</code> for your sbt project, add the following
 to your build. Note that the compiler plugin requires the <code>-Yrangepos</code> compiler
 option to be enabled.</p>
-<pre><code class="hljs css language-scala">addCompilerPlugin(<span class="hljs-string">"org.scalameta"</span> % <span class="hljs-string">"semanticdb-scalac"</span> % <span class="hljs-string">"4.1.0"</span> cross <span class="hljs-type">CrossVersion</span>.full)
+<pre><code class="hljs css language-scala">addCompilerPlugin(<span class="hljs-string">"org.scalameta"</span> % <span class="hljs-string">"semanticdb-scalac"</span> % <span class="hljs-string">"4.3.8"</span> cross <span class="hljs-type">CrossVersion</span>.full)
 scalacOptions += <span class="hljs-string">"-Yrangepos"</span>
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="javac-compiler-plugin"></a><a href="#javac-compiler-plugin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Javac compiler plugin</h3>
-<p>The <code>semanticdb-javac</code> compiler plugin collects and dumps SemanticDB information
-after the analyze phase of the Java compiler. It currently only produces symbol
-information, not occurrences.</p>
-<p>To use it, follow these instructions:</p>
-<ol>
-<li><p>Install the plugin by adding a dependency to <code>org.scalameta:semanticdb-javac</code>
-in your build, or by running:</p>
-<p><code>$ coursier fetch --intransitive org.scalameta:semanticdb-javac_2.12:4.1.0</code></p></li>
-<li><p>Add the plugin to your build's compile classpath. If invoking <code>javac</code>
-directly add it as one of the listed <code>-cp</code> entries. Otherwise, adding the
-plugin as a library dependency in your build tool should be enough.</p></li>
-<li><p>Add the following javac option:</p>
-<p><code>&quot;-Xplugin:semanticdb &lt;target-dir&gt; --sourceroot &lt;source-root&gt;&quot;</code></p>
-<blockquote>
-<p><strong>Note</strong>: Giving quotes around this option is necessary on the command
-line, as that is how javac is able to tell what arguments belong to the
-plugin. If you are constructing the javac command programmatically as a
-sequence of string arguments, then this should be a single string without
-quotes.</p>
-</blockquote>
-<p>Replace <code>&lt;target-dir&gt;</code> with whatever directory you want the generated
-SemanticDB to live in, and replace <code>&lt;source-root&gt;</code> with the root you want
-source file URIs to be relative to. If <code>&lt;source-root&gt;</code> is omitted, it
-defaults to the current working directory.</p></li>
-</ol>
-<p>For example, a full javac invocation using the plugin would look like:</p>
-<pre><code class="hljs">javac "-Xplugin:semanticdb java-project/target/semanticdb --sourceroot java-project/" \
-  -<span class="ruby">cp &lt;classpath&gt;<span class="hljs-symbol">:&lt;path-to-semanticdb-javac</span>.jar&gt; \
-</span>  -<span class="ruby">d java-project/target/classes \
-</span>  java-project/src/main/File1.java java-project/src/main/File2.java
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="consuming-semanticdb"></a><a href="#consuming-semanticdb" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Consuming SemanticDB</h2>
 <h3><a class="anchor" aria-hidden="true" id="scala-bindings"></a><a href="#scala-bindings" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scala bindings</h3>
@@ -416,13 +354,8 @@ to
 <a href="https://github.com/scalameta/scalameta/blob/master/semanticdb/semanticdb/semanticdb.proto">the SemanticDB protobuf schema</a>.
 Using this library, one can model SemanticDB entities as Scala case classes and
 serialize/deserialize them into bytes and streams.</p>
-<pre><code class="hljs">libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"semanticdb"</span> % <span class="hljs-string">"4.1.0"</span>
+<pre><code class="hljs">libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"semanticdb"</span> % <span class="hljs-string">"4.3.8"</span>
 </code></pre>
-<p><code>semanticdb</code> is available for all supported Scala platforms - JVM, Scala.js and
-Scala Native. For more information, check out autogenerated documentation for
-<a href="https://static.javadoc.io/org.scalameta/semanticdb_2.11/4.1.0/scala/meta/internal/semanticdb/TextDocuments.html">Scala 2.11</a>
-and
-<a href="https://static.javadoc.io/org.scalameta/semanticdb_2.12/4.1.0/scala/meta/internal/semanticdb/TextDocuments.html">Scala 2.12</a>.</p>
 <p>Caveats:</p>
 <ul>
 <li>At the moment, there are no compatibility guarantees for Scala bindings to the
@@ -612,7 +545,7 @@ consult results of previous typechecks and accommodate certain edits by simply
 shifting offsets in old SemanticDB snapshots. This technique is surprisingly
 effective for supporting minor edits that result in temporarily invalid code.</li>
 </ul>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/trees/scaladoc.html"><span class="arrow-prev">← </span><span>Scaladoc</span></a><a class="docs-next button" href="/docs/semanticdb/specification.html"><span>Specification</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installation">Installation</a></li><li><a href="#example">Example</a></li><li><a href="#what-is-semanticdb-good-for">What is SemanticDB good for?</a></li><li><a href="#producing-semanticdb">Producing SemanticDB</a><ul class="toc-headings"><li><a href="#scalac-compiler-plugin">Scalac compiler plugin</a></li><li><a href="#metac">Metac</a></li><li><a href="#sbt">sbt</a></li><li><a href="#javac-compiler-plugin">Javac compiler plugin</a></li></ul></li><li><a href="#consuming-semanticdb">Consuming SemanticDB</a><ul class="toc-headings"><li><a href="#scala-bindings">Scala bindings</a></li><li><a href="#metap">Metap</a></li><li><a href="#protoc">Protoc</a></li></ul></li><li><a href="#semanticdb-based-tools">SemanticDB-based tools</a><ul class="toc-headings"><li><a href="#scalafix">Scalafix</a></li><li><a href="#metadoc">Metadoc</a></li><li><a href="#metals">Metals</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2020 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/trees/scaladoc.html"><span class="arrow-prev">← </span><span>Scaladoc</span></a><a class="docs-next button" href="/docs/semanticdb/specification.html"><span>Specification</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installation">Installation</a></li><li><a href="#example">Example</a></li><li><a href="#what-is-semanticdb-good-for">What is SemanticDB good for?</a></li><li><a href="#producing-semanticdb">Producing SemanticDB</a><ul class="toc-headings"><li><a href="#scalac-compiler-plugin">Scalac compiler plugin</a></li><li><a href="#metac">Metac</a></li><li><a href="#sbt">sbt</a></li></ul></li><li><a href="#consuming-semanticdb">Consuming SemanticDB</a><ul class="toc-headings"><li><a href="#scala-bindings">Scala bindings</a></li><li><a href="#metap">Metap</a></li><li><a href="#protoc">Protoc</a></li></ul></li><li><a href="#semanticdb-based-tools">SemanticDB-based tools</a><ul class="toc-headings"><li><a href="#scalafix">Scalafix</a></li><li><a href="#metadoc">Metadoc</a></li><li><a href="#metals">Metals</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Community</h5><a href="https://gitter.im/scalameta/scalameta" target="_blank">Chat on Gitter</a></div><div><h5>More</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></div></section><section class="copyright">Copyright © 2020 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
