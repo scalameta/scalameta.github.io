@@ -66,7 +66,7 @@ this guide, you will learn how to</p>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="installation"></a><a href="#installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p>Add a dependency to Scalameta in your build to get started. Scalameta supports
-Scala 2.11, Scala 2.12, Scala.js and Scala Native.</p>
+Scala 2.11, Scala 2.12, Scala 2.13, Scala.js and Scala Native.</p>
 <h3><a class="anchor" aria-hidden="true" id="sbt"></a><a href="#sbt" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>sbt</h3>
 <pre><code class="hljs css language-scala"><span class="hljs-comment">// build.sbt</span>
 libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"scalameta"</span> % <span class="hljs-string">"4.3.13"</span>
@@ -93,7 +93,7 @@ programmatically analyze programs. Scalameta has syntax trees that represent
 Scala programs.</p>
 <p><img src="/docs/assets/tree.svg" alt=""></p>
 <p>Scalameta trees are <strong>lossless</strong>, meaning that they represent Scala programs in
-sufficient to go from text to trees and vice-versa. Lossless syntax trees are
+sufficient detail to go from text to trees and vice-versa. Lossless syntax trees are
 great for fine-grained analysis of source code, which is useful for a range of
 applications including formatting, refactoring, linting and documentation tools</p>
 <h2><a class="anchor" aria-hidden="true" id="parse-trees"></a><a href="#parse-trees" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parse trees</h2>
@@ -135,7 +135,7 @@ into a string and then construct a virtual file</p>
 <span class="hljs-comment">// object Example extends App { println("Hello from a file!") }</span>
 </code></pre>
 <p>The difference between <code>text.parse[Source]</code> and <code>input.parse[Source]</code> is that
-the filename appear in error messages for <code>Input.VirtualFile</code>.</p>
+the filename appears in error messages for <code>Input.VirtualFile</code>.</p>
 <pre><code class="hljs css language-scala">println(
   <span class="hljs-type">Input</span>.<span class="hljs-type">VirtualFile</span>(<span class="hljs-string">"example.scala"</span>, <span class="hljs-string">"object Main {"</span>).parse[<span class="hljs-type">Source</span>]
 )
@@ -379,7 +379,7 @@ quasiquotes produce different references</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"true"</span> == <span class="hljs-string">q"true"</span>
 <span class="hljs-comment">// res27: Boolean = false</span>
 </code></pre>
-<p>Equality checks with <code>==</code> will only return true when the reference is the same.j</p>
+<p>Equality checks with <code>==</code> will only return true when the reference is the same.</p>
 <pre><code class="hljs css language-scala">{ <span class="hljs-keyword">val</span> treeReference = <span class="hljs-string">q"true"</span>
   treeReference == treeReference }
 <span class="hljs-comment">// res28: Boolean = true</span>
