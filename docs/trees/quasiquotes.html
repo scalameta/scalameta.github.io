@@ -70,7 +70,7 @@ the end of the document.</p>
 <tr><td>Literal</td><td><code>q&quot;&lt;literal&gt;&quot;</code></td></tr>
 <tr><td>This</td><td><code>q&quot;this&quot;</code>, <code>q&quot;$name.this&quot;</code></td></tr>
 <tr><td>Super</td><td><code>q&quot;super&quot;</code>, <code>q&quot;$name.super&quot;</code>, <code>q&quot;super[$name]&quot;</code>, <code>q&quot;$name.super[$name]&quot;</code></td></tr>
-<tr><td>Name</td><td><code>q&quot;&lt;name&gt;&quot;</code></td></tr>
+<tr><td>Name</td><td><code>q&quot;&lt;name&gt;&quot;</code> when interpolation is not needed, otherwise <code>Term.Name(name)</code></td></tr>
 <tr><td>Selection</td><td><code>q&quot;$expr.$ename&quot;</code></td></tr>
 <tr><td>Interpolation</td><td>Not supported yet</td></tr>
 <tr><td>Application</td><td><code>q&quot;$expr(...$exprss)&quot;</code></td></tr>
@@ -108,7 +108,7 @@ the end of the document.</p>
 </thead>
 <tbody>
 <tr><td>Literal</td><td><code>t&quot;&lt;literal&gt;&quot;</code></td></tr>
-<tr><td>Name</td><td><code>t&quot;&lt;name&gt;&quot;</code></td></tr>
+<tr><td>Name</td><td><code>t&quot;&lt;name&gt;&quot;</code> when interpolation is not needed, otherwise <code>Type.Name(name)</code></td></tr>
 <tr><td>Selection</td><td><code>t&quot;$eref.$tname&quot;</code></td></tr>
 <tr><td>Projection</td><td><code>t&quot;$tpe#$tname&quot;</code></td></tr>
 <tr><td>Singleton</td><td><code>t&quot;$eref.type&quot;</code></td></tr>
