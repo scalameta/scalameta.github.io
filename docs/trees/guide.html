@@ -152,7 +152,7 @@ stands for &quot;statement&quot;.</p>
 <p>If we try to parse an expression with <code>parse[Source]</code> we get an error because
 <code>a + b</code> is not valid at the top-level for Scala programs</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"a + b"</span>.parse[<span class="hljs-type">Source</span>])
-<span class="hljs-comment">// &lt;input&gt;:1: error: expected class or object definition</span>
+<span class="hljs-comment">// &lt;input&gt;:1: error: expected class or object definition identifier</span>
 <span class="hljs-comment">// a + b</span>
 <span class="hljs-comment">// ^</span>
 </code></pre>
@@ -176,7 +176,7 @@ val cli = project.dependsOn(core)
 """
 </code></pre>
 <pre><code class="hljs css language-scala">println(buildSbt.parse[<span class="hljs-type">Source</span>])
-<span class="hljs-comment">// &lt;input&gt;:2: error: expected class or object definition</span>
+<span class="hljs-comment">// &lt;input&gt;:2: error: expected class or object definition val</span>
 <span class="hljs-comment">// val core = project</span>
 <span class="hljs-comment">// ^</span>
 </code></pre>
@@ -204,7 +204,7 @@ normal Scala programs. To fix this problem, wrap the input with <code>dialects.S
 <pre><code class="hljs css language-scala">println(
   dialects.<span class="hljs-type">Sbt1</span>(<span class="hljs-string">"package library; object Main"</span>).parse[<span class="hljs-type">Source</span>]
 )
-<span class="hljs-comment">// &lt;input&gt;:1: error: illegal start of definition</span>
+<span class="hljs-comment">// &lt;input&gt;:1: error: illegal start of definition package</span>
 <span class="hljs-comment">// package library; object Main</span>
 <span class="hljs-comment">// ^</span>
 </code></pre>
