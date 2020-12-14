@@ -253,17 +253,23 @@ for example that formatting details or comments are not preserved</p>
 <p>Quasiquotes can be composed together like normal string interpolators with
 dollar splices <code>$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> left = <span class="hljs-string">q"Left()"</span>
-<span class="hljs-comment">// left: Term.Apply = Term.Apply( = Term.Name( = "Left"),  = List())</span>
+<span class="hljs-comment">// left: Term.Apply = Term.Apply(</span>
+<span class="hljs-comment">//   fun = Term.Name(value = "Left"),</span>
+<span class="hljs-comment">//   args = List()</span>
+<span class="hljs-comment">// )</span>
 <span class="hljs-keyword">val</span> right = <span class="hljs-string">q"Right()"</span>
-<span class="hljs-comment">// right: Term.Apply = Term.Apply( = Term.Name( = "Right"),  = List())</span>
+<span class="hljs-comment">// right: Term.Apply = Term.Apply(</span>
+<span class="hljs-comment">//   fun = Term.Name(value = "Right"),</span>
+<span class="hljs-comment">//   args = List()</span>
+<span class="hljs-comment">// )</span>
 println(<span class="hljs-string">q"<span class="hljs-subst">$left</span> + <span class="hljs-subst">$right</span>"</span>)
 <span class="hljs-comment">// Left() + Right()</span>
 </code></pre>
 <p>A list of trees can be inserted into a quasiquote with double dots <code>..$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> arguments = <span class="hljs-type">List</span>(<span class="hljs-string">q"arg1"</span>, <span class="hljs-string">q"arg2"</span>)
 <span class="hljs-comment">// arguments: List[Term.Name] = List(</span>
-<span class="hljs-comment">//   Term.Name( = "arg1"),</span>
-<span class="hljs-comment">//   Term.Name( = "arg2")</span>
+<span class="hljs-comment">//   Term.Name(value = "arg1"),</span>
+<span class="hljs-comment">//   Term.Name(value = "arg2")</span>
 <span class="hljs-comment">// )</span>
 println(<span class="hljs-string">q"function(..<span class="hljs-subst">$arguments</span>)"</span>)
 <span class="hljs-comment">// function(arg1, arg2)</span>
@@ -272,13 +278,13 @@ println(<span class="hljs-string">q"function(..<span class="hljs-subst">$argumen
 dots <code>...$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> arguments2 = <span class="hljs-type">List</span>(<span class="hljs-string">q"arg3"</span>, <span class="hljs-string">q"arg4"</span>)
 <span class="hljs-comment">// arguments2: List[Term.Name] = List(</span>
-<span class="hljs-comment">//   Term.Name( = "arg3"),</span>
-<span class="hljs-comment">//   Term.Name( = "arg4")</span>
+<span class="hljs-comment">//   Term.Name(value = "arg3"),</span>
+<span class="hljs-comment">//   Term.Name(value = "arg4")</span>
 <span class="hljs-comment">// )</span>
 <span class="hljs-keyword">val</span> allArguments = <span class="hljs-type">List</span>(arguments, arguments2)
 <span class="hljs-comment">// allArguments: List[List[Term.Name]] = List(</span>
-<span class="hljs-comment">//   List(Term.Name( = "arg1"), Term.Name( = "arg2")),</span>
-<span class="hljs-comment">//   List(Term.Name( = "arg3"), Term.Name( = "arg4"))</span>
+<span class="hljs-comment">//   List(Term.Name(value = "arg1"), Term.Name(value = "arg2")),</span>
+<span class="hljs-comment">//   List(Term.Name(value = "arg3"), Term.Name(value = "arg4"))</span>
 <span class="hljs-comment">// )</span>
 println(<span class="hljs-string">q"function(...<span class="hljs-subst">$allArguments</span>)"</span>)
 <span class="hljs-comment">// function(arg1, arg2)(arg3, arg4)</span>
