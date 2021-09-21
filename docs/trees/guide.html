@@ -374,7 +374,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt; <span class="hljs-comment">// boom!</span>
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$42.apply(guide.md:265)</span>
+<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$42.apply(guide.md:267)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
