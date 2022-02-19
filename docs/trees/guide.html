@@ -305,8 +305,8 @@ message &quot;invariant failed&quot;</p>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.internal$53(Trees.scala:90)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:90)</span>
-<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$36.apply(guide.md:214)</span>
-<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$36.apply(guide.md:214)</span>
+<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$1.apply(guide.md:214)</span>
+<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$1.apply(guide.md:214)</span>
 </code></pre>
 <p>The quasiquote above is equivalent to calling the normal constructor
 <code>Type.ApplyType(.., typeArguments)</code>. Scalameta trees perform strict runtime
@@ -372,7 +372,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt; <span class="hljs-comment">// boom!</span>
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$42.apply(guide.md:267)</span>
+<span class="hljs-comment">//  at repl.MdocSession$App$$anonfun$2.apply(guide.md:267)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
