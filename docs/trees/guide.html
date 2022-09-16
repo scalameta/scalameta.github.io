@@ -299,8 +299,9 @@ nodes . Imagine we have a list of type arguments that happens to be empty</p>
 message &quot;invariant failed&quot;</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>
 <span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed:</span>
-<span class="hljs-comment">// when verifying targs.!=(null).&amp;&amp;(targs.nonEmpty)</span>
-<span class="hljs-comment">// found that targs.nonEmpty is false</span>
+<span class="hljs-comment">// when verifying targs.!=(null).&amp;&amp;(targs.isInstanceOf[scala.meta.internal.trees.Quasi].||(targs.nonEmpty))</span>
+<span class="hljs-comment">// found that targs.isInstanceOf[scala.meta.internal.trees.Quasi] is false</span>
+<span class="hljs-comment">// and also targs.nonEmpty is false</span>
 <span class="hljs-comment">// where targs = List()</span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.internal$54(Trees.scala:96)</span>
