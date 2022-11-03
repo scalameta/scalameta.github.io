@@ -151,7 +151,7 @@ the filename appears in error messages for <code>Input.VirtualFile</code>.</p>
 <p>To parse a simple expressions such as <code>a + b</code> use <code>parse[Stat]</code> The name <code>Stat</code>
 stands for &quot;statement&quot;.</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"a + b"</span>.parse[<span class="hljs-type">Stat</span>].get.structure)
-<span class="hljs-comment">// Term.ApplyInfix(Term.Name("a"), Term.Name("+"), Nil, List(Term.Name("b")))</span>
+<span class="hljs-comment">// Term.ApplyInfix(Term.Name("a"), Term.Name("+"), Type.ArgClause(Nil), List(Term.Name("b")))</span>
 </code></pre>
 <p>If we try to parse an expression with <code>parse[Source]</code> we get an error because
 <code>a + b</code> is not valid at the top-level for Scala programs</p>
@@ -299,10 +299,10 @@ nodes . Imagine we have a list of type arguments that happens to be empty</p>
 message &quot;invariant failed&quot;</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>
 <span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed:</span>
-<span class="hljs-comment">// when verifying targs.!=(null).&amp;&amp;(targs.isInstanceOf[scala.meta.internal.trees.Quasi].||(targs.nonEmpty))</span>
-<span class="hljs-comment">// found that targs.isInstanceOf[scala.meta.internal.trees.Quasi] is false</span>
-<span class="hljs-comment">// and also targs.nonEmpty is false</span>
-<span class="hljs-comment">// where targs = List()</span>
+<span class="hljs-comment">// when verifying targClause.!=(null).&amp;&amp;(targClause.isInstanceOf[scala.meta.internal.trees.Quasi].||(targClause.nonEmpty))</span>
+<span class="hljs-comment">// found that targClause.isInstanceOf[scala.meta.internal.trees.Quasi] is false</span>
+<span class="hljs-comment">// and also targClause.nonEmpty is false</span>
+<span class="hljs-comment">// where targClause = </span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:95)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$internal$Impl$.apply(Trees.scala:95)</span>
@@ -373,7 +373,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt; <span class="hljs-comment">// boom!</span>
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$2.apply(guide.md:267)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:267)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
