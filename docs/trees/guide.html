@@ -151,7 +151,7 @@ the filename appears in error messages for <code>Input.VirtualFile</code>.</p>
 <p>To parse a simple expressions such as <code>a + b</code> use <code>parse[Stat]</code> The name <code>Stat</code>
 stands for &quot;statement&quot;.</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"a + b"</span>.parse[<span class="hljs-type">Stat</span>].get.structure)
-<span class="hljs-comment">// Term.ApplyInfix(Term.Name("a"), Term.Name("+"), Type.ArgClause(Nil), List(Term.Name("b")))</span>
+<span class="hljs-comment">// Term.ApplyInfix(Term.Name("a"), Term.Name("+"), Type.ArgClause(Nil), Term.ArgClause(List(Term.Name("b")), None))</span>
 </code></pre>
 <p>If we try to parse an expression with <code>parse[Source]</code> we get an error because
 <code>a + b</code> is not valid at the top-level for Scala programs</p>
@@ -223,7 +223,7 @@ constructors and quasiquotes.</p>
 constructing trees.</p>
 <p>To learn tree node names you can use <code>.structure</code> on existing tree nodes</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"function(argument)"</span>.parse[<span class="hljs-type">Stat</span>].get.structure)
-<span class="hljs-comment">// Term.Apply(Term.Name("function"), List(Term.Name("argument")))</span>
+<span class="hljs-comment">// Term.Apply(Term.Name("function"), Term.ArgClause(List(Term.Name("argument")), None))</span>
 </code></pre>
 <p>The output of structure is safe to copy-paste into programs.</p>
 <p>Another good way to learn the structure of trees is
@@ -232,7 +232,7 @@ constructing trees.</p>
 <p>Quasiquotes are string interpolators that expand at compile-time into normal
 constructor calls</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">q"function(argument)"</span>.structure)
-<span class="hljs-comment">// Term.Apply(Term.Name("function"), List(Term.Name("argument")))</span>
+<span class="hljs-comment">// Term.Apply(Term.Name("function"), Term.ArgClause(List(Term.Name("argument")), None))</span>
 </code></pre>
 <p>You can write multiline quasiquotes to construct large programs</p>
 <pre><code class="hljs css language-scala">println(
@@ -242,7 +242,7 @@ constructor calls</p>
   }
   """.structure
 )
-// Defn.Object(Nil, Term.Name("Example"), Template(Nil, List(Init(Type.Name("App"), Name(""), Nil)), Self(Name(""), None), List(Term.Apply(Term.Name("println"), List(Lit.Int(42)))), Nil))
+// Defn.Object(Nil, Term.Name("Example"), Template(Nil, List(Init(Type.Name("App"), Name(""), Nil)), Self(Name(""), None), List(Term.Apply(Term.Name("println"), Term.ArgClause(List(Lit.Int(42)), None))), Nil))
 </code></pre>
 <blockquote>
 <p>It's important to keep in mind that quasiquotes expand at compile-time into
@@ -257,12 +257,12 @@ dollar splices <code>$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> left = <span class="hljs-string">q"Left()"</span>
 <span class="hljs-comment">// left: Term.Apply = Term.Apply(</span>
 <span class="hljs-comment">//   fun = Term.Name(value = "Left"),</span>
-<span class="hljs-comment">//   args = List()</span>
+<span class="hljs-comment">//   argClause = Term.ArgClause(values = List(), mod = None)</span>
 <span class="hljs-comment">// )</span>
 <span class="hljs-keyword">val</span> right = <span class="hljs-string">q"Right()"</span>
 <span class="hljs-comment">// right: Term.Apply = Term.Apply(</span>
 <span class="hljs-comment">//   fun = Term.Name(value = "Right"),</span>
-<span class="hljs-comment">//   args = List()</span>
+<span class="hljs-comment">//   argClause = Term.ArgClause(values = List(), mod = None)</span>
 <span class="hljs-comment">// )</span>
 println(<span class="hljs-string">q"<span class="hljs-subst">$left</span> + <span class="hljs-subst">$right</span>"</span>)
 <span class="hljs-comment">// Left() + Right()</span>
@@ -304,10 +304,10 @@ message &quot;invariant failed&quot;</p>
 <span class="hljs-comment">// and also targClause.nonEmpty is false</span>
 <span class="hljs-comment">// where targClause = </span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:99)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$internal$Impl$.apply(Trees.scala:99)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$1.apply(guide.md:214)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$1.apply(guide.md:214)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:105)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$internal$Impl$.apply(Trees.scala:105)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
 </code></pre>
 <p>The quasiquote above is equivalent to calling the normal constructor
 <code>Type.ApplyType(.., typeArguments)</code>. Scalameta trees perform strict runtime
@@ -317,7 +317,7 @@ non-empty&quot;. To fix this problem, guard the splice against the length of the
   (<span class="hljs-keyword">if</span> (typeArguments.isEmpty) <span class="hljs-string">q"function()"</span>
    <span class="hljs-keyword">else</span> <span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>).structure
 )
-<span class="hljs-comment">// Term.Apply(Term.Name("function"), Nil)</span>
+<span class="hljs-comment">// Term.Apply(Term.Name("function"), Term.ArgClause(Nil, None))</span>
 </code></pre>
 <p>To learn more about quasiquotes, consult the
 <a href="quasiquotes.html">quasiquote spec</a>.</p>
@@ -354,7 +354,7 @@ in term position.</p>
     println(<span class="hljs-string">"2 "</span> + args)
 }
 <span class="hljs-comment">// 1 function</span>
-<span class="hljs-comment">// 2 List(arg1, arg2)</span>
+<span class="hljs-comment">// 2 (arg1, arg2)</span>
 </code></pre>
 <p>Use triple dollar splices <code>...$</code> to extract curried argument lists</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">"function(arg1, arg2)(arg3, arg4)"</span>.parse[<span class="hljs-type">Term</span>].get <span class="hljs-keyword">match</span> {
@@ -363,7 +363,7 @@ in term position.</p>
     println(<span class="hljs-string">"2 "</span> + args)
 }
 <span class="hljs-comment">// 1 function</span>
-<span class="hljs-comment">// 2 List(List(arg1, arg2), List(arg3, arg4))</span>
+<span class="hljs-comment">// 2 List((arg1, arg2), (arg3, arg4))</span>
 </code></pre>
 <blockquote>
 <p>Pattern matching with quasiquotes is generally discouraged because it's easy
@@ -373,7 +373,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt; <span class="hljs-comment">// boom!</span>
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:267)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$5.apply(guide.md:267)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
