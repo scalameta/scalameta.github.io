@@ -305,7 +305,7 @@ message &quot;invariant failed&quot;</p>
 <span class="hljs-comment">// where targClause = </span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:128)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$internal$Latest$.apply(Trees.scala:128)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:128)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
 </code></pre>
@@ -326,11 +326,17 @@ non-empty&quot;. To fix this problem, guard the splice against the length of the
 core design principle of Scalameta trees is that tree pattern matching is the
 dual of tree construction. If you know how to construct a tree, you know how to
 de-construct it.</p>
-<h3><a class="anchor" aria-hidden="true" id="with-normal-constructors-1"></a><a href="#with-normal-constructors-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With normal constructors</h3>
-<p>Normal constructors work in pattern position the same way they work in regular
-term position.</p>
+<h3><a class="anchor" aria-hidden="true" id="with-versioned-constructor-like-matchers"></a><a href="#with-versioned-constructor-like-matchers" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With versioned constructor-like matchers</h3>
+<p>Tree fields can evolve over time, and for each version an appropriate
+<code>apply()</code> constructor method is added. However, the same cannot be said
+about matchers, as there can be only one <code>unapply()</code>.</p>
+<p>Therefore, to evolve the code properly, please use versioned matcher objects.
+Each tree comes with <code>.Initial</code> matcher corresponding to the original set of
+fields, and each field change is annotated with the version <strong>after which</strong>
+it was made, along with a versioned matcher <code>.After_x_y_z</code>.</p>
+<p>For instance,</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">"function(arg1, arg2)"</span>.parse[<span class="hljs-type">Term</span>].get <span class="hljs-keyword">match</span> {
-  <span class="hljs-keyword">case</span> <span class="hljs-type">Term</span>.<span class="hljs-type">Apply</span>(function, <span class="hljs-type">List</span>(arg1, arg2)) =&gt;
+  <span class="hljs-keyword">case</span> <span class="hljs-type">Term</span>.<span class="hljs-type">Apply</span>.<span class="hljs-type">Initial</span>(function, <span class="hljs-type">List</span>(arg1, arg2)) =&gt;
     println(<span class="hljs-string">"1 "</span> + function)
     println(<span class="hljs-string">"2 "</span> + arg1)
     println(<span class="hljs-string">"3 "</span> + arg2)
@@ -339,9 +345,19 @@ term position.</p>
 <span class="hljs-comment">// 2 arg1</span>
 <span class="hljs-comment">// 3 arg2</span>
 </code></pre>
-<p>Repeated fields are always <code>List[T]</code>, so you can safely deconstruct trees with
-the <code>List(arg1, arg2)</code> syntax or if you prefer the <code>arg1 :: arg2 :: Nil</code> syntax.
-There is no need to use <code>Seq(arg1, arg2)</code> or <code>arg1 +: arg2 +: Nil</code>.</p>
+<p>or</p>
+<pre><code class="hljs css language-scala"><span class="hljs-string">"function(using arg1, arg2)"</span>.parse[<span class="hljs-type">Term</span>].get <span class="hljs-keyword">match</span> {
+  <span class="hljs-keyword">case</span> <span class="hljs-type">Term</span>.<span class="hljs-type">Apply</span>.<span class="hljs-type">After_4_6_0</span>(function, <span class="hljs-type">Term</span>.<span class="hljs-type">ArgClause</span>.<span class="hljs-type">Initial</span>(<span class="hljs-type">List</span>(arg1, arg2), mod)) =&gt;
+    println(<span class="hljs-string">"1 "</span> + function)
+    println(<span class="hljs-string">"2 "</span> + arg1)
+    println(<span class="hljs-string">"3 "</span> + arg2)
+    println(<span class="hljs-string">"4 "</span> + mod)
+}
+<span class="hljs-comment">// 1 function</span>
+<span class="hljs-comment">// 2 arg1</span>
+<span class="hljs-comment">// 3 arg2</span>
+<span class="hljs-comment">// 4 Some(using)</span>
+</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="with-quasiquotes-1"></a><a href="#with-quasiquotes-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>With quasiquotes</h3>
 <p>Quasiquotes expand at compile-time and work the same way in pattern position as
 in term position.</p>
@@ -373,7 +389,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt; <span class="hljs-comment">// boom!</span>
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$5.apply(guide.md:267)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$5.apply(guide.md:279)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
@@ -387,17 +403,17 @@ using <code>$_</code></p>
 surprising behavior. A common mistake is to use <code>==</code> between parsed syntax trees
 and quasiquotes</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">"true"</span>.parse[<span class="hljs-type">Term</span>].get == <span class="hljs-string">q"true"</span>
-<span class="hljs-comment">// res26: Boolean = false</span>
+<span class="hljs-comment">// res27: Boolean = false</span>
 </code></pre>
 <p>Comparing trees by <code>==</code> is the same as comparing them with <code>eq</code>. Even identical
 quasiquotes produce different references</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"true"</span> == <span class="hljs-string">q"true"</span>
-<span class="hljs-comment">// res27: Boolean = false</span>
+<span class="hljs-comment">// res28: Boolean = false</span>
 </code></pre>
 <p>Equality checks with <code>==</code> will only return true when the reference is the same.</p>
 <pre><code class="hljs css language-scala">{ <span class="hljs-keyword">val</span> treeReference = <span class="hljs-string">q"true"</span>
   treeReference == treeReference }
-<span class="hljs-comment">// res28: Boolean = true</span>
+<span class="hljs-comment">// res29: Boolean = true</span>
 </code></pre>
 <p>The idiomatic way to compare trees for structural equality is to use pattern
 matching</p>
@@ -407,14 +423,14 @@ matching</p>
 <p>If you can't use pattern matching to compare trees by structural equality, you
 can use <code>.structure</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"true"</span>.structure == <span class="hljs-string">q"true"</span>.structure
-<span class="hljs-comment">// res30: Boolean = true</span>
+<span class="hljs-comment">// res31: Boolean = true</span>
 </code></pre>
 <p>The <code>.structure</code> method produces large strings for large programs, which may
 become prohibitively slow. The Scalameta contrib module contains a more
 efficient <code>isEqual</code> helper method to compare trees structurally.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> scala.meta.contrib._
 <span class="hljs-string">q"true"</span>.isEqual(<span class="hljs-string">q"true"</span>)
-<span class="hljs-comment">// res31: Boolean = true</span>
+<span class="hljs-comment">// res32: Boolean = true</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="traverse-trees"></a><a href="#traverse-trees" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Traverse trees</h2>
 <p>Scalameta includes utilities to recursively visit tree nodes for both simple and
@@ -438,7 +454,7 @@ performing a side-effect</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"val x = 2"</span>.collect {
   <span class="hljs-keyword">case</span> node =&gt; node.productPrefix -&gt; node.toString
 }
-<span class="hljs-comment">// res33: List[(String, String)] = List(</span>
+<span class="hljs-comment">// res34: List[(String, String)] = List(</span>
 <span class="hljs-comment">//   ("Defn.Val", "val x = 2"),</span>
 <span class="hljs-comment">//   ("Pat.Var", "x"),</span>
 <span class="hljs-comment">//   ("Term.Name", "x"),</span>
@@ -452,7 +468,7 @@ For more fine-grained control over which tree nodes to visit implement a custom
 <p>Extend <code>Traverser</code> if you need to implement a custom tree traversal</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> traverser = <span class="hljs-keyword">new</span> <span class="hljs-type">Traverser</span> {
   <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply</span></span>(tree: <span class="hljs-type">Tree</span>): <span class="hljs-type">Unit</span> = tree <span class="hljs-keyword">match</span> {
-    <span class="hljs-keyword">case</span> <span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(name) =&gt;
+    <span class="hljs-keyword">case</span> <span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>.<span class="hljs-type">Initial</span>(name) =&gt;
       println(<span class="hljs-string">s"stop: <span class="hljs-subst">$name</span>"</span>)
     <span class="hljs-keyword">case</span> node =&gt;
       println(<span class="hljs-string">s"<span class="hljs-subst">${node.productPrefix}</span>: <span class="hljs-subst">$node</span>"</span>)
@@ -490,7 +506,7 @@ formatting details.</p>
 including the transformed trees. Due to this behavior, a common mistake is to
 introduce infinite recursion in <code>.transform</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"a + b"</span>.transform {
-  <span class="hljs-keyword">case</span> name @ <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"b"</span>) =&gt; <span class="hljs-string">q"function(<span class="hljs-subst">$name</span>)"</span>
+  <span class="hljs-keyword">case</span> name @ <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>.<span class="hljs-type">Initial</span>(<span class="hljs-string">"b"</span>) =&gt; <span class="hljs-string">q"function(<span class="hljs-subst">$name</span>)"</span>
 }.toString
 <span class="hljs-comment">// [error] java.lang.StackOverflowError</span>
 <span class="hljs-comment">// at scala.meta.transversers.Api$XtensionCollectionLikeUI$transformer$2$.apply(Api.scala:10)</span>
@@ -502,7 +518,7 @@ gain fine-grained control over the recursion.</p>
 <p>Extend <code>Transformer</code> if you need to implement a custom tree transformation</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> transformer = <span class="hljs-keyword">new</span> <span class="hljs-type">Transformer</span> {
   <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply</span></span>(tree: <span class="hljs-type">Tree</span>): <span class="hljs-type">Tree</span> = tree <span class="hljs-keyword">match</span> {
-    <span class="hljs-keyword">case</span> name @ <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"b"</span>) =&gt; <span class="hljs-string">q"function(<span class="hljs-subst">$name</span>)"</span>
+    <span class="hljs-keyword">case</span> name @ <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>.<span class="hljs-type">Initial</span>(<span class="hljs-string">"b"</span>) =&gt; <span class="hljs-string">q"function(<span class="hljs-subst">$name</span>)"</span>
     <span class="hljs-keyword">case</span> node =&gt; <span class="hljs-keyword">super</span>.apply(node)
   }
 }
@@ -514,7 +530,7 @@ overflow.</p>
 )
 <span class="hljs-comment">// a + function(b)</span>
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/trees/quasiquotes.html"><span>trees/quasiquotes</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installation">Installation</a><ul class="toc-headings"><li><a href="#sbt">sbt</a></li><li><a href="#ammonite-repl">Ammonite REPL</a></li><li><a href="#scalafiddle">ScalaFiddle</a></li></ul></li><li><a href="#what-is-a-syntax-tree">What is a syntax tree?</a></li><li><a href="#parse-trees">Parse trees</a><ul class="toc-headings"><li><a href="#from-strings">From strings</a></li><li><a href="#from-files">From files</a></li><li><a href="#from-expressions">From expressions</a></li><li><a href="#from-programs-with-multiple-top-level-statements">From programs with multiple top-level statements</a></li></ul></li><li><a href="#construct-trees">Construct trees</a><ul class="toc-headings"><li><a href="#with-normal-constructors">With normal constructors</a></li><li><a href="#with-quasiquotes">With quasiquotes</a></li></ul></li><li><a href="#pattern-match-trees">Pattern match trees</a><ul class="toc-headings"><li><a href="#with-normal-constructors-1">With normal constructors</a></li><li><a href="#with-quasiquotes-1">With quasiquotes</a></li></ul></li><li><a href="#compare-trees-for-equality">Compare trees for equality</a></li><li><a href="#traverse-trees">Traverse trees</a><ul class="toc-headings"><li><a href="#simple-traversals">Simple traversals</a></li><li><a href="#custom-traversals">Custom traversals</a></li></ul></li><li><a href="#transform-trees">Transform trees</a><ul class="toc-headings"><li><a href="#simple-transformations">Simple transformations</a></li><li><a href="#custom-transformations">Custom transformations</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Scalameta Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Scalameta Projects</h5><a href="https://scalameta.org/metals">Metals: language server</a><a href="https://scalameta.org/scalafmt">Scalafmt: code formatter</a><a href="https://scalacenter.github.io/scalafix">Scalafix: linting and refactoring tool</a><a href="https://scalameta.org/munit">MUnit: testing library</a><a href="https://scalameta.org/mdoc">MDoc: documentation tool</a><a href="https://github.com/scalameta/metabrowse">Metabrowse: online code browser</a></div><div><h5>Community</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a><a href="https://github.com/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/github/stars/scalameta/metals.svg?color=%23087e8b&amp;label=stars&amp;logo=github&amp;style=social"/></a><a href="https://discord.gg/RFpSVth" target="_blank"><img src="https://img.shields.io/discord/632642981228314653?logo=discord&amp;style=social"/></a><a href="https://gitter.im/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/gitter/room/scalameta/scalameta.svg?logo=gitter&amp;style=social"/></a><a href="https://twitter.com/scalameta" target="_blank"><img src="https://img.shields.io/twitter/follow/scalameta.svg?logo=twitter&amp;style=social"/></a></div></section><section class="copyright">Copyright © 2023 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/trees/quasiquotes.html"><span>trees/quasiquotes</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installation">Installation</a><ul class="toc-headings"><li><a href="#sbt">sbt</a></li><li><a href="#ammonite-repl">Ammonite REPL</a></li><li><a href="#scalafiddle">ScalaFiddle</a></li></ul></li><li><a href="#what-is-a-syntax-tree">What is a syntax tree?</a></li><li><a href="#parse-trees">Parse trees</a><ul class="toc-headings"><li><a href="#from-strings">From strings</a></li><li><a href="#from-files">From files</a></li><li><a href="#from-expressions">From expressions</a></li><li><a href="#from-programs-with-multiple-top-level-statements">From programs with multiple top-level statements</a></li></ul></li><li><a href="#construct-trees">Construct trees</a><ul class="toc-headings"><li><a href="#with-normal-constructors">With normal constructors</a></li><li><a href="#with-quasiquotes">With quasiquotes</a></li></ul></li><li><a href="#pattern-match-trees">Pattern match trees</a><ul class="toc-headings"><li><a href="#with-versioned-constructor-like-matchers">With versioned constructor-like matchers</a></li><li><a href="#with-quasiquotes-1">With quasiquotes</a></li></ul></li><li><a href="#compare-trees-for-equality">Compare trees for equality</a></li><li><a href="#traverse-trees">Traverse trees</a><ul class="toc-headings"><li><a href="#simple-traversals">Simple traversals</a></li><li><a href="#custom-traversals">Custom traversals</a></li></ul></li><li><a href="#transform-trees">Transform trees</a><ul class="toc-headings"><li><a href="#simple-transformations">Simple transformations</a></li><li><a href="#custom-transformations">Custom transformations</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Scalameta Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Scalameta Projects</h5><a href="https://scalameta.org/metals">Metals: language server</a><a href="https://scalameta.org/scalafmt">Scalafmt: code formatter</a><a href="https://scalacenter.github.io/scalafix">Scalafix: linting and refactoring tool</a><a href="https://scalameta.org/munit">MUnit: testing library</a><a href="https://scalameta.org/mdoc">MDoc: documentation tool</a><a href="https://github.com/scalameta/metabrowse">Metabrowse: online code browser</a></div><div><h5>Community</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a><a href="https://github.com/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/github/stars/scalameta/metals.svg?color=%23087e8b&amp;label=stars&amp;logo=github&amp;style=social"/></a><a href="https://discord.gg/RFpSVth" target="_blank"><img src="https://img.shields.io/discord/632642981228314653?logo=discord&amp;style=social"/></a><a href="https://gitter.im/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/gitter/room/scalameta/scalameta.svg?logo=gitter&amp;style=social"/></a><a href="https://twitter.com/scalameta" target="_blank"><img src="https://img.shields.io/twitter/follow/scalameta.svg?logo=twitter&amp;style=social"/></a></div></section><section class="copyright">Copyright © 2023 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
