@@ -242,7 +242,7 @@ constructor calls</p>
   }
   """.structure
 )
-// Defn.Object(Nil, Term.Name("Example"), Template(Nil, List(Init(Type.Name("App"), Name(""), Nil)), Self(Name(""), None), List(Term.Apply(Term.Name("println"), Term.ArgClause(List(Lit.Int(42)), None))), Nil))
+// Defn.Object(Nil, Term.Name("Example"), Template(Nil, List(Init(Type.Name("App"), Name.Anonymous(), Nil)), Self(Name.Anonymous(), None), List(Term.Apply(Term.Name("println"), Term.ArgClause(List(Lit.Int(42)), None))), Nil))
 </code></pre>
 <blockquote>
 <p>It's important to keep in mind that quasiquotes expand at compile-time into
@@ -304,8 +304,8 @@ message &quot;invariant failed&quot;</p>
 <span class="hljs-comment">// and also targClause.nonEmpty is false</span>
 <span class="hljs-comment">// where targClause = </span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:128)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:128)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:137)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:137)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
 </code></pre>
