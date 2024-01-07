@@ -295,15 +295,17 @@ println(<span class="hljs-string">q"function(...<span class="hljs-subst">$allArg
 nodes . Imagine we have a list of type arguments that happens to be empty</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> typeArguments = <span class="hljs-type">List</span>.empty[<span class="hljs-type">Type</span>]
 </code></pre>
-<p>If we directly splice the lists into a type application we get a cryptic error
-message &quot;invariant failed&quot;</p>
+<p>If we directly splice the lists into a type application we get an error message
+&quot;invariant failed (targClause should be non-empty)&quot; referring to the <code>targClause</code>
+field of <code>Type.ApplyType</code> (with additional cryptic information showing specific
+checks performed):</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>
-<span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed:</span>
+<span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed (targClause should be non-empty):</span>
 <span class="hljs-comment">// when verifying targClause.!=(null).&amp;&amp;(targClause.isInstanceOf[scala.meta.internal.trees.Quasi].||(targClause.nonEmpty))</span>
 <span class="hljs-comment">// found that targClause.isInstanceOf[scala.meta.internal.trees.Quasi] is false</span>
 <span class="hljs-comment">// and also targClause.nonEmpty is false</span>
 <span class="hljs-comment">// where targClause = </span>
-<span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
+<span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:28)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:137)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:137)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
