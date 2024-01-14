@@ -250,7 +250,7 @@ the same program as if you had written normal constructors by hand. This means
 for example that formatting details or comments are not preserved</p>
 </blockquote>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">q"function  (    argument   ) // comment"</span>)
-<span class="hljs-comment">// function  (    argument   ) // comment</span>
+<span class="hljs-comment">// function(argument)</span>
 </code></pre>
 <p>Quasiquotes can be composed together like normal string interpolators with
 dollar splices <code>$</code></p>
@@ -300,12 +300,12 @@ nodes . Imagine we have a list of type arguments that happens to be empty</p>
 field of <code>Type.ApplyType</code> (with additional cryptic information showing specific
 checks performed):</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>
-<span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed (targClause should be non-empty):</span>
+<span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed:</span>
 <span class="hljs-comment">// when verifying targClause.!=(null).&amp;&amp;(targClause.isInstanceOf[scala.meta.internal.trees.Quasi].||(targClause.nonEmpty))</span>
 <span class="hljs-comment">// found that targClause.isInstanceOf[scala.meta.internal.trees.Quasi] is false</span>
 <span class="hljs-comment">// and also targClause.nonEmpty is false</span>
 <span class="hljs-comment">// where targClause = </span>
-<span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:28)</span>
+<span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:137)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:137)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
