@@ -69,10 +69,10 @@ this guide, you will learn how to</p>
 Scala 2.11, Scala 2.12, Scala 2.13, Scala.js and Scala Native.</p>
 <h3><a class="anchor" aria-hidden="true" id="sbt"></a><a href="#sbt" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>sbt</h3>
 <pre><code class="hljs css language-scala"><span class="hljs-comment">// build.sbt</span>
-libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"scalameta"</span> % <span class="hljs-string">"4.9.1-RC1"</span>
+libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"scalameta"</span> % <span class="hljs-string">"4.9.1"</span>
 
 <span class="hljs-comment">// For Scala.js, Scala Native</span>
-libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %%% <span class="hljs-string">"scalameta"</span> % <span class="hljs-string">"4.9.1-RC1"</span>
+libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %%% <span class="hljs-string">"scalameta"</span> % <span class="hljs-string">"4.9.1"</span>
 </code></pre>
 <p><a href="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12"><img src="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12/badge.svg" alt="Maven Central"></a></p>
 <p>All code examples assume you have the following import</p>
@@ -85,7 +85,7 @@ scalameta it needs to be run with <code>--thin</code> option.</p>
 <pre><code class="hljs css language-sh">$ amm --thin
 Loading...
 Welcome to the Ammonite Repl 2.3.8 (Scala 2.13.5 Java 11.0.7)
-@ import <span class="hljs-variable">$ivy</span>.`org.scalameta::scalameta:4.9.1-RC1`, scala.meta._
+@ import <span class="hljs-variable">$ivy</span>.`org.scalameta::scalameta:4.9.1`, scala.meta._
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="scalafiddle"></a><a href="#scalafiddle" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ScalaFiddle</h3>
 <p>You can try out Scalameta online with the
@@ -244,14 +244,6 @@ constructor calls</p>
 )
 // Defn.Object(Nil, Term.Name("Example"), Template(Nil, List(Init(Type.Name("App"), Name.Anonymous(), Nil)), Self(Name.Anonymous(), None), List(Term.Apply(Term.Name("println"), Term.ArgClause(List(Lit.Int(42)), None))), Nil))
 </code></pre>
-<blockquote>
-<p>It's important to keep in mind that quasiquotes expand at compile-time into
-the same program as if you had written normal constructors by hand. This means
-for example that formatting details or comments are not preserved</p>
-</blockquote>
-<pre><code class="hljs css language-scala">println(<span class="hljs-string">q"function  (    argument   ) // comment"</span>)
-<span class="hljs-comment">// function(argument)</span>
-</code></pre>
 <p>Quasiquotes can be composed together like normal string interpolators with
 dollar splices <code>$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> left = <span class="hljs-string">q"Left()"</span>
@@ -266,6 +258,18 @@ dollar splices <code>$</code></p>
 <span class="hljs-comment">// )</span>
 println(<span class="hljs-string">q"<span class="hljs-subst">$left</span> + <span class="hljs-subst">$right</span>"</span>)
 <span class="hljs-comment">// Left() + Right()</span>
+</code></pre>
+<blockquote>
+<p>It's important to keep in mind that quasiquotes expand at compile-time into
+the same program as if you had written normal constructors by hand.
+This means, for example, that formatting details or comments are not preserved
+if interpolated values are used, because the complete source is not available
+at compile-time.</p>
+</blockquote>
+<pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> argument = <span class="hljs-number">1</span>
+<span class="hljs-comment">// argument: Int = 1</span>
+println(<span class="hljs-string">q"function  (    <span class="hljs-subst">$argument</span>   ) // comment"</span>)
+<span class="hljs-comment">// function(1)</span>
 </code></pre>
 <p>A list of trees can be inserted into a quasiquote with double dots <code>..$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> arguments = <span class="hljs-type">List</span>(<span class="hljs-string">q"arg1"</span>, <span class="hljs-string">q"arg2"</span>)
@@ -308,8 +312,8 @@ checks performed):</p>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:137)</span>
 <span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:137)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:214)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 </code></pre>
 <p>The quasiquote above is equivalent to calling the normal constructor
 <code>Type.ApplyType(.., typeArguments)</code>. Scalameta trees perform strict runtime
@@ -391,7 +395,7 @@ to write patterns that result in unintended match errors.</p>
   <span class="hljs-keyword">case</span> <span class="hljs-string">q"val x = 2"</span> =&gt; <span class="hljs-comment">// boom!</span>
 }
 <span class="hljs-comment">// scala.MatchError: final val x = 2 (of class scala.meta.Defn$Val$DefnValImpl)</span>
-<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$5.apply(guide.md:279)</span>
+<span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$5.apply(guide.md:282)</span>
 </code></pre>
 <p>To fix this pattern, we specify that the <code>final</code> modifier should be ignored
 using <code>$_</code></p>
