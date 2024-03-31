@@ -136,7 +136,9 @@ into a string and then construct a virtual file</p>
 <span class="hljs-keyword">val</span> exampleTree = input.parse[<span class="hljs-type">Source</span>].get
 </code></pre>
 <pre><code class="hljs css language-scala">print(exampleTree.syntax)
-<span class="hljs-comment">// object Example extends App { println("Hello from a file!") }</span>
+<span class="hljs-comment">// object Example extends App {</span>
+<span class="hljs-comment">//   println("Hello from a file!")</span>
+<span class="hljs-comment">// }</span>
 </code></pre>
 <p>The difference between <code>text.parse[Source]</code> and <code>input.parse[Source]</code> is that
 the filename appears in error messages for <code>Input.VirtualFile</code>.</p>
