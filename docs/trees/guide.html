@@ -120,7 +120,7 @@ filename</p>
 <pre><code class="hljs css language-scala">println(
   <span class="hljs-string">"object Main {"</span>.parse[<span class="hljs-type">Source</span>]
 )
-<span class="hljs-comment">// &lt;input&gt;:1: error: } expected but end of file found</span>
+<span class="hljs-comment">// &lt;input&gt;:1: error: `}` expected but `end of file` found</span>
 <span class="hljs-comment">// object Main {</span>
 <span class="hljs-comment">//              ^</span>
 </code></pre>
@@ -145,7 +145,7 @@ the filename appears in error messages for <code>Input.VirtualFile</code>.</p>
 <pre><code class="hljs css language-scala">println(
   <span class="hljs-type">Input</span>.<span class="hljs-type">VirtualFile</span>(<span class="hljs-string">"example.scala"</span>, <span class="hljs-string">"object Main {"</span>).parse[<span class="hljs-type">Source</span>]
 )
-<span class="hljs-comment">// example.scala:1: error: } expected but end of file found</span>
+<span class="hljs-comment">// example.scala:1: error: `}` expected but `end of file` found</span>
 <span class="hljs-comment">// object Main {</span>
 <span class="hljs-comment">//              ^</span>
 </code></pre>
@@ -158,7 +158,7 @@ stands for &quot;statement&quot;.</p>
 <p>If we try to parse an expression with <code>parse[Source]</code> we get an error because
 <code>a + b</code> is not valid at the top-level for Scala programs</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"a + b"</span>.parse[<span class="hljs-type">Source</span>])
-<span class="hljs-comment">// &lt;input&gt;:1: error: illegal start of definition identifier</span>
+<span class="hljs-comment">// &lt;input&gt;:1: error: illegal start of definition `identifier`</span>
 <span class="hljs-comment">// a + b</span>
 <span class="hljs-comment">// ^</span>
 </code></pre>
@@ -168,7 +168,7 @@ stands for &quot;statement&quot;.</p>
 </code></pre>
 <p>If we use <code>parse[Stat]</code> to parse types we get an error</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"A with B"</span>.parse[<span class="hljs-type">Stat</span>])
-<span class="hljs-comment">// &lt;input&gt;:1: error: end of file expected but with found</span>
+<span class="hljs-comment">// &lt;input&gt;:1: error: `end of file` expected but `with` found</span>
 <span class="hljs-comment">// A with B</span>
 <span class="hljs-comment">//   ^</span>
 </code></pre>
@@ -182,7 +182,7 @@ val cli = project.dependsOn(core)
 """
 </code></pre>
 <pre><code class="hljs css language-scala">println(buildSbt.parse[<span class="hljs-type">Source</span>])
-<span class="hljs-comment">// &lt;input&gt;:2: error: illegal start of definition val</span>
+<span class="hljs-comment">// &lt;input&gt;:2: error: illegal start of definition `val`</span>
 <span class="hljs-comment">// val core = project</span>
 <span class="hljs-comment">// ^</span>
 </code></pre>
@@ -202,7 +202,7 @@ normal Scala programs. To fix this problem, wrap the input with <code>dialects.S
 <p>The difference between <code>dialects.Sbt1(input)</code> and <code>parse[Stat]</code> is that
 <code>parse[Stat]</code> does not allow multiple top-level statements</p>
 <pre><code class="hljs css language-scala">println(buildSbt.parse[<span class="hljs-type">Stat</span>])
-<span class="hljs-comment">// &lt;input&gt;:3: error: end of file expected but val found</span>
+<span class="hljs-comment">// &lt;input&gt;:3: error: `end of file` expected but `val` found</span>
 <span class="hljs-comment">// val cli = project.dependsOn(core)</span>
 <span class="hljs-comment">// ^</span>
 </code></pre>
@@ -306,14 +306,15 @@ nodes . Imagine we have a list of type arguments that happens to be empty</p>
 field of <code>Type.ApplyType</code> (with additional cryptic information showing specific
 checks performed):</p>
 <pre><code class="hljs css language-scala"><span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>
-<span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed:</span>
+<span class="hljs-comment">// org.scalameta.invariants.InvariantFailedException: invariant failed (targClause should be non-empty):</span>
 <span class="hljs-comment">// when verifying targClause.!=(null).&amp;&amp;(targClause.isInstanceOf[scala.meta.internal.trees.Quasi].||(targClause.nonEmpty))</span>
 <span class="hljs-comment">// found that targClause.isInstanceOf[scala.meta.internal.trees.Quasi] is false</span>
 <span class="hljs-comment">// and also targClause.nonEmpty is false</span>
-<span class="hljs-comment">// where targClause = </span>
-<span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(Exceptions.scala:19)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:137)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:137)</span>
+<span class="hljs-comment">// where targClause = ''</span>
+<span class="hljs-comment">// </span>
+<span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(InvariantFailedException.scala:26)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:229)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:229)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 </code></pre>
