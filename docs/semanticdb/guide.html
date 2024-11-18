@@ -64,12 +64,13 @@ can be used to consume SemanticDB payloads and useful tips &amp; tricks for work
 with SemanticDB. If you're looking for a comprehensive reference of SemanticDB
 features, check out <a href="specification.html">the specification</a>.</p>
 <h2><a class="anchor" aria-hidden="true" id="installation"></a><a href="#installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p>This guide covers several non-standard command-line tools: <code>metac</code> and <code>metap</code>.
+<p>This guide covers several non-standard command-line tools:
+<a href="#metac"><code>metac</code></a> and <a href="#metap"><code>metap</code></a>.
 First, install the <code>coursier</code> command-line tool by following the
 <a href="https://get-coursier.io/docs/cli-installation">instructions here</a>. Next, use
 coursier to install metac and metap.</p>
 <p><a href="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12"><img src="https://maven-badges.herokuapp.com/maven-central/org.scalameta/scalameta_2.12/badge.svg" alt="Maven Central"></a></p>
-<pre><code class="hljs">cs <span class="hljs-keyword">install</span> metac metap
+<pre><code class="hljs css language-shell">cs install metac metap
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h2>
 <p>Let's generate SemanticDB for a simple Scala program. (At the moment, our
@@ -188,7 +189,7 @@ Next-generation semantic tools at Twitter are based on SemanticDB.</p>
 <p>The <code>semanticdb-scalac</code> compiler plugin injects itself immediately after the
 <code>typer</code> phase of the Scala compiler and then harvests and dumps semantic
 information from Scalac in SemanticDB format.</p>
-<pre><code class="hljs">scalac <span class="hljs-params">-Xplugin</span>:path/<span class="hljs-keyword">to</span>.jar <span class="hljs-params">-Yrangepos</span> <span class="hljs-meta">[</span>&lt;pluginOption&gt; <span class="hljs-params">...</span><span class="hljs-meta">]</span> <span class="hljs-meta">[</span>&lt;scalacOption&gt; <span class="hljs-params">...</span><span class="hljs-meta">]</span> <span class="hljs-meta">[</span>&lt;sourceFile&gt; <span class="hljs-params">...</span><span class="hljs-meta">]</span>
+<pre><code class="hljs css language-shell">scalac -Xplugin:path/to.jar -Yrangepos [&lt;pluginOption&gt; ...] [&lt;scalacOption&gt; ...] [&lt;sourceFile&gt; ...]
 </code></pre>
 <p>The compiler plugin supports the following options that can be passed through
 Scalac in the form of</p>
@@ -343,7 +344,9 @@ Scala build tools.</p>
 and produces <code>*.semanticdb</code> files instead of <code>*.class</code> files. It supports the
 same command-line arguments as <code>scalac</code>, including the compiler plugin options
 <a href="#scalac-compiler-plugin">described above</a>.</p>
-<pre><code class="hljs">metac [<span class="hljs-tag">&lt;<span class="hljs-name">pluginOption</span>&gt;</span> ...] [<span class="hljs-tag">&lt;<span class="hljs-name">scalacOption</span>&gt;</span> ...] [<span class="hljs-tag">&lt;<span class="hljs-name">sourceFile</span>&gt;</span> ...]
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> downloads CLI tool based on org.scalameta.metac, version 4.11.1</span>
+cs install metac # if necessary
+metac [&lt;pluginOption&gt; ...] [&lt;scalacOption&gt; ...] [&lt;sourceFile&gt; ...]
 </code></pre>
 <p>With metac, it is not necessary to provide the flags <code>-Xplugin:/path/to.jar</code> and
 <code>-Yrangepos</code>, which makes it ideal for quick experiments with SemanticDB. For an
@@ -362,7 +365,7 @@ to
 <a href="https://github.com/scalameta/scalameta/blob/main/semanticdb/semanticdb/semanticdb.proto">the SemanticDB protobuf schema</a>.
 Using this library, one can model SemanticDB entities as Scala case classes and
 serialize/deserialize them into bytes and streams.</p>
-<pre><code class="hljs">libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"semanticdb"</span> % <span class="hljs-string">"4.11.1"</span>
+<pre><code class="hljs css language-scala">libraryDependencies += <span class="hljs-string">"org.scalameta"</span> %% <span class="hljs-string">"semanticdb-shared"</span> % <span class="hljs-string">"4.11.1"</span>
 </code></pre>
 <p>Caveats:</p>
 <ul>
@@ -384,7 +387,9 @@ the future.</li>
 <p>Metap is a command-line tool that takes a list of paths and then prettyprints
 all .semanticdb files that it finds in these paths. Advanced options control
 prettyprinting format.</p>
-<pre><code class="hljs">metap [<span class="hljs-keyword">options</span>] &lt;<span class="hljs-keyword">classpath</span>&gt;
+<pre><code class="hljs css language-shell"><span class="hljs-meta">#</span><span class="bash"> downloads CLI tool based on org.scalameta.semanticdb-metap, version 4.11.1</span>
+cs install metap # if necessary
+metap [options] &lt;classpath&gt;
 </code></pre>
 <table>
   <tr>
