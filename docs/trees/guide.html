@@ -153,7 +153,14 @@ the filename appears in error messages for <code>Input.VirtualFile</code>.</p>
 <p>To parse a simple expressions such as <code>a + b</code> use <code>parse[Stat]</code> The name <code>Stat</code>
 stands for &quot;statement&quot;.</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"a + b"</span>.parse[<span class="hljs-type">Stat</span>].get.structure)
-<span class="hljs-comment">// Term.ApplyInfix(Term.Name("a"), Term.Name("+"), Type.ArgClause(Nil), Term.ArgClause(List(Term.Name("b")), None))</span>
+<span class="hljs-comment">// Term.ApplyInfix(</span>
+<span class="hljs-comment">//   Term.Name("a"),</span>
+<span class="hljs-comment">//   Term.Name("+"),</span>
+<span class="hljs-comment">//   Type.ArgClause(Nil),</span>
+<span class="hljs-comment">//   Term.ArgClause(List(</span>
+<span class="hljs-comment">//     Term.Name("b")</span>
+<span class="hljs-comment">//   ))</span>
+<span class="hljs-comment">// )</span>
 </code></pre>
 <p>If we try to parse an expression with <code>parse[Source]</code> we get an error because
 <code>a + b</code> is not valid at the top-level for Scala programs</p>
@@ -164,7 +171,10 @@ stands for &quot;statement&quot;.</p>
 </code></pre>
 <p>The same solution can be used to parse other tree nodes such as types</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"A with B"</span>.parse[<span class="hljs-type">Type</span>].get.structure)
-<span class="hljs-comment">// Type.With(Type.Name("A"), Type.Name("B"))</span>
+<span class="hljs-comment">// Type.With(</span>
+<span class="hljs-comment">//   Type.Name("A"),</span>
+<span class="hljs-comment">//   Type.Name("B")</span>
+<span class="hljs-comment">// )</span>
 </code></pre>
 <p>If we use <code>parse[Stat]</code> to parse types we get an error</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"A with B"</span>.parse[<span class="hljs-type">Stat</span>])
@@ -225,7 +235,12 @@ constructors and quasiquotes.</p>
 constructing trees.</p>
 <p>To learn tree node names you can use <code>.structure</code> on existing tree nodes</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">"function(argument)"</span>.parse[<span class="hljs-type">Stat</span>].get.structure)
-<span class="hljs-comment">// Term.Apply(Term.Name("function"), Term.ArgClause(List(Term.Name("argument")), None))</span>
+<span class="hljs-comment">// Term.Apply(</span>
+<span class="hljs-comment">//   Term.Name("function"),</span>
+<span class="hljs-comment">//   Term.ArgClause(List(</span>
+<span class="hljs-comment">//     Term.Name("argument")</span>
+<span class="hljs-comment">//   ))</span>
+<span class="hljs-comment">// )</span>
 </code></pre>
 <p>The output of structure is safe to copy-paste into programs.</p>
 <p>Another good way to learn the structure of trees is
@@ -234,7 +249,12 @@ constructing trees.</p>
 <p>Quasiquotes are string interpolators that expand at compile-time into normal
 constructor calls</p>
 <pre><code class="hljs css language-scala">println(<span class="hljs-string">q"function(argument)"</span>.structure)
-<span class="hljs-comment">// Term.Apply(Term.Name("function"), Term.ArgClause(List(Term.Name("argument")), None))</span>
+<span class="hljs-comment">// Term.Apply(</span>
+<span class="hljs-comment">//   Term.Name("function"),</span>
+<span class="hljs-comment">//   Term.ArgClause(List(</span>
+<span class="hljs-comment">//     Term.Name("argument")</span>
+<span class="hljs-comment">//   ))</span>
+<span class="hljs-comment">// )</span>
 </code></pre>
 <p>You can write multiline quasiquotes to construct large programs</p>
 <pre><code class="hljs css language-scala">println(
@@ -244,7 +264,32 @@ constructor calls</p>
   }
   """.structure
 )
-// Defn.Object(Nil, Term.Name("Example"), Template(Nil, List(Init(Type.Name("App"), Name.Anonymous(), Nil)), Self(Name.Anonymous(), None), List(Term.Apply(Term.Name("println"), Term.ArgClause(List(Lit.Int(42)), None))), Nil))
+// Defn.Object(
+//   Nil,
+//   Term.Name("Example"),
+//   Template(
+//     None,
+//     List(
+//       Init(
+//         Type.Name("App"),
+//         Name.Anonymous(),
+//         Nil
+//       )
+//     ),
+//     Template.Body(
+//       None,
+//       List(
+//         Term.Apply(
+//           Term.Name("println"),
+//           Term.ArgClause(List(
+//             Lit.Int(42)
+//           ))
+//         )
+//       )
+//     ),
+//     Nil
+//   )
+// )
 </code></pre>
 <p>Quasiquotes can be composed together like normal string interpolators with
 dollar splices <code>$</code></p>
@@ -313,8 +358,8 @@ checks performed):</p>
 <span class="hljs-comment">// where targClause = ''</span>
 <span class="hljs-comment">// </span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(InvariantFailedException.scala:26)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:252)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:252)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$.apply(Trees.scala:308)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:308)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 </code></pre>
@@ -326,7 +371,10 @@ non-empty&quot;. To fix this problem, guard the splice against the length of the
   (<span class="hljs-keyword">if</span> (typeArguments.isEmpty) <span class="hljs-string">q"function()"</span>
    <span class="hljs-keyword">else</span> <span class="hljs-string">q"function[..<span class="hljs-subst">$typeArguments</span>]()"</span>).structure
 )
-<span class="hljs-comment">// Term.Apply(Term.Name("function"), Term.ArgClause(Nil, None))</span>
+<span class="hljs-comment">// Term.Apply(</span>
+<span class="hljs-comment">//   Term.Name("function"),</span>
+<span class="hljs-comment">//   Term.ArgClause(Nil)</span>
+<span class="hljs-comment">// )</span>
 </code></pre>
 <p>To learn more about quasiquotes, consult the
 <a href="quasiquotes.html">quasiquote spec</a>.</p>
