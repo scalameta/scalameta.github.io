@@ -490,11 +490,12 @@ traits and interfaces. Both type parameters and declarations are modelled by a
   Scope type_parameters = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Scope parameter_lists = <span class="hljs-number">2</span>;
   Type return_type = <span class="hljs-number">3</span>;
+  <span class="hljs-keyword">repeated</span> Type throws = <span class="hljs-number">4</span>;
 }
 </code></pre>
 <p><code>MethodSignature</code> represents signatures of methods (including getters and
 setters), constructors and macros. It features <code>type_parameters</code>,
-<code>parameter_lists</code> and a <code>return_type</code>. Both type parameters and parameters are
+<code>parameter_lists</code>, a <code>return_type</code> and zero or more <code>throws</code>. Both type parameters and parameters are
 modelled by <a href="#scope">Scopes</a>. Moreover, in order to support multiple parameter
 lists in Scala methods, <code>parameter_lists</code> is a list of lists.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">TypeSignature</span> </span>{
@@ -1404,7 +1405,7 @@ primary constructors to model the corresponding constructor parameter.</li>
     <td><code>xp</code></td>
     <td><code>_empty_/C#xp().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xp</code></td>
@@ -1416,19 +1417,19 @@ primary constructors to model the corresponding constructor parameter.</li>
     <td><code>xm</code></td>
     <td><code>_empty_/C#xm().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xam</code></td>
     <td><code>_empty_/C#xam().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xlm</code></td>
     <td><code>_empty_/C#xlm().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xl</code></td>
@@ -1440,7 +1441,7 @@ primary constructors to model the corresponding constructor parameter.</li>
     <td><code>xs</code></td>
     <td><code>local1</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xe</code></td>
@@ -1519,7 +1520,7 @@ symbols and declarations&quot;), with the exceptions described below.</li>
 <li><code>kind</code>: <code>METHOD</code>.</li>
 <li><code>properties</code>: see below.</li>
 <li><code>display_name</code>: concatenation of the display name of the variable and <code>_=</code>.</li>
-<li><code>signature</code>: <code>MethodSignature(List(), List(List(&lt;x$1&gt;)), &lt;Unit&gt;)</code>, where
+<li><code>signature</code>: <code>MethodSignature(List(), List(List(&lt;x$1&gt;)), &lt;Unit&gt;, List())</code>, where
 <code>x$1</code> is a <code>PARAMETER</code> symbol having <code>signature</code> equal to the type of the
 variable.</li>
 <li><code>annotations</code> and <code>access</code>: same as value symbols.</li>
@@ -1570,19 +1571,19 @@ pattern variables in pattern definitions <a href="https://www.scala-lang.org/fil
     <td><code>xval</code></td>
     <td><code>_empty_/C#xval().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Nothing&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Nothing&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xvar</code></td>
     <td><code>_empty_/C#xvar().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Nothing&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Nothing&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>xvar</code></td>
     <td><code>_empty_/C#xvar_=().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(&lt;x$1&gt;), TypeRef(None, &lt;Unit&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(&lt;x$1&gt;), TypeRef(None, &lt;Unit&gt;, List()), List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
@@ -1827,7 +1828,7 @@ multiple sections).</p>
     <td><code>m3$default$1</code></td>
     <td><code>_empty_/C#m3$default$1().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>p4</code></td>
@@ -1910,13 +1911,13 @@ such parameters (only their signatures), we also leave the names unspecified.</l
     <td><code>m1</code></td>
     <td><code>_empty_/C#m1().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m2</code></td>
     <td><code>_empty_/C#m2().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(List()), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(List()), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m3</code></td>
@@ -1928,13 +1929,13 @@ such parameters (only their signatures), we also leave the names unspecified.</l
     <td><code>m3</code></td>
     <td><code>_empty_/C#m3().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(List(&lt;x&gt;)), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(List(&lt;x&gt;)), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m3</code></td>
     <td><code>_empty_/C#m3(+1).</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(List(&lt;x&gt;)), TypeRef(None, &lt;org.Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(List(&lt;x&gt;)), TypeRef(None, &lt;org.Int&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m4</code></td>
@@ -1946,7 +1947,7 @@ such parameters (only their signatures), we also leave the names unspecified.</l
     <td><code>m4</code></td>
     <td><code>_empty_/C#m4().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(List(&lt;x&gt;), List(&lt;y&gt;)), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(List(&lt;x&gt;), List(&lt;y&gt;)), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
@@ -2008,7 +2009,7 @@ similarly to function definitions (see above).</p>
     <td><code>m1</code></td>
     <td><code>_empty_/M.m().</code></td>
     <td><code>MACRO</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
@@ -2039,13 +2040,13 @@ similarly to function definitions (see above).</p>
     <td>Primary constructor</td>
     <td><code>_empty_/C#`&lt;init&gt;`().</code></td>
     <td><code>CONSTRUCTOR</code></td>
-    <td><code>MethodSignature(List(), List(List(&lt;x&gt;)), None)</code></td>
+    <td><code>MethodSignature(List(), List(List(&lt;x&gt;)), None, List())</code></td>
   </tr>
   <tr>
     <td>Secondary constructor</td>
     <td><code>_empty_/C#`&lt;init&gt;`(+1).</code></td>
     <td><code>CONSTRUCTOR</code></td>
-    <td><code>MethodSignature(List(), List(), None)</code></td>
+    <td><code>MethodSignature(List(), List(), None, List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
@@ -2098,19 +2099,19 @@ multiple different symbols as described above.</li>
     <td><code>y</code></td>
     <td><code>_empty_/C#x().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>z</code></td>
     <td><code>_empty_/C#z().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>z</code></td>
     <td><code>_empty_/C#z_=().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(List(&lt;x$1&gt;)), TypeRef(None, &lt;Unit&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(List(&lt;x$1&gt;)), TypeRef(None, &lt;Unit&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>z</code></td>
@@ -2122,7 +2123,7 @@ multiple different symbols as described above.</li>
     <td>Primary constructor</td>
     <td><code>_empty_/C#`&lt;init&gt;`().</code></td>
     <td><code>CONSTRUCTOR</code></td>
-    <td><code>MethodSignature(List(), List(), None)</code></td>
+    <td><code>MethodSignature(List(), List(), None, List())</code></td>
   </tr>
   <tr>
     <td><code>x</code></td>
@@ -2146,7 +2147,7 @@ multiple different symbols as described above.</li>
     <td><code>m</code></td>
     <td><code>_empty_/C#m().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Int&gt;, List()), List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
@@ -2913,7 +2914,7 @@ signatures.</p>
     <td><code>m2</code></td>
     <td><code>a/C#m2().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T2&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T2&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m3</code></td>
@@ -2925,7 +2926,7 @@ signatures.</p>
     <td><code>m3</code></td>
     <td><code>a/C#m3().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(&lt;e1&gt;), TypeRef(None, &lt;T3&gt;))</code></td>
+    <td><code>MethodSignature(List(), List(&lt;e1&gt;), TypeRef(None, &lt;T3&gt;), List())</code></td>
   </tr>
   <tr>
     <td><code>e1</code></td>
@@ -2937,7 +2938,7 @@ signatures.</p>
     <td><code>m3</code></td>
     <td><code>a/C#m3(+2).</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(&lt;e2&gt;) TypeRef(None, &lt;T4&gt;))</code></td>
+    <td><code>MethodSignature(List(), List(&lt;e2&gt;) TypeRef(None, &lt;T4&gt;), List())</code></td>
   </tr>
   <tr>
     <td><code>e2</code></td>
@@ -2949,7 +2950,7 @@ signatures.</p>
     <td><code>m3</code></td>
     <td><code>a/C#m3(+1).</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(&lte3&gt;), TypeRef(None, &lt;T5&gt;))</code></td>
+    <td><code>MethodSignature(List(), List(&lte3&gt;), TypeRef(None, &lt;T5&gt;), List())</code></td>
   </tr>
   <tr>
     <td><code>e3</code></td>
@@ -3046,13 +3047,13 @@ overloaded field <code>m3.</code>.</li>
     <td></td>
     <td><code>a/Coin#values().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Array&gt;, List(&lt;Coin&gt;)))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Array&gt;, List(&lt;Coin&gt;)), List())</code></td>
   </tr>
   <tr>
     <td></td>
     <td><code>a/Coin#valueOf().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Coin&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;Coin&gt;, List()), List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
@@ -3105,7 +3106,7 @@ classes but with the <code>INTERFACE</code> kind.</p>
     <td><code>head</code></td>
     <td><code>a/List#head().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;T&gt;, List()), List())</code></td>
   </tr>
 </table>
 <p>The differences between interface symbols and class symbols are:</p>
@@ -3148,13 +3149,13 @@ and formal parameter with kind <code>PARAMETER</code>.</p>
     <td><code>m1</code></td>
     <td><code>a/A#m1().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;A&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(), TypeRef(None, &lt;A&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m2</code></td>
     <td><code>a/A#m2().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(), List(&lt;t1&gt;), TypeRef(None, &lt;A&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(), List(&lt;t1&gt;), TypeRef(None, &lt;A&gt;, List()), List(TypeRef(&lt;E&gt;)))</code></td>
   </tr>
   <tr>
     <td><code>t1</code></td>
@@ -3166,7 +3167,7 @@ and formal parameter with kind <code>PARAMETER</code>.</p>
     <td><code>m3</code></td>
     <td><code>a/A#m3().</code></td>
     <td><code>METHOD</code></td>
-    <td><code>MethodSignature(List(&lt;T2&gt;), List(&lt;t2&gt;), TypeRef(None, &lt;T2&gt;, List()))</code></td>
+    <td><code>MethodSignature(List(&lt;T2&gt;), List(&lt;t2&gt;), TypeRef(None, &lt;T2&gt;, List()), List())</code></td>
   </tr>
   <tr>
     <td><code>m3</code></td>
@@ -3194,8 +3195,6 @@ parameters have both display and symbol names <code>paramN</code> where <code>N<
 of that given parameter starting at index 0.</li>
 <li>Variable arity parameters have the type equals to <code>RepeatedType(&lt;tpe&gt;)</code>, where
 <code>&lt;tpe&gt;</code> is their type as declared in original source.</li>
-<li>Method throws clauses are not modelled in SemanticDB. We may improve on this
-in the future.</li>
 <li>Supported properties for method symbols are:
 <ul>
 <li><code>FINAL</code>: set for <code>final</code> methods.</li>
@@ -3276,7 +3275,7 @@ parameters.</p>
     <td>Constructor of <code>Outer</code></td>
     <td><code>a/Outer#&lt;init&gt;().</code></td>
     <td><code>CONSTRUCTOR</code></td>
-    <td><code>MethodSignature(List(), List(), None)</code></td>
+    <td><code>MethodSignature(List(), List(), None, List())</code></td>
   </tr>
   <tr>
     <td><code>Inner</code></td>
@@ -3288,7 +3287,7 @@ parameters.</p>
     <td>Constructor of <code>Inner</code></td>
     <td><code>a/Outer#Inner#&lt;init&gt;().</code></td>
     <td><code>CONSTRUCTOR</code></td>
-    <td><code>MethodSignature(List(), List(), None)</code></td>
+    <td><code>MethodSignature(List(), List(), None, List())</code></td>
   </tr>
 </table>
 <p>Notes:</p>
