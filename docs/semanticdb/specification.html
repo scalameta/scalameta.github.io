@@ -428,12 +428,12 @@ Unlike intersection types, compound types are not commutative.</p>
 and <code>declarations</code>. Declarations are modelled by a <a href="#scope">Scope</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">AnnotatedType</span> </span>{
   reserved <span class="hljs-number">2</span>;
-  <span class="hljs-keyword">repeated</span> Annotation annotations = <span class="hljs-number">3</span>;
+  <span class="hljs-keyword">repeated</span> AnnotationTree annotations = <span class="hljs-number">3</span>;
   Type tpe = <span class="hljs-number">1</span>;
 }
 </code></pre>
 <p><code>AnnotatedType</code> represents a type <code>tpe</code> annotated by one or more
-<a href="#annotation">Annotations</a>.</p>
+<a href="#annotation-tree">AnnotationTrees</a>.</p>
 <pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">ExistentialType</span> </span>{
   reserved <span class="hljs-number">2</span>;
   Type tpe = <span class="hljs-number">1</span>;
@@ -522,7 +522,7 @@ encapsulates an underlying type of the definition.</p>
   <span class="hljs-built_in">int32</span> properties = <span class="hljs-number">4</span>;
   <span class="hljs-built_in">string</span> display_name = <span class="hljs-number">5</span>;
   Signature signature = <span class="hljs-number">17</span>;
-  <span class="hljs-keyword">repeated</span> Annotation annotations = <span class="hljs-number">13</span>;
+  <span class="hljs-keyword">repeated</span> AnnotationTree annotations = <span class="hljs-number">13</span>;
   Access access = <span class="hljs-number">18</span>;
   <span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> overridden_symbols = <span class="hljs-number">19</span>;
   Documentation documentation = <span class="hljs-number">20</span>;
@@ -753,7 +753,7 @@ definitions have which display and symbol names in supported languages.</p>
 <p><code>signature</code>. <a href="#signature">Signature</a> that represents the definition signature.
 See <a href="#languages">Languages</a> for more information on which definitions have which
 signatures in supported languages.</p>
-<p><code>annotation</code>. <a href="#annotation">Annotations</a> of the corresponding definition.</p>
+<p><code>annotation</code>. <a href="#annotationtree">AnnotationTree</a> of the corresponding definition.</p>
 <p><code>access</code>. <a href="#access">Access</a> modifier of the corresponding definition.</p>
 <p><code>overridden_symbols</code>. list of symbols that this symbol overrides.</p>
 <p><code>documentation</code>. <a href="#Documentation">Documentation</a> and the format that are associated with a symbol.</p>
@@ -772,13 +772,13 @@ signatures in supported languages.</p>
 </code></pre>
 <p><code>Documentation</code> represents the documentation associated with a <a href="#symbol">Symbol</a>. The <code>format</code> fields
 specifies the format of the text stored in <code>message</code>.</p>
-<h3><a class="anchor" aria-hidden="true" id="annotation-protobuf"></a><a href="#annotation-protobuf" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Annotation (protobuf)</h3>
-<pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Annotation</span> </span>{
+<h3><a class="anchor" aria-hidden="true" id="annotationtree"></a><a href="#annotationtree" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AnnotationTree</h3>
+<pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">AnnotationTree</span> </span>{
   Type tpe = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Tree arguments = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>An <code>Annotation</code> represents an annotation with arguments, if any. The
+<p>An <code>AnnotationTree</code> represents an annotation with arguments, if any. The
 <code>arguments</code> would normally be <code>AssignTree</code> in Java where the parameters
 generally are required to be assignment expressions, or else any other
 <code>Tree</code>.</p>
@@ -1332,7 +1332,7 @@ learn which Scala definitions have which signatures.</p>
   <span class="hljs-built_in">int32</span> properties = <span class="hljs-number">4</span>;
   <span class="hljs-built_in">string</span> display_name = <span class="hljs-number">5</span>;
   Signature signature = <span class="hljs-number">17</span>;
-  <span class="hljs-keyword">repeated</span> Annotation annotations = <span class="hljs-number">13</span>;
+  <span class="hljs-keyword">repeated</span> AnnotationTree annotations = <span class="hljs-number">13</span>;
   Access access = <span class="hljs-number">18</span>;
   Documentation documentation = <span class="hljs-number">20</span>;
 }
@@ -2233,26 +2233,26 @@ introduced by the definition <a href="https://www.scala-lang.org/files/archive/s
 <p><strong>Packages</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/09-top-level-definitions.html#packagings">[61]</a> are not included in the
 <a href="#symbolinformation">&quot;Symbols&quot;</a> section.</p>
 <p><a name="scala-annotation"></a></p>
-<h3><a class="anchor" aria-hidden="true" id="annotation-scala"></a><a href="#annotation-scala" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Annotation (Scala)</h3>
-<pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Annotation</span> </span>{
+<h3><a class="anchor" aria-hidden="true" id="annotationtree-1"></a><a href="#annotationtree-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AnnotationTree</h3>
+<pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">AnnotationTree</span> </span>{
   Type tpe = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Tree arguments = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>In Scala, <a href="#annotation-protobuf">Annotation</a> represents annotations <a href="https://www.scala-lang.org/files/archive/spec/2.12/11-annotations.html">[23]</a>.</p>
+<p>In Scala, <a href="#annotationtree">Annotation</a> represents annotations <a href="https://www.scala-lang.org/files/archive/spec/2.12/11-annotations.html">[23]</a>.</p>
 <table>
   <tr>
     <td><b>Value</b></td>
     <td><b>Explanation</b></td>
   </tr>
   <tr>
-    <td><code>Annotation(TypeRef(None, &lt;NoArgs#&gt;, List()), None)</code></td>
+    <td><code>AnnotationTree(TypeRef(None, &lt;NoArgs#&gt;, List()), None)</code></td>
     <td><code>@NoArgs</code></td>
   </tr>
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;StringArg#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;StringArg#&gt;, List()),
         List(AssignTree(IdTree(&lt;StringArg#value().&gt;),
           LiteralTree(StringConstant("arg")))))
       </code>
@@ -2262,7 +2262,7 @@ introduced by the definition <a href="https://www.scala-lang.org/files/archive/s
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;ArrayArg#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;ArrayArg#&gt;, List()),
         List(AssignTree(IdTree(&lt;ArrayArg#value().&gt;),
           ApplyTree(IdTree(&lt;scala/Array#&gt;), List())))
       </code>
@@ -2272,7 +2272,7 @@ introduced by the definition <a href="https://www.scala-lang.org/files/archive/s
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;EnumConstArg#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;EnumConstArg#&gt;, List()),
         List(AssignTree(IdTree(&lt;EnumConstArg#value().&gt;),
           SelectTree(IdTree(&lt;X#&gt;), IdTree(&lt;X#CONST.&gt;))))
       </code>
@@ -2861,7 +2861,7 @@ signatures.</p>
   <span class="hljs-built_in">int32</span> properties = <span class="hljs-number">4</span>;
   <span class="hljs-built_in">string</span> display_name = <span class="hljs-number">5</span>;
   Signature signature = <span class="hljs-number">17</span>;
-  <span class="hljs-keyword">repeated</span> Annotation annotations = <span class="hljs-number">13</span>;
+  <span class="hljs-keyword">repeated</span> AnnotationTree annotations = <span class="hljs-number">13</span>;
   Access access = <span class="hljs-number">18</span>;
   Documentation documentation = <span class="hljs-number">20</span>;
 }
@@ -3343,13 +3343,13 @@ unnamed and all top-level named packages. The motivation to define a root
 package for the Java language is to keep consistency with how package owners are
 modelled in <a href="#scala-symbol">Scala symbols</a>.</p>
 <p><a name="java-annotation"></a></p>
-<h3><a class="anchor" aria-hidden="true" id="annotation-java"></a><a href="#annotation-java" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Annotation (Java)</h3>
-<pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Annotation</span> </span>{
+<h3><a class="anchor" aria-hidden="true" id="annotationtree-2"></a><a href="#annotationtree-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AnnotationTree</h3>
+<pre><code class="hljs css language-protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">AnnotationTree</span> </span>{
   Type tpe = <span class="hljs-number">1</span>;
   <span class="hljs-keyword">repeated</span> Tree arguments = <span class="hljs-number">2</span>;
 }
 </code></pre>
-<p>In Java, <a href="#annotation-protobuf"><code>Annotation</code></a> represents a typed syntax tree of the JLS annotation
+<p>In Java, <code>AnnotationTree</code> represents a typed syntax tree of the JLS annotation
 construct <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.7">[93]</a>.</p>
 <table>
   <tr>
@@ -3357,13 +3357,13 @@ construct <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#
     <td><b>Explanation</b></td>
   </tr>
   <tr>
-    <td><code>Annotation(TypeRef(None, &lt;NoArgs#&gt;, List()), None)</code></td>
+    <td><code>AnnotationTree(TypeRef(None, &lt;NoArgs#&gt;, List()), None)</code></td>
     <td><code>@NoArgs</code></td>
   </tr>
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;StringArg#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;StringArg#&gt;, List()),
         List(AssignTree(IdTree(&lt;StringArg#value().&gt;),
           LiteralTree(StringConstant("arg")))))
       </code>
@@ -3373,7 +3373,7 @@ construct <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;ArrayArg#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;ArrayArg#&gt;, List()),
         List(AssignTree(IdTree(&lt;ArrayArg#value().&gt;),
           ApplyTree(IdTree(&lt;scala/Array#&gt;), List())))
       </code>
@@ -3383,7 +3383,7 @@ construct <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;EnumConstArg#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;EnumConstArg#&gt;, List()),
         List(AssignTree(IdTree(&lt;EnumConstArg#value().&gt;),
           SelectTree(IdTree(&lt;X#&gt;), IdTree(&lt;X#CONST.&gt;))))
       </code>
@@ -3393,7 +3393,7 @@ construct <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;Get#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;Get#&gt;, List()),
         List(AssignTree(IdTree(&lt;Get#route().&gt;),
           LiteralTree(StringConstant("/")))))
       </code>
@@ -3403,9 +3403,9 @@ construct <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#
   <tr>
     <td>
       <code>
-        Annotation(TypeRef(None, &lt;A#&gt;, List()),
+        AnnotationTree(TypeRef(None, &lt;A#&gt;, List()),
         List(AssignTree(IdTree(&lt;A#value().&gt;),
-          Annotation(TypeRef(None, &lt;B#&gt;, List()),
+          AnnotationTree(TypeRef(None, &lt;B#&gt;, List()),
             None))))
       </code>
     </td>
@@ -3519,7 +3519,7 @@ language. We intend to improve on this in the future.</p>
 <h3><a class="anchor" aria-hidden="true" id="synthetic-2"></a><a href="#synthetic-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Synthetic</h3>
 <p>At this moment, there is no tool that supports Synthetic for the Java language.
 We may improve on this in the future.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/semanticdb/guide.html"><span class="arrow-prev">← </span><span>Guide</span></a><a class="docs-next button" href="/docs/misc/built-with-scalameta.html"><span>Built with Scalameta</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#data-model">Data Model</a><ul class="toc-headings"><li><a href="#textdocument">TextDocument</a></li><li><a href="#language">Language</a></li><li><a href="#uri">URI</a></li><li><a href="#range">Range</a></li><li><a href="#location">Location</a></li><li><a href="#symbol">Symbol</a></li><li><a href="#scope">Scope</a></li><li><a href="#constant">Constant</a></li><li><a href="#type">Type</a></li><li><a href="#signature">Signature</a></li><li><a href="#symbolinformation">SymbolInformation</a></li><li><a href="#documentation">Documentation</a></li><li><a href="#annotation-protobuf">Annotation (protobuf)</a></li><li><a href="#assigntree">AssignTree</a></li><li><a href="#access">Access</a></li><li><a href="#symboloccurrence">SymbolOccurrence</a></li><li><a href="#diagnostic">Diagnostic</a></li><li><a href="#synthetic">Synthetic</a></li><li><a href="#tree">Tree</a></li></ul></li><li><a href="#data-schemas">Data Schemas</a><ul class="toc-headings"><li><a href="#protobuf">Protobuf</a></li></ul></li><li><a href="#languages">Languages</a><ul class="toc-headings"><li><a href="#notation">Notation</a></li></ul></li><li><a href="#scala">Scala</a><ul class="toc-headings"><li><a href="#symbol-1">Symbol</a></li><li><a href="#type-1">Type</a></li><li><a href="#signature-1">Signature</a></li><li><a href="#symbolinformation-1">SymbolInformation</a></li><li><a href="#annotation-scala">Annotation (Scala)</a></li><li><a href="#access-1">Access</a></li><li><a href="#symboloccurrence-1">SymbolOccurrence</a></li><li><a href="#synthetic-1">Synthetic</a></li></ul></li><li><a href="#java">Java</a><ul class="toc-headings"><li><a href="#symbol-2">Symbol</a></li><li><a href="#type-2">Type</a></li><li><a href="#signature-2">Signature</a></li><li><a href="#symbolinformation-2">SymbolInformation</a></li><li><a href="#annotation-java">Annotation (Java)</a></li><li><a href="#access-2">Access</a></li><li><a href="#symboloccurrence-2">SymbolOccurrence</a></li><li><a href="#synthetic-2">Synthetic</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Scalameta Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Scalameta Projects</h5><a href="https://scalameta.org/metals">Metals: language server</a><a href="https://scalameta.org/scalafmt">Scalafmt: code formatter</a><a href="https://scalacenter.github.io/scalafix">Scalafix: linting and refactoring tool</a><a href="https://scalameta.org/munit">MUnit: testing library</a><a href="https://scalameta.org/mdoc">MDoc: documentation tool</a><a href="https://github.com/scalameta/metabrowse">Metabrowse: online code browser</a></div><div><h5>Community</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a><a href="https://github.com/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/github/stars/scalameta/metals.svg?color=%23087e8b&amp;label=stars&amp;logo=github&amp;style=social"/></a><a href="https://discord.gg/RFpSVth" target="_blank"><img src="https://img.shields.io/discord/632642981228314653?logo=discord&amp;style=social"/></a><a href="https://gitter.im/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/gitter/room/scalameta/scalameta.svg?logo=gitter&amp;style=social"/></a><a href="https://twitter.com/scalameta" target="_blank"><img src="https://img.shields.io/twitter/follow/scalameta.svg?logo=twitter&amp;style=social"/></a></div></section><section class="copyright">Copyright © 2026 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/semanticdb/guide.html"><span class="arrow-prev">← </span><span>Guide</span></a><a class="docs-next button" href="/docs/misc/built-with-scalameta.html"><span>Built with Scalameta</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#motivation">Motivation</a></li><li><a href="#data-model">Data Model</a><ul class="toc-headings"><li><a href="#textdocument">TextDocument</a></li><li><a href="#language">Language</a></li><li><a href="#uri">URI</a></li><li><a href="#range">Range</a></li><li><a href="#location">Location</a></li><li><a href="#symbol">Symbol</a></li><li><a href="#scope">Scope</a></li><li><a href="#constant">Constant</a></li><li><a href="#type">Type</a></li><li><a href="#signature">Signature</a></li><li><a href="#symbolinformation">SymbolInformation</a></li><li><a href="#documentation">Documentation</a></li><li><a href="#annotationtree">AnnotationTree</a></li><li><a href="#assigntree">AssignTree</a></li><li><a href="#access">Access</a></li><li><a href="#symboloccurrence">SymbolOccurrence</a></li><li><a href="#diagnostic">Diagnostic</a></li><li><a href="#synthetic">Synthetic</a></li><li><a href="#tree">Tree</a></li></ul></li><li><a href="#data-schemas">Data Schemas</a><ul class="toc-headings"><li><a href="#protobuf">Protobuf</a></li></ul></li><li><a href="#languages">Languages</a><ul class="toc-headings"><li><a href="#notation">Notation</a></li></ul></li><li><a href="#scala">Scala</a><ul class="toc-headings"><li><a href="#symbol-1">Symbol</a></li><li><a href="#type-1">Type</a></li><li><a href="#signature-1">Signature</a></li><li><a href="#symbolinformation-1">SymbolInformation</a></li><li><a href="#annotationtree-1">AnnotationTree</a></li><li><a href="#access-1">Access</a></li><li><a href="#symboloccurrence-1">SymbolOccurrence</a></li><li><a href="#synthetic-1">Synthetic</a></li></ul></li><li><a href="#java">Java</a><ul class="toc-headings"><li><a href="#symbol-2">Symbol</a></li><li><a href="#type-2">Type</a></li><li><a href="#signature-2">Signature</a></li><li><a href="#symbolinformation-2">SymbolInformation</a></li><li><a href="#annotationtree-2">AnnotationTree</a></li><li><a href="#access-2">Access</a></li><li><a href="#symboloccurrence-2">SymbolOccurrence</a></li><li><a href="#synthetic-2">Synthetic</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Scalameta Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Scalameta Projects</h5><a href="https://scalameta.org/metals">Metals: language server</a><a href="https://scalameta.org/scalafmt">Scalafmt: code formatter</a><a href="https://scalacenter.github.io/scalafix">Scalafix: linting and refactoring tool</a><a href="https://scalameta.org/munit">MUnit: testing library</a><a href="https://scalameta.org/mdoc">MDoc: documentation tool</a><a href="https://github.com/scalameta/metabrowse">Metabrowse: online code browser</a></div><div><h5>Community</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a><a href="https://github.com/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/github/stars/scalameta/metals.svg?color=%23087e8b&amp;label=stars&amp;logo=github&amp;style=social"/></a><a href="https://discord.gg/RFpSVth" target="_blank"><img src="https://img.shields.io/discord/632642981228314653?logo=discord&amp;style=social"/></a><a href="https://gitter.im/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/gitter/room/scalameta/scalameta.svg?logo=gitter&amp;style=social"/></a><a href="https://twitter.com/scalameta" target="_blank"><img src="https://img.shields.io/twitter/follow/scalameta.svg?logo=twitter&amp;style=social"/></a></div></section><section class="copyright">Copyright © 2026 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
