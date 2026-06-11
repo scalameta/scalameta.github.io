@@ -316,7 +316,8 @@ at compile-time.</p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> argument = <span class="hljs-number">1</span>
 <span class="hljs-comment">// argument: Int = 1</span>
 println(<span class="hljs-string">q"function  (    <span class="hljs-subst">$argument</span>   ) // comment"</span>)
-<span class="hljs-comment">// function(1)</span>
+<span class="hljs-comment">// function(1) // comment</span>
+<span class="hljs-comment">//</span>
 </code></pre>
 <p>A list of trees can be inserted into a quasiquote with double dots <code>..$</code></p>
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> arguments = <span class="hljs-type">List</span>(<span class="hljs-string">q"arg1"</span>, <span class="hljs-string">q"arg2"</span>)
@@ -358,8 +359,8 @@ checks performed):</p>
 <span class="hljs-comment">// where targClause = ''</span>
 <span class="hljs-comment">// </span>
 <span class="hljs-comment">//  at org.scalameta.invariants.InvariantFailedException$.raise(InvariantFailedException.scala:26)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$._ctor(Trees.scala:362)</span>
-<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:362)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$._ctor(Trees.scala:383)</span>
+<span class="hljs-comment">//  at scala.meta.Term$ApplyType$After_4_6_0$.apply(Trees.scala:383)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 <span class="hljs-comment">//  at repl.MdocSession$MdocApp$$anonfun$3.apply(guide.md:217)</span>
 </code></pre>
