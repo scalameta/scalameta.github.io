@@ -118,6 +118,7 @@ language-dependent aspects of the specification.</p>
   <span class="hljs-keyword">repeated</span> SymbolOccurrence occurrences = <span class="hljs-number">6</span>;
   <span class="hljs-keyword">repeated</span> Diagnostic diagnostics = <span class="hljs-number">7</span>;
   <span class="hljs-keyword">repeated</span> Synthetic synthetics = <span class="hljs-number">12</span>;
+  <span class="hljs-built_in">string</span> build_target = <span class="hljs-number">13</span>;
 }
 </code></pre>
 <p><code>TextDocument</code> provides semantic information about a code snippet. It is the
@@ -159,6 +160,15 @@ SemanticDB payload is up-to-date with the file contents on disk.</p>
 <p><code>language</code> defines the <a href="#language">Language</a> in which the code snippet is
 written. See <a href="#languages">Languages</a> for the list of supported programming
 languages.</p>
+<p><code>build_target</code> optionally identifies the build target that produced this
+document, as provided by the tool that generated the payload (for example, via
+the <code>-P:semanticdb:buildtarget:&lt;id&gt;</code> compiler plugin option). When set, it
+should be a stable, URI-like identifier; producers integrated with the
+<a href="https://build-server-protocol.github.io">Build Server Protocol</a> should use the
+corresponding <code>BuildTargetIdentifier.uri</code>. It lets tools distinguish otherwise
+identical documents that originate from different build targets, such as the
+same source compiled for multiple platforms (JVM/JS/Native) or Scala versions.
+When empty, no build target information is available.</p>
 <p>Semantic information about code snippets is stored in so called sections -
 repeated fields within <code>TextDocument</code> - as described below. These sections are
 optional, which means that documents providing only part of semantic information
