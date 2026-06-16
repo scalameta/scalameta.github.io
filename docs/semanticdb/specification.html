@@ -753,6 +753,18 @@ languages map onto these properties.</p>
     <td><code>OPAQUE</code></td>
     <td>Has an <code>opaque</code> modifier?</td>
   </tr>
+  <tr>
+    <td><code>0x400000</code></td>
+    <td><code>OVERRIDE</code></td>
+    <td>Has an <code>override</code> modifier, or effectively overrides?</td>
+  </tr>
+  <tr>
+    <td><code>0x800000</code></td>
+    <td><code>SYNTHETIC</code></td>
+    <td>Is a compiler-synthesized symbol that does not appear in source code,
+    e.g. members generated for <code>case</code> classes and <code>AnyVal</code>
+    classes?</td>
+  </tr>
 </table>
 <p><code>display_name</code>. Display name of the definition, i.e. how this definition should
 be presented to humans, e.g. in code browsers or integrated development
@@ -1500,6 +1512,8 @@ appearance in source code).</li>
 </ul></li>
 <li><code>LAZY</code>: set for all corresponding symbols of <code>lazy</code> values.</li>
 <li><code>VAL</code>: set for all corresponding symbols.</li>
+<li><code>SYNTHETIC</code>: set for compiler-synthesized values that are not written in
+source code, e.g. values introduced by desugaring.</li>
 </ul></li>
 <li>Display name for value symbols is equal to the name of the binding introduced
 by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
@@ -1558,6 +1572,8 @@ variable.</li>
 <li><code>LAZY</code>: never set for variable symbols, since variable declarations and
 definitions cannot be <code>lazy</code>.</li>
 <li><code>VAR</code>: set for all corresponding symbols.</li>
+<li><code>SYNTHETIC</code>: set for compiler-synthesized variables that are not written in
+source code, e.g. variables introduced by desugaring.</li>
 </ul></li>
 </ul>
 <p><strong>Pattern variables</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#variable-patterns">[65]</a> are represented differently depending on
@@ -1887,6 +1903,8 @@ bounds and view bounds (see above).</li>
 <li><code>VAL</code>: set for <code>val</code> parameters of primary constructors.</li>
 <li><code>VAR</code>: set for <code>var</code> parameters of primary constructors.</li>
 <li><code>DEFAULT</code>: set for parameters with default values.</li>
+<li><code>SYNTHETIC</code>: set for parameters of compiler-synthesized methods that are not
+written in source code.</li>
 </ul></li>
 <li>Scalac semantic model does not distinguish parameters in <code>class C(x: Int)</code> and
 <code>class C(private[this] val x: Int)</code>. As a result, due to implementation
@@ -1991,6 +2009,8 @@ features, and here we provide a comprehensive list of such methods:
 <li><code>ABSTRACT</code>: set for function declarations.</li>
 <li><code>FINAL</code>: set for <code>final</code> methods.</li>
 <li><code>IMPLICIT</code>: set for <code>implicit</code> methods.</li>
+<li><code>SYNTHETIC</code>: set for compiler-synthesized methods that are not written in
+source code, e.g. the synthetic methods enumerated above.</li>
 </ul></li>
 <li>Display name for method symbols is equal to the name of the binding introduced
 by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
@@ -2179,6 +2199,8 @@ multiple different symbols as described above.</li>
 <li><code>SEALED</code>: set for <code>sealed</code> classes.</li>
 <li><code>IMPLICIT</code>: set for <code>implicit</code> classes.</li>
 <li><code>CASE</code>: set for <code>case</code> classes.</li>
+<li><code>SYNTHETIC</code>: set for compiler-synthesized classes that are not written in
+source code, e.g. anonymous classes generated for SAM conversions.</li>
 </ul></li>
 <li>Display name for class symbols is equal to the name of the binding introduced
 by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
@@ -2220,8 +2242,10 @@ similarly to class definitions (see above). Concretely, the differences between
 object symbols and class symbols are:</p>
 <ul>
 <li>Object symbols are always <code>FINAL</code>.</li>
-<li>Apart from <code>FINAL</code>, object symbols only support <code>CASE</code> and <code>IMPLICIT</code>
-properties.</li>
+<li>Apart from <code>FINAL</code>, object symbols only support <code>CASE</code>, <code>IMPLICIT</code> and
+<code>SYNTHETIC</code> properties. <code>SYNTHETIC</code> is set for compiler-synthesized objects
+that are not written in source code, e.g. companion objects generated for
+<code>case</code> classes.</li>
 <li>Display name for object symbols is equal to the name of the binding introduced
 by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html">[70]</a>.</li>
 <li>Objects don't have type parameters, but we still represent their signatures
