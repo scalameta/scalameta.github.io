@@ -3198,12 +3198,14 @@ by the definition.</li>
 <li>Enum fields have kind <code>FIELD</code>, properties <code>FINAL</code>, <code>STATIC</code> and <code>ENUM</code>, are
 named after the corresponding enum constants, have the type of the enum
 declaration and <code>PublicAccess</code> access.</li>
-<li><code>valueOf</code> has kind <code>METHOD</code>, property <code>STATIC</code>, have a method type that goes
-from a <code>&lt;String&gt;</code> parameter to the enum declaration and <code>PublicAccess</code>
-access.</li>
-<li><code>values</code> has kind <code>METHOD</code>, property <code>STATIC</code>, have a method type that goes
-from an empty parameter list to an array of the enum declaration and
+<li><code>valueOf</code> has kind <code>METHOD</code>, properties <code>STATIC</code> and <code>SYNTHETIC</code> (it is
+compiler-synthesized per JLS and does not appear in source code), have a
+method type that goes from a <code>&lt;String&gt;</code> parameter to the enum declaration and
 <code>PublicAccess</code> access.</li>
+<li><code>values</code> has kind <code>METHOD</code>, properties <code>STATIC</code> and <code>SYNTHETIC</code> (it is
+compiler-synthesized per JLS and does not appear in source code), have a
+method type that goes from an empty parameter list to an array of the enum
+declaration and <code>PublicAccess</code> access.</li>
 </ul></li>
 <li>Enum declarations support <a href="#java-access">all Java access modifiers</a>.</li>
 </ul>
