@@ -1,442 +1,863 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>trees/quasiquotes · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Below you can find a comprehensive map between Scala&#x27;s language constructs and"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="trees/quasiquotes · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="Below you can find a comprehensive map between Scala&#x27;s language constructs and"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Trees</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/trees/quasiquotes.html">trees/quasiquotes</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/examples.html">trees/examples</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scastie.html">Scastie Playground</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/astexplorer.html">Scalameta AST Explorer</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scaladoc.html">Scaladoc</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
-            var coll = document.getElementsByClassName('collapsible');
-            var checkActiveCategory = true;
-            for (var i = 0; i < coll.length; i++) {
-              var links = coll[i].nextElementSibling.getElementsByTagName('*');
-              if (checkActiveCategory){
-                for (var j = 0; j < links.length; j++) {
-                  if (links[j].classList.contains('navListItemActive')){
-                    coll[i].nextElementSibling.classList.toggle('hide');
-                    coll[i].childNodes[1].classList.toggle('rotate');
-                    checkActiveCategory = false;
-                    break;
-                  }
-                }
-              }
-
-              coll[i].addEventListener('click', function() {
-                var arrow = this.childNodes[1];
-                arrow.classList.toggle('rotate');
-                var content = this.nextElementSibling;
-                content.classList.toggle('hide');
-              });
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
-              createToggler('#tocToggler', 'body', 'tocActive');
-
-              var headings = document.querySelector('.toc-headings');
-              headings && headings.addEventListener('click', function(event) {
-                var el = event.target;
-                while(el !== headings){
-                  if (el.tagName === 'A') {
-                    document.body.classList.remove('tocActive');
-                    break;
-                  } else{
-                    el = el.parentNode;
-                  }
-                }
-              }, false);
-
-              function createToggler(togglerSelector, targetSelector, className) {
-                var toggler = document.querySelector(togglerSelector);
-                var target = document.querySelector(targetSelector);
-
-                if (!toggler) {
-                  return;
-                }
-
-                toggler.onclick = function(event) {
-                  event.preventDefault();
-
-                  target.classList.toggle(className);
-                };
-              }
-            });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">trees/quasiquotes</h1></header><article><div><span><p>Below you can find a comprehensive map between Scala's language constructs and
-various quasiquotes in scala.meta. If something's missing here, it's a bug that
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-trees/quasiquotes" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.10.1">
+<title data-rh="true">quasiquotes | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/trees/quasiquotes"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="quasiquotes | Scalameta"><meta data-rh="true" name="description" content="Below you can find a comprehensive map between Scala&#x27;s language constructs and"><meta data-rh="true" property="og:description" content="Below you can find a comprehensive map between Scala&#x27;s language constructs and"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/trees/quasiquotes"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/trees/quasiquotes" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/trees/quasiquotes" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"quasiquotes","item":"https://scalameta.org/docs/trees/quasiquotes"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
+<script src="/assets/js/runtime~main.4e129d0b.js" defer="defer"></script>
+<script src="/assets/js/main.e17f1be4.js" defer="defer"></script>
+</head>
+<body>
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/img/scalameta.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/scalameta.png" alt="Scalameta" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/scalameta.png" alt="Scalameta" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Scalameta</b></a><a class="navbar__item navbar__link" href="/docs/trees/guide">Trees</a><a class="navbar__item navbar__link" href="/docs/semanticdb/guide">SemanticDB</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/scalameta/scalameta" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-github-link" aria-label="GitHub repository"></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/trees/guide"><span title="Trees" class="categoryLinkLabel_W154">Trees</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/guide"><span title="Guide" class="linkLabel_WmDU">Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/trees/quasiquotes"><span title="quasiquotes" class="linkLabel_WmDU">quasiquotes</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/examples"><span title="Tree Examples" class="linkLabel_WmDU">Tree Examples</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/scastie"><span title="Scastie Playground" class="linkLabel_WmDU">Scastie Playground</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/astexplorer"><span title="Scalameta AST Explorer" class="linkLabel_WmDU">Scalameta AST Explorer</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/scaladoc"><span title="Scaladoc" class="linkLabel_WmDU">Scaladoc</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/semanticdb/guide"><span title="SemanticDB" class="categoryLinkLabel_W154">SemanticDB</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/misc/built-with-scalameta"><span title="Community" class="categoryLinkLabel_W154">Community</span></a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Trees</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">quasiquotes</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>quasiquotes</h1></header><p>Below you can find a comprehensive map between Scala&#x27;s language constructs and
+various quasiquotes in scala.meta. If something&#x27;s missing here, it&#x27;s a bug that
 should be
-<a href="https://github.com/scalameta/scalameta/issues/new">submitted to our issue tracker</a>.</p>
+<a href="https://github.com/scalameta/scalameta/issues/new" target="_blank" rel="noopener noreferrer" class="">submitted to our issue tracker</a>.</p>
 <p>This specification describes quasiquote syntax using a markedly condensed
 notation. If you have troubles decyphering it, consult the &quot;Legend&quot; section in
 the end of the document.</p>
-<h2><a class="anchor" aria-hidden="true" id="expressions-metaterm"></a><a href="#expressions-metaterm" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expressions (meta.Term)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Literal</td><td><code>q&quot;&lt;literal&gt;&quot;</code></td></tr>
-<tr><td>This</td><td><code>q&quot;this&quot;</code>, <code>q&quot;$name.this&quot;</code></td></tr>
-<tr><td>Super</td><td><code>q&quot;super&quot;</code>, <code>q&quot;$name.super&quot;</code>, <code>q&quot;super[$name]&quot;</code>, <code>q&quot;$name.super[$name]&quot;</code></td></tr>
-<tr><td>Name</td><td><code>q&quot;&lt;name&gt;&quot;</code> when interpolation is not needed, otherwise <code>Term.Name(name)</code></td></tr>
-<tr><td>Selection</td><td><code>q&quot;$expr.$ename&quot;</code></td></tr>
-<tr><td>Interpolation</td><td>Not supported yet</td></tr>
-<tr><td>Application</td><td><code>q&quot;$expr(...$exprss)&quot;</code></td></tr>
-<tr><td>Type Application</td><td><code>q&quot;$expr[..$tpesnel]&quot;</code></td></tr>
-<tr><td>Infix Application</td><td><code>q&quot;$expr $ename[..$tpes] $expr&quot;</code>, <code>q&quot;$expr $ename[..$tpes] (..$exprs)&quot;</code></td></tr>
-<tr><td>Unary Application</td><td><code>q&quot;!$expr&quot;, q&quot;~$expr&quot;, q&quot;-$expr&quot;, &quot;+$expr&quot;</code></td></tr>
-<tr><td>Assign</td><td><code>q&quot;$expr = $expr&quot;</code></td></tr>
-<tr><td>Return</td><td><code>q&quot;return $expr&quot;</code></td></tr>
-<tr><td>Throw</td><td><code>q&quot;throw $expr&quot;</code></td></tr>
-<tr><td>Ascribe</td><td><code>q&quot;$expr: $tpe&quot;</code></td></tr>
-<tr><td>Annotate</td><td><code>q&quot;$expr: ..@$annotsnel&quot;</code></td></tr>
-<tr><td>Tuple</td><td><code>q&quot;(..$exprsnel)&quot;</code></td></tr>
-<tr><td>Block</td><td><code>q&quot;{ ..$stats }&quot;</code></td></tr>
-<tr><td>If</td><td><code>q&quot;if ($expr) $expr else $expr&quot;</code></td></tr>
-<tr><td>Match</td><td><code>q&quot;$expr match { ..case $casesnel }&quot;</code></td></tr>
-<tr><td>Try</td><td><code>q&quot;try $expr catch { ..case $cases } finally $expropt&quot;</code></td></tr>
-<tr><td>Try With Handler</td><td><code>q&quot;try $expr catch $expr finally $expropt&quot;</code></td></tr>
-<tr><td>Function</td><td><code>q&quot;(..$params) =&gt; $expr&quot;</code></td></tr>
-<tr><td>Partial Function</td><td><code>q&quot;{ ..case $casesnel }&quot;</code></td></tr>
-<tr><td>While</td><td><code>q&quot;while ($expr) $expr&quot;</code></td></tr>
-<tr><td>Do While</td><td><code>q&quot;do $expr while($expr)&quot;</code></td></tr>
-<tr><td>For</td><td><code>q&quot;for (..$enumeratorsnel) $expr&quot;</code></td></tr>
-<tr><td>For Yield</td><td><code>q&quot;for (..$enumeratorsnel) yield $expr&quot;</code></td></tr>
-<tr><td>New</td><td><code>q&quot;new $init&quot;</code></td></tr>
-<tr><td>New Anonymous</td><td><code>q&quot;new { ..$stat } with ..$inits { $self =&gt; ..$stats }&quot;</code></td></tr>
-<tr><td>Placeholder</td><td><code>q&quot;_&quot;</code></td></tr>
-<tr><td>Eta Expansion</td><td><code>q&quot;$expr _&quot;</code></td></tr>
-<tr><td>Repeated</td><td><code>q&quot;$expr: _*&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="types-metatype"></a><a href="#types-metatype" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types (meta.Type)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Literal</td><td><code>t&quot;&lt;literal&gt;&quot;</code></td></tr>
-<tr><td>Name</td><td><code>t&quot;&lt;name&gt;&quot;</code> when interpolation is not needed, otherwise <code>Type.Name(name)</code></td></tr>
-<tr><td>Selection</td><td><code>t&quot;$eref.$tname&quot;</code></td></tr>
-<tr><td>Projection</td><td><code>t&quot;$tpe#$tname&quot;</code></td></tr>
-<tr><td>Singleton</td><td><code>t&quot;$eref.type&quot;</code></td></tr>
-<tr><td>Application</td><td><code>t&quot;$tpe[..$tpesnel]</code></td></tr>
-<tr><td>Infix Application</td><td><code>t&quot;$tpe $tname $tpe&quot;</code></td></tr>
-<tr><td>With</td><td><code>t&quot;$tpe with $tpe&quot;</code> (only for supported dialects)</td></tr>
-<tr><td>And</td><td><code>t&quot;$tpe &amp; $tpe&quot;</code> (only for supported dialects)</td></tr>
-<tr><td>Or</td><td><code>t&quot;$tpe | $tpe&quot;</code> (only for supported dialects)</td></tr>
-<tr><td>Function</td><td><code>t&quot;(..$tpes) =&gt; $tpe&quot;</code></td></tr>
-<tr><td>Implicit Function</td><td><code>t&quot;implicit (..$tpes) =&gt; $tpe&quot;</code></td></tr>
-<tr><td>Tuple</td><td><code>t&quot;(..$tpesnel)&quot;</code></td></tr>
-<tr><td>Refine</td><td><code>t&quot;$tpeopt { ..$stats }&quot;</code></td></tr>
-<tr><td>Existential</td><td><code>t&quot;$tpe forSome { ..$statsnel }&quot;</code></td></tr>
-<tr><td>Annotate</td><td><code>t&quot;$tpe ..@$annotsnel&quot;</code></td></tr>
-<tr><td>Lambda</td><td><code>t[..$tparams] =&gt; $tpe</code></td></tr>
-<tr><td>Method</td><td><code>t(...$paramss): $tpe</code></td></tr>
-<tr><td>Placeholder</td><td><code>t&quot;_ &gt;: $tpeopt &lt;: $tpeopt&quot;</code></td></tr>
-<tr><td>By Name</td><td><code>t&quot;=&gt; $tpe&quot;</code></td></tr>
-<tr><td>Repeated</td><td><code>t&quot;$tpe*&quot;</code></td></tr>
-<tr><td>Var</td><td>Not supported</td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="patterns-metapat-and-cases-metacase"></a><a href="#patterns-metapat-and-cases-metacase" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Patterns (meta.Pat) and Cases (meta.Case)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Literal</td><td><code>p&quot;&lt;lit&gt;&quot;</code></td></tr>
-<tr><td>Wildcard</td><td><code>p&quot;_&quot;</code></td></tr>
-<tr><td>Sequence Wildcard</td><td><code>p&quot;_*&quot;</code></td></tr>
-<tr><td>Var</td><td><code>p&quot;&lt;name&gt;&quot;</code></td></tr>
-<tr><td>Bind</td><td><code>p&quot;$pat @ $pat&quot;</code></td></tr>
-<tr><td>Alternative</td><td><code>p&quot;$pat | $pat&quot;</code></td></tr>
-<tr><td>Tuple</td><td><code>p&quot;(..$patsnel)&quot;</code></td></tr>
-<tr><td>Extract</td><td><code>p&quot;$expr(..$pats)&quot;</code></td></tr>
-<tr><td>Infix Extract</td><td><code>p&quot;$pat $ename (..$pats)&quot;</code></td></tr>
-<tr><td>Interpolation</td><td>Not supported yet</td></tr>
-<tr><td>Typed</td><td><code>p&quot;$pat: $tpe&quot;</code></td></tr>
-<tr><td>Name</td><td><code>p&quot;`&lt;name&gt;`&quot;</code></td></tr>
-<tr><td>Selection</td><td><code>p&quot;$expr.$ename&quot;</code></td></tr>
-<tr><td>Case</td><td><code>p&quot;case $pat if $expropt =&gt; $expr&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="members-metamember"></a><a href="#members-metamember" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Members (meta.Member)</h2>
-<h3><a class="anchor" aria-hidden="true" id="declarations"></a><a href="#declarations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declarations</h3>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Val</td><td><code>q&quot;..$mods val ..$patsnel: $tpe&quot;</code></td></tr>
-<tr><td>Var</td><td><code>q&quot;..$mods var ..$patsnel: $tpe&quot;</code></td></tr>
-<tr><td>Def</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpe&quot;</code></td></tr>
-<tr><td>Type</td><td><code>q&quot;..$mods type $tname[..$tparams] &gt;: $tpeopt &lt;: $tpeopt&quot;</code></td></tr>
-</tbody>
-</table>
-<h3><a class="anchor" aria-hidden="true" id="definitions"></a><a href="#definitions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definitions</h3>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Val</td><td><code>q&quot;..$mods val ..$patsnel: $tpeopt = $expr&quot;</code></td></tr>
-<tr><td>Var</td><td><code>q&quot;..$mods var ..$patsnel: $tpeopt = $expropt&quot;</code></td></tr>
-<tr><td>Def</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr&quot;</code></td></tr>
-<tr><td>Macro</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpeopt = macro $expr&quot;</code></td></tr>
-<tr><td>Type</td><td><code>q&quot;..$mods type $tname[..$tparams] = $tpe&quot;</code></td></tr>
-<tr><td>Class</td><td><code>q&quot;..$mods class $tname[..$tparams] ..$ctorMods (...$paramss) $template&quot;</code></td></tr>
-<tr><td>Trait</td><td><code>q&quot;..$mods trait $tname[..$tparams] $template&quot;</code></td></tr>
-<tr><td>Object</td><td><code>q&quot;..$mods object $ename $template&quot;</code></td></tr>
-<tr><td>Package Object</td><td><code>q&quot;package object $ename $template&quot;</code></td></tr>
-<tr><td>Package</td><td><code>q&quot;package $eref { ..$stats }&quot;</code></td></tr>
-<tr><td>Primary Ctor</td><td><code>q&quot;..$mods def this(...$paramss)&quot;</code></td></tr>
-<tr><td>Secondary Ctor</td><td><code>q&quot;..$mods def this(...$paramss) = $expr&quot;</code></td></tr>
-</tbody>
-</table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="expressions-metaterm">Expressions (meta.Term)<a href="#expressions-metaterm" class="hash-link" aria-label="Direct link to Expressions (meta.Term)" title="Direct link to Expressions (meta.Term)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Literal</td><td><code>q&quot;&lt;literal&gt;&quot;</code></td></tr><tr><td>This</td><td><code>q&quot;this&quot;</code>, <code>q&quot;$name.this&quot;</code></td></tr><tr><td>Super</td><td><code>q&quot;super&quot;</code>, <code>q&quot;$name.super&quot;</code>, <code>q&quot;super[$name]&quot;</code>, <code>q&quot;$name.super[$name]&quot;</code></td></tr><tr><td>Name</td><td><code>q&quot;&lt;name&gt;&quot;</code> when interpolation is not needed, otherwise <code>Term.Name(name)</code></td></tr><tr><td>Selection</td><td><code>q&quot;$expr.$ename&quot;</code></td></tr><tr><td>Interpolation</td><td>Not supported yet</td></tr><tr><td>Application</td><td><code>q&quot;$expr(...$exprss)&quot;</code></td></tr><tr><td>Type Application</td><td><code>q&quot;$expr[..$tpesnel]&quot;</code></td></tr><tr><td>Infix Application</td><td><code>q&quot;$expr $ename[..$tpes] $expr&quot;</code>, <code>q&quot;$expr $ename[..$tpes] (..$exprs)&quot;</code></td></tr><tr><td>Unary Application</td><td><code>q&quot;!$expr&quot;, q&quot;~$expr&quot;, q&quot;-$expr&quot;, &quot;+$expr&quot;</code></td></tr><tr><td>Assign</td><td><code>q&quot;$expr = $expr&quot;</code></td></tr><tr><td>Return</td><td><code>q&quot;return $expr&quot;</code></td></tr><tr><td>Throw</td><td><code>q&quot;throw $expr&quot;</code></td></tr><tr><td>Ascribe</td><td><code>q&quot;$expr: $tpe&quot;</code></td></tr><tr><td>Annotate</td><td><code>q&quot;$expr: ..@$annotsnel&quot;</code></td></tr><tr><td>Tuple</td><td><code>q&quot;(..$exprsnel)&quot;</code></td></tr><tr><td>Block</td><td><code>q&quot;{ ..$stats }&quot;</code></td></tr><tr><td>If</td><td><code>q&quot;if ($expr) $expr else $expr&quot;</code></td></tr><tr><td>Match</td><td><code>q&quot;$expr match { ..case $casesnel }&quot;</code></td></tr><tr><td>Try</td><td><code>q&quot;try $expr catch { ..case $cases } finally $expropt&quot;</code></td></tr><tr><td>Try With Handler</td><td><code>q&quot;try $expr catch $expr finally $expropt&quot;</code></td></tr><tr><td>Function</td><td><code>q&quot;(..$params) =&gt; $expr&quot;</code></td></tr><tr><td>Partial Function</td><td><code>q&quot;{ ..case $casesnel }&quot;</code></td></tr><tr><td>While</td><td><code>q&quot;while ($expr) $expr&quot;</code></td></tr><tr><td>Do While</td><td><code>q&quot;do $expr while($expr)&quot;</code></td></tr><tr><td>For</td><td><code>q&quot;for (..$enumeratorsnel) $expr&quot;</code></td></tr><tr><td>For Yield</td><td><code>q&quot;for (..$enumeratorsnel) yield $expr&quot;</code></td></tr><tr><td>New</td><td><code>q&quot;new $init&quot;</code></td></tr><tr><td>New Anonymous</td><td><code>q&quot;new { ..$stat } with ..$inits { $self =&gt; ..$stats }&quot;</code></td></tr><tr><td>Placeholder</td><td><code>q&quot;_&quot;</code></td></tr><tr><td>Eta Expansion</td><td><code>q&quot;$expr _&quot;</code></td></tr><tr><td>Repeated</td><td><code>q&quot;$expr: _*&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="types-metatype">Types (meta.Type)<a href="#types-metatype" class="hash-link" aria-label="Direct link to Types (meta.Type)" title="Direct link to Types (meta.Type)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Literal</td><td><code>t&quot;&lt;literal&gt;&quot;</code></td></tr><tr><td>Name</td><td><code>t&quot;&lt;name&gt;&quot;</code> when interpolation is not needed, otherwise <code>Type.Name(name)</code></td></tr><tr><td>Selection</td><td><code>t&quot;$eref.$tname&quot;</code></td></tr><tr><td>Projection</td><td><code>t&quot;$tpe#$tname&quot;</code></td></tr><tr><td>Singleton</td><td><code>t&quot;$eref.type&quot;</code></td></tr><tr><td>Application</td><td><code>t&quot;$tpe[..$tpesnel]</code></td></tr><tr><td>Infix Application</td><td><code>t&quot;$tpe $tname $tpe&quot;</code></td></tr><tr><td>With</td><td><code>t&quot;$tpe with $tpe&quot;</code> (only for supported dialects)</td></tr><tr><td>And</td><td><code>t&quot;$tpe &amp; $tpe&quot;</code> (only for supported dialects)</td></tr><tr><td>Or</td><td><code>t&quot;$tpe | $tpe&quot;</code> (only for supported dialects)</td></tr><tr><td>Function</td><td><code>t&quot;(..$tpes) =&gt; $tpe&quot;</code></td></tr><tr><td>Implicit Function</td><td><code>t&quot;implicit (..$tpes) =&gt; $tpe&quot;</code></td></tr><tr><td>Tuple</td><td><code>t&quot;(..$tpesnel)&quot;</code></td></tr><tr><td>Refine</td><td><code>t&quot;$tpeopt { ..$stats }&quot;</code></td></tr><tr><td>Existential</td><td><code>t&quot;$tpe forSome { ..$statsnel }&quot;</code></td></tr><tr><td>Annotate</td><td><code>t&quot;$tpe ..@$annotsnel&quot;</code></td></tr><tr><td>Lambda</td><td><code>t[..$tparams] =&gt; $tpe</code></td></tr><tr><td>Method</td><td><code>t(...$paramss): $tpe</code></td></tr><tr><td>Placeholder</td><td><code>t&quot;_ &gt;: $tpeopt &lt;: $tpeopt&quot;</code></td></tr><tr><td>By Name</td><td><code>t&quot;=&gt; $tpe&quot;</code></td></tr><tr><td>Repeated</td><td><code>t&quot;$tpe*&quot;</code></td></tr><tr><td>Var</td><td>Not supported</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="patterns-metapat-and-cases-metacase">Patterns (meta.Pat) and Cases (meta.Case)<a href="#patterns-metapat-and-cases-metacase" class="hash-link" aria-label="Direct link to Patterns (meta.Pat) and Cases (meta.Case)" title="Direct link to Patterns (meta.Pat) and Cases (meta.Case)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Literal</td><td><code>p&quot;&lt;lit&gt;&quot;</code></td></tr><tr><td>Wildcard</td><td><code>p&quot;_&quot;</code></td></tr><tr><td>Sequence Wildcard</td><td><code>p&quot;_*&quot;</code></td></tr><tr><td>Var</td><td><code>p&quot;&lt;name&gt;&quot;</code></td></tr><tr><td>Bind</td><td><code>p&quot;$pat @ $pat&quot;</code></td></tr><tr><td>Alternative</td><td><code>p&quot;$pat | $pat&quot;</code></td></tr><tr><td>Tuple</td><td><code>p&quot;(..$patsnel)&quot;</code></td></tr><tr><td>Extract</td><td><code>p&quot;$expr(..$pats)&quot;</code></td></tr><tr><td>Infix Extract</td><td><code>p&quot;$pat $ename (..$pats)&quot;</code></td></tr><tr><td>Interpolation</td><td>Not supported yet</td></tr><tr><td>Typed</td><td><code>p&quot;$pat: $tpe&quot;</code></td></tr><tr><td>Name</td><td><code>p&quot;`&lt;name&gt;`&quot;</code></td></tr><tr><td>Selection</td><td><code>p&quot;$expr.$ename&quot;</code></td></tr><tr><td>Case</td><td><code>p&quot;case $pat if $expropt =&gt; $expr&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="members-metamember">Members (meta.Member)<a href="#members-metamember" class="hash-link" aria-label="Direct link to Members (meta.Member)" title="Direct link to Members (meta.Member)" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="declarations">Declarations<a href="#declarations" class="hash-link" aria-label="Direct link to Declarations" title="Direct link to Declarations" translate="no">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Val</td><td><code>q&quot;..$mods val ..$patsnel: $tpe&quot;</code></td></tr><tr><td>Var</td><td><code>q&quot;..$mods var ..$patsnel: $tpe&quot;</code></td></tr><tr><td>Def</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpe&quot;</code></td></tr><tr><td>Type</td><td><code>q&quot;..$mods type $tname[..$tparams] &gt;: $tpeopt &lt;: $tpeopt&quot;</code></td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="definitions">Definitions<a href="#definitions" class="hash-link" aria-label="Direct link to Definitions" title="Direct link to Definitions" translate="no">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Val</td><td><code>q&quot;..$mods val ..$patsnel: $tpeopt = $expr&quot;</code></td></tr><tr><td>Var</td><td><code>q&quot;..$mods var ..$patsnel: $tpeopt = $expropt&quot;</code></td></tr><tr><td>Def</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpeopt = $expr&quot;</code></td></tr><tr><td>Macro</td><td><code>q&quot;..$mods def $ename[..$tparams](...$paramss): $tpeopt = macro $expr&quot;</code></td></tr><tr><td>Type</td><td><code>q&quot;..$mods type $tname[..$tparams] = $tpe&quot;</code></td></tr><tr><td>Class</td><td><code>q&quot;..$mods class $tname[..$tparams] ..$ctorMods (...$paramss) $template&quot;</code></td></tr><tr><td>Trait</td><td><code>q&quot;..$mods trait $tname[..$tparams] $template&quot;</code></td></tr><tr><td>Object</td><td><code>q&quot;..$mods object $ename $template&quot;</code></td></tr><tr><td>Package Object</td><td><code>q&quot;package object $ename $template&quot;</code></td></tr><tr><td>Package</td><td><code>q&quot;package $eref { ..$stats }&quot;</code></td></tr><tr><td>Primary Ctor</td><td><code>q&quot;..$mods def this(...$paramss)&quot;</code></td></tr><tr><td>Secondary Ctor</td><td><code>q&quot;..$mods def this(...$paramss) = $expr&quot;</code></td></tr></tbody></table>
 <blockquote>
 <p><code>$template</code> above can be replaced with either <code>extends</code> followed by the full signature from
-<a href="#template-metatemplate"><code>Template</code></a>, or just <code>{ $self =&gt; ..$stats }</code> if no parents are expected.</p>
+<a href="#template-metatemplate" class=""><code>Template</code></a>, or just <code>{ $self =&gt; ..$stats }</code> if no parents are expected.</p>
 </blockquote>
-<h3><a class="anchor" aria-hidden="true" id="value-parameters-metatermparam"></a><a href="#value-parameters-metatermparam" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Value Parameters (meta.Term.Param)</h3>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Term Param</td><td><code>param&quot;..$mods $name: $tpeopt = $expropt&quot;</code></td></tr>
-</tbody>
-</table>
-<h3><a class="anchor" aria-hidden="true" id="type-parameters-metatypeparam"></a><a href="#type-parameters-metatypeparam" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type Parameters (meta.Type.Param)</h3>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Type Param</td><td><code>tparam&quot;..$mods $name[..$tparams] &gt;: $tpeopt &lt;: $tpeopt &lt;% ..$tpes : ..$tpes&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="inits-metainit"></a><a href="#inits-metainit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inits (meta.Init)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Init</td><td><code>init&quot;$tpe(...$exprss)&quot;</code>, <code>init&quot;this(...$exprss)&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="selfs-metaself"></a><a href="#selfs-metaself" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Selfs (meta.Self)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Self</td><td><code>self&quot;$name: $tpeopt&quot;</code>, <code>self&quot;this: $tpeopt&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="template-metatemplate"></a><a href="#template-metatemplate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Template (meta.Template)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Template</td><td><code>template&quot;{ ..$stats } with ..$inits { $self =&gt; ..$stats }&quot;</code> (first <code>stats</code> is early initializers, second <code>stats</code> is regular statements in the body of the template).</td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="modifiers-metamod"></a><a href="#modifiers-metamod" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modifiers (meta.Mod)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Annotation</td><td><code>mod&quot;@$annot&quot;</code></td></tr>
-<tr><td>Private</td><td><code>mod&quot;private[$ref]&quot;</code></td></tr>
-<tr><td>Protected</td><td><code>mod&quot;protected[$ref]&quot;</code></td></tr>
-<tr><td>Implicit</td><td><code>mod&quot;implicit&quot;</code></td></tr>
-<tr><td>Final</td><td><code>mod&quot;final&quot;</code></td></tr>
-<tr><td>Sealed</td><td><code>mod&quot;sealed&quot;</code></td></tr>
-<tr><td>Override</td><td><code>mod&quot;override&quot;</code></td></tr>
-<tr><td>Case</td><td><code>mod&quot;case&quot;</code></td></tr>
-<tr><td>Abstract</td><td><code>mod&quot;abstract&quot;</code></td></tr>
-<tr><td>Covariant</td><td><code>mod&quot;+&quot;</code></td></tr>
-<tr><td>Contravariant</td><td><code>mod&quot;-&quot;</code></td></tr>
-<tr><td>Lazy</td><td><code>mod&quot;lazy&quot;</code></td></tr>
-<tr><td>Val Param</td><td><code>mod&quot;valparam&quot;</code></td></tr>
-<tr><td>Var Param</td><td><code>mod&quot;varparam&quot;</code></td></tr>
-<tr><td>Inline</td><td><code>mod&quot;inline&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="enumerators-metaenum"></a><a href="#enumerators-metaenum" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enumerators (meta.Enum)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Generator</td><td><code>enumerator&quot;$pat &lt;- $expr&quot;</code></td></tr>
-<tr><td>Value</td><td><code>enumerator&quot;$pat = $expr&quot;</code></td></tr>
-<tr><td>Guard</td><td><code>enumerator&quot;if $expr&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="imports-metaimport"></a><a href="#imports-metaimport" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Imports (meta.Import)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Import</td><td><code>q&quot;import ..$importersnel&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="importer-metaimporter"></a><a href="#importer-metaimporter" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importer (meta.Importer)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Importer</td><td><code>importer&quot;$eref.{..$importeesnel}&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="importees-metaimportee"></a><a href="#importees-metaimportee" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importees (meta.Importee)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Name</td><td><code>importee&quot;$name&quot;</code></td></tr>
-<tr><td>Rename</td><td><code>importee&quot;$name =&gt; $name&quot;</code></td></tr>
-<tr><td>Unimport</td><td><code>importee&quot;$name =&gt; _&quot;</code></td></tr>
-<tr><td>Wildcard</td><td><code>importee&quot;_&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="sources-metasource"></a><a href="#sources-metasource" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sources (meta.Source)</h2>
-<table>
-<thead>
-<tr><th></th><th>Quasiquote</th></tr>
-</thead>
-<tbody>
-<tr><td>Source</td><td><code>source&quot;..$stats&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="legend"></a><a href="#legend" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Legend</h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="value-parameters-metatermparam">Value Parameters (meta.Term.Param)<a href="#value-parameters-metatermparam" class="hash-link" aria-label="Direct link to Value Parameters (meta.Term.Param)" title="Direct link to Value Parameters (meta.Term.Param)" translate="no">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Term Param</td><td><code>param&quot;..$mods $name: $tpeopt = $expropt&quot;</code></td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="type-parameters-metatypeparam">Type Parameters (meta.Type.Param)<a href="#type-parameters-metatypeparam" class="hash-link" aria-label="Direct link to Type Parameters (meta.Type.Param)" title="Direct link to Type Parameters (meta.Type.Param)" translate="no">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Type Param</td><td><code>tparam&quot;..$mods $name[..$tparams] &gt;: $tpeopt &lt;: $tpeopt &lt;% ..$tpes : ..$tpes&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="inits-metainit">Inits (meta.Init)<a href="#inits-metainit" class="hash-link" aria-label="Direct link to Inits (meta.Init)" title="Direct link to Inits (meta.Init)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Init</td><td><code>init&quot;$tpe(...$exprss)&quot;</code>, <code>init&quot;this(...$exprss)&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="selfs-metaself">Selfs (meta.Self)<a href="#selfs-metaself" class="hash-link" aria-label="Direct link to Selfs (meta.Self)" title="Direct link to Selfs (meta.Self)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Self</td><td><code>self&quot;$name: $tpeopt&quot;</code>, <code>self&quot;this: $tpeopt&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="template-metatemplate">Template (meta.Template)<a href="#template-metatemplate" class="hash-link" aria-label="Direct link to Template (meta.Template)" title="Direct link to Template (meta.Template)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Template</td><td><code>template&quot;{ ..$stats } with ..$inits { $self =&gt; ..$stats }&quot;</code> (first <code>stats</code> is early initializers, second <code>stats</code> is regular statements in the body of the template).</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="modifiers-metamod">Modifiers (meta.Mod)<a href="#modifiers-metamod" class="hash-link" aria-label="Direct link to Modifiers (meta.Mod)" title="Direct link to Modifiers (meta.Mod)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Annotation</td><td><code>mod&quot;@$annot&quot;</code></td></tr><tr><td>Private</td><td><code>mod&quot;private[$ref]&quot;</code></td></tr><tr><td>Protected</td><td><code>mod&quot;protected[$ref]&quot;</code></td></tr><tr><td>Implicit</td><td><code>mod&quot;implicit&quot;</code></td></tr><tr><td>Final</td><td><code>mod&quot;final&quot;</code></td></tr><tr><td>Sealed</td><td><code>mod&quot;sealed&quot;</code></td></tr><tr><td>Override</td><td><code>mod&quot;override&quot;</code></td></tr><tr><td>Case</td><td><code>mod&quot;case&quot;</code></td></tr><tr><td>Abstract</td><td><code>mod&quot;abstract&quot;</code></td></tr><tr><td>Covariant</td><td><code>mod&quot;+&quot;</code></td></tr><tr><td>Contravariant</td><td><code>mod&quot;-&quot;</code></td></tr><tr><td>Lazy</td><td><code>mod&quot;lazy&quot;</code></td></tr><tr><td>Val Param</td><td><code>mod&quot;valparam&quot;</code></td></tr><tr><td>Var Param</td><td><code>mod&quot;varparam&quot;</code></td></tr><tr><td>Inline</td><td><code>mod&quot;inline&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="enumerators-metaenum">Enumerators (meta.Enum)<a href="#enumerators-metaenum" class="hash-link" aria-label="Direct link to Enumerators (meta.Enum)" title="Direct link to Enumerators (meta.Enum)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Generator</td><td><code>enumerator&quot;$pat &lt;- $expr&quot;</code></td></tr><tr><td>Value</td><td><code>enumerator&quot;$pat = $expr&quot;</code></td></tr><tr><td>Guard</td><td><code>enumerator&quot;if $expr&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="imports-metaimport">Imports (meta.Import)<a href="#imports-metaimport" class="hash-link" aria-label="Direct link to Imports (meta.Import)" title="Direct link to Imports (meta.Import)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Import</td><td><code>q&quot;import ..$importersnel&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="importer-metaimporter">Importer (meta.Importer)<a href="#importer-metaimporter" class="hash-link" aria-label="Direct link to Importer (meta.Importer)" title="Direct link to Importer (meta.Importer)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Importer</td><td><code>importer&quot;$eref.{..$importeesnel}&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="importees-metaimportee">Importees (meta.Importee)<a href="#importees-metaimportee" class="hash-link" aria-label="Direct link to Importees (meta.Importee)" title="Direct link to Importees (meta.Importee)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Name</td><td><code>importee&quot;$name&quot;</code></td></tr><tr><td>Rename</td><td><code>importee&quot;$name =&gt; $name&quot;</code></td></tr><tr><td>Unimport</td><td><code>importee&quot;$name =&gt; _&quot;</code></td></tr><tr><td>Wildcard</td><td><code>importee&quot;_&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="sources-metasource">Sources (meta.Source)<a href="#sources-metasource" class="hash-link" aria-label="Direct link to Sources (meta.Source)" title="Direct link to Sources (meta.Source)" translate="no">​</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th> </th><th>Quasiquote</th></tr></thead><tbody><tr><td>Source</td><td><code>source&quot;..$stats&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="legend">Legend<a href="#legend" class="hash-link" aria-label="Direct link to Legend" title="Direct link to Legend" translate="no">​</a></h2>
 <p>The tables above define quasiquote syntax using a notation called <em>quasiquote
 templates</em>. A quasiquote is valid if it conforms to exactly one quasiquote
 template according to the following rules:</p>
 <ol>
-<li><p>Any trivia token (e.g. whitespace and comments) in a quasiquote template or a
+<li class="">
+<p>Any trivia token (e.g. whitespace and comments) in a quasiquote template or a
 quasiquote is insignificant and is ignored for the purposes of conformance
-testing.</p></li>
-<li><p>Any non-trivia token in a quasiquote template, except for an unquote
+testing.</p>
+</li>
+<li class="">
+<p>Any non-trivia token in a quasiquote template, except for an unquote
 template, means that exactly that token is required in a quasiquote, with the
 following exceptions:</p>
 <ol>
-<li>Parentheses, brackets and braces around unquotes are oftentimes dropped if
+<li class="">Parentheses, brackets and braces around unquotes are oftentimes dropped if
 they wrap empty lists, e.g. <code>q&quot;x + y&quot;</code> conforms to
 <code>q&quot;$expr $ename[..$tpes] $expr&quot;</code>.</li>
-<li><code>with</code> is dropped if there are zero or one inits, e.g. both <code>q&quot;new {}&quot;</code>
+<li class=""><code>with</code> is dropped if there are zero or one inits, e.g. both <code>q&quot;new {}&quot;</code>
 and <code>q&quot;new C&quot;</code> conform to
 <code>q&quot;new { ..$stat } with ..$inits { $self =&gt; ..$stats }</code>.</li>
-<li>This list is probably incomplete. Please
-<a href="https://github.com/scalameta/scalameta/issues/new">submit an issue</a> if
+<li class="">This list is probably incomplete. Please
+<a href="https://github.com/scalameta/scalameta/issues/new" target="_blank" rel="noopener noreferrer" class="">submit an issue</a> if
 you find any discrepancies.</li>
-</ol></li>
-<li><p>An <em>unquote template</em> (<code>$smth</code>, <code>..$smth</code> or <code>...$smth</code>) works as follows:</p>
+</ol>
+</li>
+<li class="">
+<p>An <em>unquote template</em> (<code>$smth</code>, <code>..$smth</code> or <code>...$smth</code>) works as follows:</p>
 <ol>
-<li><p>First, we strip standard suffixes from <code>smth</code> using the &quot;Suffixes&quot; table
-(e.g. <code>exprssnel</code> means a non-empty list of lists of <code>expr</code>).</p></li>
-<li><p>Second, we figure out the expected type of <code>smth</code> using the &quot;Shorthands&quot;
-table (e.g. <code>expr</code> means <code>Term</code>, so <code>exprssnel</code> means <code>List[List[Term]]</code>).</p></li>
-<li><p>Third, we apply an appropriate number of replications to the unquote
-template to have it match the corresponding part of a quasiquote that's
+<li class="">
+<p>First, we strip standard suffixes from <code>smth</code> using the &quot;Suffixes&quot; table
+(e.g. <code>exprssnel</code> means a non-empty list of lists of <code>expr</code>).</p>
+</li>
+<li class="">
+<p>Second, we figure out the expected type of <code>smth</code> using the &quot;Shorthands&quot;
+table (e.g. <code>expr</code> means <code>Term</code>, so <code>exprssnel</code> means <code>List[List[Term]]</code>).</p>
+</li>
+<li class="">
+<p>Third, we apply an appropriate number of replications to the unquote
+template to have it match the corresponding part of a quasiquote that&#x27;s
 being tested for conformance:</p>
 <ol>
-<li><code>$smth</code> can not be replicated.</li>
-<li><code>..$smth</code> means an arbitrary mix of <code>$smth</code> and <code>..$smth</code> unquote
+<li class=""><code>$smth</code> can not be replicated.</li>
+<li class=""><code>..$smth</code> means an arbitrary mix of <code>$smth</code> and <code>..$smth</code> unquote
 templates separated according to their location (e.g. an empty string,
 <code>[$tpe]</code>, <code>[..$tpes, $tpe]</code> all conform to <code>[..$tpes]</code>, and the
 separator is a comma, as appropriate for a list of type arguments).</li>
-<li><code>...$smth</code> means an arbitrary mix of <code>$smth</code>, <code>..$smth</code> and <code>...$smth</code>
+<li class=""><code>...$smth</code> means an arbitrary mix of <code>$smth</code>, <code>..$smth</code> and <code>...$smth</code>
 unquote templates, separated according to their location (e.g. an empty
 string, <code>(...$exprss)</code>, <code>(..$exprs)($expr1, $expr2)()</code> all conform to
 <code>(...$exprss)</code>, and the separator are matching parentheses, as
 appropriate for a list of arguments).</li>
-<li>If a suffix of <code>smth</code> says that it's a non-empty list, then replication
-can't result in an empty list.</li>
-<li>If a quasiquote is used as a pattern, then some replications may be
+<li class="">If a suffix of <code>smth</code> says that it&#x27;s a non-empty list, then replication
+can&#x27;t result in an empty list.</li>
+<li class="">If a quasiquote is used as a pattern, then some replications may be
 illegal.</li>
-</ol></li>
-<li><p>Finally, we match the unquotes after replication against the corresponding
+</ol>
+</li>
+<li class="">
+<p>Finally, we match the unquotes after replication against the corresponding
 parts of the quasiquote under conformance test. There are three
-possibilities for a match: scala syntax, unquote, lifted unquote.</p></li>
-</ol></li>
-<li><p>If not specified explicitly, quasiquote templates work for both construction
+possibilities for a match: scala syntax, unquote, lifted unquote.</p>
+</li>
+</ol>
+</li>
+<li class="">
+<p>If not specified explicitly, quasiquote templates work for both construction
 and deconstruction. In some cases, a template is only applicable to
-construction (e.g. it's impossible to pattern match a name without specifying
+construction (e.g. it&#x27;s impossible to pattern match a name without specifying
 an expected type explicitly, because patterns like in
 <code>term match { case q&quot;$ename&quot; =&gt; }</code> will match any term, not limited to just
-term names).</p></li>
+term names).</p>
+</li>
 </ol>
-<h3><a class="anchor" aria-hidden="true" id="shorthands"></a><a href="#shorthands" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shorthands</h3>
-<table>
-<thead>
-<tr><th>Type</th><th>Shorthand</th></tr>
-</thead>
-<tbody>
-<tr><td>meta.Case</td><td><code>$case</code></td></tr>
-<tr><td>meta.Enumerator</td><td><code>$enumerator</code></td></tr>
-<tr><td>meta.Mod</td><td><code>$mod</code></td></tr>
-<tr><td>meta.Mod.Annot</td><td><code>$annot</code></td></tr>
-<tr><td>meta.Name</td><td><code>$name</code></td></tr>
-<tr><td>meta.Importee</td><td><code>$importee</code></td></tr>
-<tr><td>meta.Importer</td><td><code>$importer</code></td></tr>
-<tr><td>meta.Init</td><td><code>$init</code></td></tr>
-<tr><td>meta.Pat</td><td><code>$pat</code></td></tr>
-<tr><td>meta.Ref</td><td><code>$ref</code></td></tr>
-<tr><td>meta.Self</td><td><code>$self</code></td></tr>
-<tr><td>meta.Stat</td><td><code>$stat</code></td></tr>
-<tr><td>meta.Template</td><td><code>$template</code></td></tr>
-<tr><td>meta.Term</td><td><code>$expr</code></td></tr>
-<tr><td>meta.Term.Name</td><td><code>$ename</code></td></tr>
-<tr><td>meta.Term.Ref</td><td><code>$eref</code></td></tr>
-<tr><td>meta.Term.Param</td><td><code>$param</code></td></tr>
-<tr><td>meta.Type</td><td><code>$tpe</code></td></tr>
-<tr><td>meta.Type.Name</td><td><code>$tname</code></td></tr>
-<tr><td>meta.Type.Param</td><td><code>$tparam</code></td></tr>
-</tbody>
-</table>
-<h3><a class="anchor" aria-hidden="true" id="suffixes"></a><a href="#suffixes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Suffixes</h3>
-<table>
-<thead>
-<tr><th>Suffix</th><th>Wrapped Type</th><th>Example</th></tr>
-</thead>
-<tbody>
-<tr><td>-s</td><td><code>List[_]</code></td><td><code>exprs: List[meta.Term]</code></td></tr>
-<tr><td>-ss</td><td><code>List[List[_]]</code></td><td><code>exprss: List[List[meta.Term]]</code></td></tr>
-<tr><td>-opt</td><td><code>Option[_]</code></td><td><code>expropt: Option[meta.Term]</code></td></tr>
-<tr><td>-nel</td><td><code>_</code></td><td><code>tpesnel: List[meta.Type]</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="comments"></a><a href="#comments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Comments</h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="shorthands">Shorthands<a href="#shorthands" class="hash-link" aria-label="Direct link to Shorthands" title="Direct link to Shorthands" translate="no">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Shorthand</th></tr></thead><tbody><tr><td>meta.Case</td><td><code>$case</code></td></tr><tr><td>meta.Enumerator</td><td><code>$enumerator</code></td></tr><tr><td>meta.Mod</td><td><code>$mod</code></td></tr><tr><td>meta.Mod.Annot</td><td><code>$annot</code></td></tr><tr><td>meta.Name</td><td><code>$name</code></td></tr><tr><td>meta.Importee</td><td><code>$importee</code></td></tr><tr><td>meta.Importer</td><td><code>$importer</code></td></tr><tr><td>meta.Init</td><td><code>$init</code></td></tr><tr><td>meta.Pat</td><td><code>$pat</code></td></tr><tr><td>meta.Ref</td><td><code>$ref</code></td></tr><tr><td>meta.Self</td><td><code>$self</code></td></tr><tr><td>meta.Stat</td><td><code>$stat</code></td></tr><tr><td>meta.Template</td><td><code>$template</code></td></tr><tr><td>meta.Term</td><td><code>$expr</code></td></tr><tr><td>meta.Term.Name</td><td><code>$ename</code></td></tr><tr><td>meta.Term.Ref</td><td><code>$eref</code></td></tr><tr><td>meta.Term.Param</td><td><code>$param</code></td></tr><tr><td>meta.Type</td><td><code>$tpe</code></td></tr><tr><td>meta.Type.Name</td><td><code>$tname</code></td></tr><tr><td>meta.Type.Param</td><td><code>$tparam</code></td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="suffixes">Suffixes<a href="#suffixes" class="hash-link" aria-label="Direct link to Suffixes" title="Direct link to Suffixes" translate="no">​</a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Suffix</th><th>Wrapped Type</th><th>Example</th></tr></thead><tbody><tr><td>-s</td><td><code>List[_]</code></td><td><code>exprs: List[meta.Term]</code></td></tr><tr><td>-ss</td><td><code>List[List[_]]</code></td><td><code>exprss: List[List[meta.Term]]</code></td></tr><tr><td>-opt</td><td><code>Option[_]</code></td><td><code>expropt: Option[meta.Term]</code></td></tr><tr><td>-nel</td><td><code>_</code></td><td><code>tpesnel: List[meta.Type]</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="comments">Comments<a href="#comments" class="hash-link" aria-label="Direct link to Comments" title="Direct link to Comments" translate="no">​</a></h2>
 <p>Starting with v4.14.3, scalameta supports
-<a href="/docs/trees/examples.html#coments-metatreecomments">comments attached to trees</a>.
+<a class="" href="/docs/trees/examples#coments-metatreecomments">comments attached to trees</a>.
 Specifically for quasiquotes, the only special case is with interpolated comments
 which must be passed as scala strings (since each interpolated value is parsed as
 valid scala):</p>
-<pre><code class="hljs css language-scala">val scaladoc = q"""
-  "some scaladoc string"
-"""
-val comment = q"\"some comment string\""
-val tree = q"""
-  /** $scaladoc */
-  val foo = bar // $comment
-"""
-</code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/trees/guide.html"><span class="arrow-prev">← </span><span>Guide</span></a><a class="docs-next button" href="/docs/trees/examples.html"><span>trees/examples</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#expressions-metaterm">Expressions (meta.Term)</a></li><li><a href="#types-metatype">Types (meta.Type)</a></li><li><a href="#patterns-metapat-and-cases-metacase">Patterns (meta.Pat) and Cases (meta.Case)</a></li><li><a href="#members-metamember">Members (meta.Member)</a><ul class="toc-headings"><li><a href="#declarations">Declarations</a></li><li><a href="#definitions">Definitions</a></li><li><a href="#value-parameters-metatermparam">Value Parameters (meta.Term.Param)</a></li><li><a href="#type-parameters-metatypeparam">Type Parameters (meta.Type.Param)</a></li></ul></li><li><a href="#inits-metainit">Inits (meta.Init)</a></li><li><a href="#selfs-metaself">Selfs (meta.Self)</a></li><li><a href="#template-metatemplate">Template (meta.Template)</a></li><li><a href="#modifiers-metamod">Modifiers (meta.Mod)</a></li><li><a href="#enumerators-metaenum">Enumerators (meta.Enum)</a></li><li><a href="#imports-metaimport">Imports (meta.Import)</a></li><li><a href="#importer-metaimporter">Importer (meta.Importer)</a></li><li><a href="#importees-metaimportee">Importees (meta.Importee)</a></li><li><a href="#sources-metasource">Sources (meta.Source)</a></li><li><a href="#legend">Legend</a><ul class="toc-headings"><li><a href="#shorthands">Shorthands</a></li><li><a href="#suffixes">Suffixes</a></li></ul></li><li><a href="#comments">Comments</a></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Scalameta Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Scalameta Projects</h5><a href="https://scalameta.org/metals">Metals: language server</a><a href="https://scalameta.org/scalafmt">Scalafmt: code formatter</a><a href="https://scalacenter.github.io/scalafix">Scalafix: linting and refactoring tool</a><a href="https://scalameta.org/munit">MUnit: testing library</a><a href="https://scalameta.org/mdoc">MDoc: documentation tool</a><a href="https://github.com/scalameta/metabrowse">Metabrowse: online code browser</a></div><div><h5>Community</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a><a href="https://github.com/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/github/stars/scalameta/metals.svg?color=%23087e8b&amp;label=stars&amp;logo=github&amp;style=social"/></a><a href="https://discord.gg/RFpSVth" target="_blank"><img src="https://img.shields.io/discord/632642981228314653?logo=discord&amp;style=social"/></a><a href="https://gitter.im/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/gitter/room/scalameta/scalameta.svg?logo=gitter&amp;style=social"/></a><a href="https://twitter.com/scalameta" target="_blank"><img src="https://img.shields.io/twitter/follow/scalameta.svg?logo=twitter&amp;style=social"/></a></div></section><section class="copyright">Copyright © 2026 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
-                document.addEventListener('keyup', function(e) {
-                  if (e.target !== document.body) {
-                    return;
-                  }
-                  // keyCode for '/' (slash)
-                  if (e.keyCode === 191) {
-                    const search = document.getElementById('search_input_react');
-                    search && search.focus();
-                  }
-                });
-              </script><script>
-              var search = docsearch({
-                
-                apiKey: '0460d1c693a278bc1ad07ada3fb96c63',
-                indexName: 'scalameta',
-                inputSelector: '#search_input_react'
-              });
-            </script></body></html>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> scaladoc </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token string-interpolation id function" style="color:rgb(130, 170, 255)">q</span><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">&quot;&quot;&quot;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">  &quot;some scaladoc string&quot;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">&quot;&quot;&quot;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> comment </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token string-interpolation id function" style="color:rgb(130, 170, 255)">q</span><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">&quot;\&quot;</span><span class="token plain">some comment string\</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;&quot;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> tree </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token string-interpolation id function" style="color:rgb(130, 170, 255)">q</span><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">&quot;&quot;&quot;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">  /** </span><span class="token string-interpolation interpolation punctuation" style="color:rgb(199, 146, 234)">$</span><span class="token string-interpolation interpolation expression">scaladoc</span><span class="token string-interpolation string" style="color:rgb(195, 232, 141)"> */</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">  val foo = bar // </span><span class="token string-interpolation interpolation punctuation" style="color:rgb(199, 146, 234)">$</span><span class="token string-interpolation interpolation expression">comment</span><span class="token string-interpolation string" style="color:rgb(195, 232, 141)"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token string-interpolation string" style="color:rgb(195, 232, 141)">&quot;&quot;&quot;</span><br></div></code></pre></div></div></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/trees/guide"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Guide</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/trees/examples"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Tree Examples</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#expressions-metaterm" class="table-of-contents__link toc-highlight">Expressions (meta.Term)</a></li><li><a href="#types-metatype" class="table-of-contents__link toc-highlight">Types (meta.Type)</a></li><li><a href="#patterns-metapat-and-cases-metacase" class="table-of-contents__link toc-highlight">Patterns (meta.Pat) and Cases (meta.Case)</a></li><li><a href="#members-metamember" class="table-of-contents__link toc-highlight">Members (meta.Member)</a><ul><li><a href="#declarations" class="table-of-contents__link toc-highlight">Declarations</a></li><li><a href="#definitions" class="table-of-contents__link toc-highlight">Definitions</a></li><li><a href="#value-parameters-metatermparam" class="table-of-contents__link toc-highlight">Value Parameters (meta.Term.Param)</a></li><li><a href="#type-parameters-metatypeparam" class="table-of-contents__link toc-highlight">Type Parameters (meta.Type.Param)</a></li></ul></li><li><a href="#inits-metainit" class="table-of-contents__link toc-highlight">Inits (meta.Init)</a></li><li><a href="#selfs-metaself" class="table-of-contents__link toc-highlight">Selfs (meta.Self)</a></li><li><a href="#template-metatemplate" class="table-of-contents__link toc-highlight">Template (meta.Template)</a></li><li><a href="#modifiers-metamod" class="table-of-contents__link toc-highlight">Modifiers (meta.Mod)</a></li><li><a href="#enumerators-metaenum" class="table-of-contents__link toc-highlight">Enumerators (meta.Enum)</a></li><li><a href="#imports-metaimport" class="table-of-contents__link toc-highlight">Imports (meta.Import)</a></li><li><a href="#importer-metaimporter" class="table-of-contents__link toc-highlight">Importer (meta.Importer)</a></li><li><a href="#importees-metaimportee" class="table-of-contents__link toc-highlight">Importees (meta.Importee)</a></li><li><a href="#sources-metasource" class="table-of-contents__link toc-highlight">Sources (meta.Source)</a></li><li><a href="#legend" class="table-of-contents__link toc-highlight">Legend</a><ul><li><a href="#shorthands" class="table-of-contents__link toc-highlight">Shorthands</a></li><li><a href="#suffixes" class="table-of-contents__link toc-highlight">Suffixes</a></li></ul></li><li><a href="#comments" class="table-of-contents__link toc-highlight">Comments</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Scalameta Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/trees/guide">Trees Guide</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/trees/quasiquotes">Quasiquotes</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/semanticdb/specification">SemanticDB</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Scalameta Projects</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://scalameta.org/metals" target="_blank" rel="noopener noreferrer" class="footer__link-item">Metals: language server<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalameta.org/scalafmt" target="_blank" rel="noopener noreferrer" class="footer__link-item">Scalafmt: code formatter<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalacenter.github.io/scalafix" target="_blank" rel="noopener noreferrer" class="footer__link-item">Scalafix: linting and refactoring<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalameta.org/munit" target="_blank" rel="noopener noreferrer" class="footer__link-item">MUnit: testing library<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalameta.org/mdoc" target="_blank" rel="noopener noreferrer" class="footer__link-item">MDoc: documentation tool<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/scalameta/metabrowse" target="_blank" rel="noopener noreferrer" class="footer__link-item">Metabrowse: online code browser<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/scalameta/scalameta" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://discord.gg/RFpSVth" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://twitter.com/scalameta" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Scalameta</div></div></div></footer></div>
+</body>
+</html>

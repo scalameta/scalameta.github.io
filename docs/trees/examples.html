@@ -1,391 +1,594 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>trees/examples · Scalameta</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="# Tree Examples"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="trees/examples · Scalameta"/><meta property="og:type" content="website"/><meta property="og:url" content="https://scalameta.org/index.html"/><meta property="og:description" content="# Tree Examples"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"/><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/scalameta.png" alt="Scalameta"/><h2 class="headerTitleWithLogo">Scalameta</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/trees/guide.html" target="_self">Trees</a></li><li class="siteNavGroupActive"><a href="/docs/semanticdb/guide.html" target="_self">SemanticDB</a></li><li class=""><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Trees</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Trees</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/trees/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/quasiquotes.html">trees/quasiquotes</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/trees/examples.html">trees/examples</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scastie.html">Scastie Playground</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/astexplorer.html">Scalameta AST Explorer</a></li><li class="navListItem"><a class="navItem" href="/docs/trees/scaladoc.html">Scaladoc</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">SemanticDB</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/semanticdb/guide.html">Guide</a></li><li class="navListItem"><a class="navItem" href="/docs/semanticdb/specification.html">Specification</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Community</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/misc/built-with-scalameta.html">Built with Scalameta</a></li><li class="navListItem"><a class="navItem" href="/docs/misc/presentations.html">Presentations</a></li></ul></div></div></section></div><script>
-            var coll = document.getElementsByClassName('collapsible');
-            var checkActiveCategory = true;
-            for (var i = 0; i < coll.length; i++) {
-              var links = coll[i].nextElementSibling.getElementsByTagName('*');
-              if (checkActiveCategory){
-                for (var j = 0; j < links.length; j++) {
-                  if (links[j].classList.contains('navListItemActive')){
-                    coll[i].nextElementSibling.classList.toggle('hide');
-                    coll[i].childNodes[1].classList.toggle('rotate');
-                    checkActiveCategory = false;
-                    break;
-                  }
-                }
-              }
-
-              coll[i].addEventListener('click', function() {
-                var arrow = this.childNodes[1];
-                arrow.classList.toggle('rotate');
-                var content = this.nextElementSibling;
-                content.classList.toggle('hide');
-              });
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
-              createToggler('#tocToggler', 'body', 'tocActive');
-
-              var headings = document.querySelector('.toc-headings');
-              headings && headings.addEventListener('click', function(event) {
-                var el = event.target;
-                while(el !== headings){
-                  if (el.tagName === 'A') {
-                    document.body.classList.remove('tocActive');
-                    break;
-                  } else{
-                    el = el.parentNode;
-                  }
-                }
-              }, false);
-
-              function createToggler(togglerSelector, targetSelector, className) {
-                var toggler = document.querySelector(togglerSelector);
-                var target = document.querySelector(targetSelector);
-
-                if (!toggler) {
-                  return;
-                }
-
-                toggler.onclick = function(event) {
-                  event.preventDefault();
-
-                  target.classList.toggle(className);
-                };
-              }
-            });
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">trees/examples</h1></header><article><div><span><h1><a class="anchor" aria-hidden="true" id="tree-examples"></a><a href="#tree-examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tree Examples</h1>
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-trees/examples" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.10.1">
+<title data-rh="true">Tree Examples | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/trees/examples"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Tree Examples | Scalameta"><meta data-rh="true" name="description" content="This document lists examples of how Scala source code maps to Scalameta tree"><meta data-rh="true" property="og:description" content="This document lists examples of how Scala source code maps to Scalameta tree"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/trees/examples"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/trees/examples" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/trees/examples" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tree Examples","item":"https://scalameta.org/docs/trees/examples"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
+<script src="/assets/js/runtime~main.4e129d0b.js" defer="defer"></script>
+<script src="/assets/js/main.e17f1be4.js" defer="defer"></script>
+</head>
+<body>
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/img/scalameta.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/scalameta.png" alt="Scalameta" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/scalameta.png" alt="Scalameta" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Scalameta</b></a><a class="navbar__item navbar__link" href="/docs/trees/guide">Trees</a><a class="navbar__item navbar__link" href="/docs/semanticdb/guide">SemanticDB</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/scalameta/scalameta" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-github-link" aria-label="GitHub repository"></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs/trees/guide"><span title="Trees" class="categoryLinkLabel_W154">Trees</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/guide"><span title="Guide" class="linkLabel_WmDU">Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/quasiquotes"><span title="quasiquotes" class="linkLabel_WmDU">quasiquotes</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/trees/examples"><span title="Tree Examples" class="linkLabel_WmDU">Tree Examples</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/scastie"><span title="Scastie Playground" class="linkLabel_WmDU">Scastie Playground</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/astexplorer"><span title="Scalameta AST Explorer" class="linkLabel_WmDU">Scalameta AST Explorer</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/trees/scaladoc"><span title="Scaladoc" class="linkLabel_WmDU">Scaladoc</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/semanticdb/guide"><span title="SemanticDB" class="categoryLinkLabel_W154">SemanticDB</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/misc/built-with-scalameta"><span title="Community" class="categoryLinkLabel_W154">Community</span></a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Trees</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Tree Examples</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Tree Examples</h1></header>
 <p>This document lists examples of how Scala source code maps to Scalameta tree
 nodes.</p>
-<h2><a class="anchor" aria-hidden="true" id="top-level-metasource-metapkg-metapkgobject"></a><a href="#top-level-metasource-metapkg-metapkgobject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Top level (<code>meta.Source</code>, <code>meta.Pkg</code>, <code>meta.Pkg.Object</code>)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"package a"</span>.parse[<span class="hljs-type">Source</span>].get.structure
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="top-level-metasource-metapkg-metapkgobject">Top level (<code>meta.Source</code>, <code>meta.Pkg</code>, <code>meta.Pkg.Object</code>)<a href="#top-level-metasource-metapkg-metapkgobject" class="hash-link" aria-label="Direct link to top-level-metasource-metapkg-metapkgobject" title="Direct link to top-level-metasource-metapkg-metapkgobject" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;package a&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Source</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Source</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">stats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Pkg</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">ref </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;a&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> stats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="declarations-metadecl">Declarations (<code>meta.Decl</code>)<a href="#declarations-metadecl" class="hash-link" aria-label="Direct link to declarations-metadecl" title="Direct link to declarations-metadecl" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;val a: Int&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Stat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Decl</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Val</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  mods </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  pats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Var</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">name </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;a&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  decltpe </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;Int&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
 
-<span class="hljs-type">Source</span>(stats = <span class="hljs-type">List</span>(<span class="hljs-type">Pkg</span>(ref = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>), stats = <span class="hljs-type">Nil</span>)))
-</code></pre>
-<h2><a class="anchor" aria-hidden="true" id="declarations-metadecl"></a><a href="#declarations-metadecl" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Declarations (<code>meta.Decl</code>)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"val a: Int"</span>.parse[<span class="hljs-type">Stat</span>].get.structure
 
-<span class="hljs-type">Decl</span>.<span class="hljs-type">Val</span>(
-  mods = <span class="hljs-type">Nil</span>,
-  pats = <span class="hljs-type">List</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(name = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>))),
-  decltpe = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"Int"</span>)
-)
-</code></pre>
-<table>
-<thead>
-<tr><th>Decl</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Decl.Val</code></td><td><code>val a: Int</code></td></tr>
-<tr><td><code>Decl.Var</code></td><td><code>var a: Int</code></td></tr>
-<tr><td><code>Decl.Def</code></td><td><code>def f: Int</code></td></tr>
-<tr><td><code>Decl.Type</code></td><td><code>type T</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="definitions-metadefn"></a><a href="#definitions-metadefn" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definitions (<code>meta.Defn</code>)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"val a = 1"</span>.parse[<span class="hljs-type">Stat</span>].get.structure
 
-<span class="hljs-type">Defn</span>.<span class="hljs-type">Val</span>(
-  mods = <span class="hljs-type">Nil</span>,
-  pats = <span class="hljs-type">List</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(name = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>))),
-  decltpe = <span class="hljs-type">None</span>,
-  rhs = <span class="hljs-type">Lit</span>.<span class="hljs-type">Int</span>(value = <span class="hljs-number">1</span>)
-)
-</code></pre>
-<table>
-<thead>
-<tr><th>Defn</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Defn.Val</code></td><td><code>val a = 1</code></td></tr>
-<tr><td><code>Defn.Var</code></td><td><code>var a = 1</code></td></tr>
-<tr><td><code>Defn.Def</code></td><td><code>def f = 1</code></td></tr>
-<tr><td><code>Defn.Macro</code></td><td><code>def f = macro impl</code></td></tr>
-<tr><td><code>Defn.Type</code></td><td><code>type T = Int</code></td></tr>
-<tr><td><code>Defn.Class</code></td><td><code>class A</code></td></tr>
-<tr><td><code>Defn.Trait</code></td><td><code>trait A</code></td></tr>
-<tr><td><code>Defn.Object</code></td><td><code>object A</code></td></tr>
-<tr><td><code>Defn.Enum</code></td><td><code>enum A</code> (Scala 3)</td></tr>
-<tr><td><code>Defn.EnumCase</code></td><td><code>case A1 extends A</code> (Scala 3)</td></tr>
-<tr><td><code>Defn.RepeatedEnumCase</code></td><td><code>case A1, A2</code> (Scala 3)</td></tr>
-<tr><td><code>Defn.Given</code></td><td><code>given A as C[T]</code> (Scala 3)</td></tr>
-<tr><td><code>Defn.GivenAlias</code></td><td><code>given C[T] = A</code> (Scala 3)</td></tr>
-<tr><td><code>Defn.ExtensionGroup</code></td><td><code>extension (b: B) def a = 1</code> (Scala 3)</td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="terms-metaterm"></a><a href="#terms-metaterm" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Terms (<code>meta.Term</code>)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"1 + 1"</span>.parse[<span class="hljs-type">Term</span>].get.structure
 
-<span class="hljs-type">Term</span>.<span class="hljs-type">ApplyInfix</span>(
-  lhs = <span class="hljs-type">Lit</span>.<span class="hljs-type">Int</span>(value = <span class="hljs-number">1</span>),
-  op = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"+"</span>),
-  targs = <span class="hljs-type">Nil</span>,
-  args = <span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">Int</span>(value = <span class="hljs-number">1</span>))
-)
-</code></pre>
-<table>
-<thead>
-<tr><th>Ref</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Term.This</code></td><td><code>this</code>, <code>a.this</code></td></tr>
-<tr><td><code>Term.Super</code></td><td><code>super</code>, <code>a.super</code>, <code>super[a]</code>, <code>a.super[b]</code></td></tr>
-<tr><td><code>Term.Name</code></td><td><code>a</code></td></tr>
-<tr><td><code>Term.Select</code></td><td><code>a.b</code></td></tr>
-<tr><td><code>Term.ApplyUnary</code></td><td><code>!a</code>, <code>~a</code>, <code>-a</code>, <code>a</code></td></tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr><th>Term</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Term.Apply</code></td><td><code>f(42)</code></td></tr>
-<tr><td><code>Term.ApplyType</code></td><td><code>implicitly[Ordering[Int]]</code></td></tr>
-<tr><td><code>Term.ApplyInfix</code></td><td><code>a + a</code></td></tr>
-<tr><td><code>Term.Assign</code></td><td><code>a = 1</code></td></tr>
-<tr><td><code>Term.Return</code></td><td><code>return a</code></td></tr>
-<tr><td><code>Term.Throw</code></td><td><code>throw e</code></td></tr>
-<tr><td><code>Term.Ascribe</code></td><td><code>a: Int</code></td></tr>
-<tr><td><code>Term.Annotate</code></td><td><code>(x: @annot)</code></td></tr>
-<tr><td><code>Term.Tuple</code></td><td><code>(1, 1)</code></td></tr>
-<tr><td><code>Term.Block</code></td><td><code>{ f1(); f2() }</code></td></tr>
-<tr><td><code>Term.If</code></td><td><code>if (p) t else f</code></td></tr>
-<tr><td><code>Term.Match</code></td><td><code>x match { case _ =&gt; }</code></td></tr>
-<tr><td><code>Term.Try</code></td><td><code>try f catch { case _ =&gt; }</code></td></tr>
-<tr><td><code>Term.TryWithHandler</code></td><td><code>try f catch (h)</code></td></tr>
-<tr><td><code>Term.Function</code></td><td><code>(a, b) =&gt; a + b</code></td></tr>
-<tr><td><code>Term.PartialFunction</code></td><td><code>{ case _ =&gt; }</code></td></tr>
-<tr><td><code>Term.While</code></td><td><code>while(p){ f() }</code></td></tr>
-<tr><td><code>Term.Do</code></td><td><code>do { f() } while(p)</code></td></tr>
-<tr><td><code>Term.For</code></td><td><code>for{x &lt;- xs} f(x)</code></td></tr>
-<tr><td><code>Term.ForYield</code></td><td><code>for{x &lt;- xs} yield f(x)</code></td></tr>
-<tr><td><code>Term.New</code></td><td><code>new A</code></td></tr>
-<tr><td><code>Term.NewAnonymous</code></td><td><code>new A { }</code></td></tr>
-<tr><td><code>Term.Placeholder</code></td><td><code>_</code></td></tr>
-<tr><td><code>Term.Eta</code></td><td><code>f _</code></td></tr>
-<tr><td><code>Term.Repeated</code></td><td><code>f(x: _*)</code></td></tr>
-<tr><td><code>Term.Param</code></td><td><code>x: Int</code> in <code>def f(x: Int)</code></td></tr>
-<tr><td><code>Term.Interpolate</code></td><td><code>s&quot;Hello $name&quot;</code></td></tr>
-<tr><td><code>Term.Xml</code></td><td><code>&lt;h1&gt;Hello {name}&lt;/h1&gt;</code></td></tr>
-<tr><td><code>Term.ApplyUsing</code></td><td><code>method(using c)</code> (Scala 3)</td></tr>
-<tr><td><code>Term.EndMarker</code></td><td><code>end if</code> (Scala 3)</td></tr>
-<tr><td><code>Term.QuotedMacroExpr</code></td><td><code>'{ 'ax }</code> (Scala 3)</td></tr>
-<tr><td><code>Term.QuotedMacroType</code></td><td><code>'[ Map[Int, String] ]</code> (Scala 3)</td></tr>
-<tr><td><code>Term.SplicedMacroExpr</code></td><td><code>${ env }</code> (Scala 3)</td></tr>
-<tr><td><code>Term.ContextFunction</code></td><td><code>ExecutionContext ?=&gt; T</code> (Scala 3)</td></tr>
-<tr><td><code>Term.PolyFunction</code></td><td><code>[T] =&gt; (t: T) =&gt; t</code> (Scala 3)</td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="types-metatype"></a><a href="#types-metatype" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types (<code>meta.Type</code>)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"A with B"</span>.parse[<span class="hljs-type">Type</span>].get.structure
 
-<span class="hljs-type">Type</span>.<span class="hljs-type">With</span>(lhs = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"A"</span>), rhs = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"B"</span>))
-</code></pre>
-<table>
-<thead>
-<tr><th>Ref</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Type.Name</code></td><td><code>B</code></td></tr>
-<tr><td><code>Type.Select</code></td><td><code>a.B</code></td></tr>
-<tr><td><code>Type.Project</code></td><td><code>a#B</code></td></tr>
-<tr><td><code>Type.Singleton</code></td><td><code>a.type</code></td></tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr><th>Type</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Type.Apply</code></td><td><code>F[T]</code></td></tr>
-<tr><td><code>Type.ApplyInfix</code></td><td><code>K Map V</code></td></tr>
-<tr><td><code>Type.Function</code></td><td><code>A =&gt; B</code></td></tr>
-<tr><td><code>Type.Tuple</code></td><td><code>(A, B)</code></td></tr>
-<tr><td><code>Type.With</code></td><td><code>A with B</code></td></tr>
-<tr><td><code>Type.And</code></td><td><code>A &amp; B</code> (Scala 3)</td></tr>
-<tr><td><code>Type.Or</code></td><td><code> A | B </code> (Scala 3)</td></tr>
-<tr><td><code>Type.Refine</code></td><td><code>A { def f: Int }</code></td></tr>
-<tr><td><code>Type.Existential</code></td><td><code>A forSome { type T }</code></td></tr>
-<tr><td><code>Type.Annotate</code></td><td><code>T @annot</code></td></tr>
-<tr><td><code>Type.Lambda</code></td><td><code>[T] =&gt; (T, T)</code> (only for supported dialects)</td></tr>
-<tr><td><code>Type.Method</code></td><td><code>(x: T): T</code> (only for supported dialects)</td></tr>
-<tr><td><code>Type.Placeholder</code></td><td><code>_</code> in <code>T[_]</code></td></tr>
-<tr><td><code>Type.Bounds</code></td><td><code>T &gt;: Lower &lt;: Upper</code> in <code>def F[T &gt;: Lower &lt;: Upper] = 1</code></td></tr>
-<tr><td><code>Type.ByName</code></td><td><code>=&gt;T</code> in <code>def f(x: =&gt; T) = x</code></td></tr>
-<tr><td><code>Type.Repeated</code></td><td><code>T*</code> in <code>def f(x: T*): Unit</code></td></tr>
-<tr><td><code>Type.Var</code></td><td><code>t</code> in <code>case _: List[t] =&gt;</code></td></tr>
-<tr><td><code>Type.Param</code></td><td><code>X</code> in <code>trait A[X]</code></td></tr>
-<tr><td><code>Type.PolyFunction</code></td><td><code>[T] =&gt; (t: T) =&gt; t</code> (Scala 3)</td></tr>
-<tr><td><code>Type.ContextFunction</code></td><td><code>ExecutionContext ?=&gt; T</code> (Scala 3)</td></tr>
-<tr><td><code>Type.Match</code></td><td><code>type T = match { case A =&gt; B}</code> (Scala 3)</td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="patterns-metapat-and-cases-metacase"></a><a href="#patterns-metapat-and-cases-metacase" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Patterns (meta.Pat) and Cases (meta.Case)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"_: A | _: B"</span>.parse[<span class="hljs-type">Pat</span>].get.structure
 
-<span class="hljs-type">Pat</span>.<span class="hljs-type">Alternative</span>(
-  <span class="hljs-type">Pat</span>.<span class="hljs-type">Typed</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Wildcard</span>(), <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"A"</span>)),
-  <span class="hljs-type">Pat</span>.<span class="hljs-type">Typed</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Wildcard</span>(), <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"B"</span>))
-)
-</code></pre>
-<table>
-<thead>
-<tr><th>Pat</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Lit</code></td><td><code>&quot;literal&quot;</code></td></tr>
-<tr><td><code>Pat.Wildcard</code></td><td><code>_</code></td></tr>
-<tr><td><code>Pat.SeqWildcard</code></td><td><code>_*</code> in <code>case List(xs @ _*) =&gt;</code></td></tr>
-<tr><td><code>Pat.Var</code></td><td><code>a</code> in <code>case a =&gt;</code></td></tr>
-<tr><td><code>Pat.Bind</code></td><td><code>a @ A()</code></td></tr>
-<tr><td><code>Pat.Alternative</code></td><td><code>1 | 2 </code></td></tr>
-<tr><td><code>Pat.Tuple</code></td><td><code>(a, b)</code></td></tr>
-<tr><td><code>Pat.Extract</code></td><td><code>A(a, b)</code></td></tr>
-<tr><td><code>Pat.ExtractInfix</code></td><td><code>a E b</code></td></tr>
-<tr><td><code>Pat.Interpolate</code></td><td><code>r&quot;Hello (.+)$name&quot;</code></td></tr>
-<tr><td><code>Pat.Xml</code></td><td><code>&lt;h1&gt;Hello, World!&lt;/h1&gt;</code></td></tr>
-<tr><td><code>Pat.Typed</code></td><td><code>a: Int</code></td></tr>
-<tr><td><code>Term.Select</code></td><td><code>a.b</code></td></tr>
-<tr><td><code>Term.Macro</code></td><td><code>case 'c =&gt; 1</code> (Scala 3)</td></tr>
-<tr><td><code>Term.Given</code></td><td><code>case ctx as given Context</code> (Scala 3)</td></tr>
-</tbody>
-</table>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"case a =&gt; ()"</span>.parse[<span class="hljs-type">Case</span>].get.structure
 
-<span class="hljs-type">Case</span>(<span class="hljs-type">Pat</span>.<span class="hljs-type">Var</span>(<span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>)), <span class="hljs-type">None</span>, <span class="hljs-type">Lit</span>.<span class="hljs-type">Unit</span>(()))
-</code></pre>
-<table>
-<thead>
-<tr><th>Case</th><th>Examples</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Case</code></td><td><code>case a if p =&gt; f()</code></td></tr>
-<tr><td><code>TypeCase</code></td><td><code>case A[t] =&gt; F[t]</code> (Scala 3)</td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="name-metaname"></a><a href="#name-metaname" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Name (<code>meta.Name</code>)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Decl</th><th>Examples</th></tr></thead><tbody><tr><td><code>Decl.Val</code></td><td><code>val a: Int</code></td></tr><tr><td><code>Decl.Var</code></td><td><code>var a: Int</code></td></tr><tr><td><code>Decl.Def</code></td><td><code>def f: Int</code></td></tr><tr><td><code>Decl.Type</code></td><td><code>type T</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="definitions-metadefn">Definitions (<code>meta.Defn</code>)<a href="#definitions-metadefn" class="hash-link" aria-label="Direct link to definitions-metadefn" title="Direct link to definitions-metadefn" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;val a = 1&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Stat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Defn</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Val</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  mods </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  pats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Var</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">name </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;a&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  decltpe </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> None</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  rhs </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">value </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Defn</th><th>Examples</th></tr></thead><tbody><tr><td><code>Defn.Val</code></td><td><code>val a = 1</code></td></tr><tr><td><code>Defn.Var</code></td><td><code>var a = 1</code></td></tr><tr><td><code>Defn.Def</code></td><td><code>def f = 1</code></td></tr><tr><td><code>Defn.Macro</code></td><td><code>def f = macro impl</code></td></tr><tr><td><code>Defn.Type</code></td><td><code>type T = Int</code></td></tr><tr><td><code>Defn.Class</code></td><td><code>class A</code></td></tr><tr><td><code>Defn.Trait</code></td><td><code>trait A</code></td></tr><tr><td><code>Defn.Object</code></td><td><code>object A</code></td></tr><tr><td><code>Defn.Enum</code></td><td><code>enum A</code> (Scala 3)</td></tr><tr><td><code>Defn.EnumCase</code></td><td><code>case A1 extends A</code> (Scala 3)</td></tr><tr><td><code>Defn.RepeatedEnumCase</code></td><td><code>case A1, A2</code> (Scala 3)</td></tr><tr><td><code>Defn.Given</code></td><td><code>given A as C[T]</code> (Scala 3)</td></tr><tr><td><code>Defn.GivenAlias</code></td><td><code>given C[T] = A</code> (Scala 3)</td></tr><tr><td><code>Defn.ExtensionGroup</code></td><td><code>extension (b: B) def a = 1</code> (Scala 3)</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="terms-metaterm">Terms (<code>meta.Term</code>)<a href="#terms-metaterm" class="hash-link" aria-label="Direct link to terms-metaterm" title="Direct link to terms-metaterm" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;1 + 1&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">ApplyInfix</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  lhs </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">value </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  op </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;+&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  targs </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  args </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">value </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ref</th><th>Examples</th></tr></thead><tbody><tr><td><code>Term.This</code></td><td><code>this</code>, <code>a.this</code></td></tr><tr><td><code>Term.Super</code></td><td><code>super</code>, <code>a.super</code>, <code>super[a]</code>, <code>a.super[b]</code></td></tr><tr><td><code>Term.Name</code></td><td><code>a</code></td></tr><tr><td><code>Term.Select</code></td><td><code>a.b</code></td></tr><tr><td><code>Term.ApplyUnary</code></td><td><code>!a</code>, <code>~a</code>, <code>-a</code>, <code>a</code></td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Term</th><th>Examples</th></tr></thead><tbody><tr><td><code>Term.Apply</code></td><td><code>f(42)</code></td></tr><tr><td><code>Term.ApplyType</code></td><td><code>implicitly[Ordering[Int]]</code></td></tr><tr><td><code>Term.ApplyInfix</code></td><td><code>a + a</code></td></tr><tr><td><code>Term.Assign</code></td><td><code>a = 1</code></td></tr><tr><td><code>Term.Return</code></td><td><code>return a</code></td></tr><tr><td><code>Term.Throw</code></td><td><code>throw e</code></td></tr><tr><td><code>Term.Ascribe</code></td><td><code>a: Int</code></td></tr><tr><td><code>Term.Annotate</code></td><td><code>(x: @annot)</code></td></tr><tr><td><code>Term.Tuple</code></td><td><code>(1, 1)</code></td></tr><tr><td><code>Term.Block</code></td><td><code>{ f1(); f2() }</code></td></tr><tr><td><code>Term.If</code></td><td><code>if (p) t else f</code></td></tr><tr><td><code>Term.Match</code></td><td><code>x match { case _ =&gt; }</code></td></tr><tr><td><code>Term.Try</code></td><td><code>try f catch { case _ =&gt; }</code></td></tr><tr><td><code>Term.TryWithHandler</code></td><td><code>try f catch (h)</code></td></tr><tr><td><code>Term.Function</code></td><td><code>(a, b) =&gt; a + b</code></td></tr><tr><td><code>Term.PartialFunction</code></td><td><code>{ case _ =&gt; }</code></td></tr><tr><td><code>Term.While</code></td><td><code>while(p){ f() }</code></td></tr><tr><td><code>Term.Do</code></td><td><code>do { f() } while(p)</code></td></tr><tr><td><code>Term.For</code></td><td><code>for{x &lt;- xs} f(x)</code></td></tr><tr><td><code>Term.ForYield</code></td><td><code>for{x &lt;- xs} yield f(x)</code></td></tr><tr><td><code>Term.New</code></td><td><code>new A</code></td></tr><tr><td><code>Term.NewAnonymous</code></td><td><code>new A { }</code></td></tr><tr><td><code>Term.Placeholder</code></td><td><code>_</code></td></tr><tr><td><code>Term.Eta</code></td><td><code>f _</code></td></tr><tr><td><code>Term.Repeated</code></td><td><code>f(x: _*)</code></td></tr><tr><td><code>Term.Param</code></td><td><code>x: Int</code> in <code>def f(x: Int)</code></td></tr><tr><td><code>Term.Interpolate</code></td><td><code>s&quot;Hello $name&quot;</code></td></tr><tr><td><code>Term.Xml</code></td><td><code>&lt;h1&gt;Hello {name}&lt;/h1&gt;</code></td></tr><tr><td><code>Term.ApplyUsing</code></td><td><code>method(using c)</code> (Scala 3)</td></tr><tr><td><code>Term.EndMarker</code></td><td><code>end if</code> (Scala 3)</td></tr><tr><td><code>Term.QuotedMacroExpr</code></td><td><code>&#x27;{ &#x27;ax }</code> (Scala 3)</td></tr><tr><td><code>Term.QuotedMacroType</code></td><td><code>&#x27;[ Map[Int, String] ]</code> (Scala 3)</td></tr><tr><td><code>Term.SplicedMacroExpr</code></td><td><code>${ env }</code> (Scala 3)</td></tr><tr><td><code>Term.ContextFunction</code></td><td><code>ExecutionContext ?=&gt; T</code> (Scala 3)</td></tr><tr><td><code>Term.PolyFunction</code></td><td><code>[T] =&gt; (t: T) =&gt; t</code> (Scala 3)</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="types-metatype">Types (<code>meta.Type</code>)<a href="#types-metatype" class="hash-link" aria-label="Direct link to types-metatype" title="Direct link to types-metatype" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;A with B&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">With</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">lhs </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;A&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> rhs </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;B&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ref</th><th>Examples</th></tr></thead><tbody><tr><td><code>Type.Name</code></td><td><code>B</code></td></tr><tr><td><code>Type.Select</code></td><td><code>a.B</code></td></tr><tr><td><code>Type.Project</code></td><td><code>a#B</code></td></tr><tr><td><code>Type.Singleton</code></td><td><code>a.type</code></td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Examples</th></tr></thead><tbody><tr><td><code>Type.Apply</code></td><td><code>F[T]</code></td></tr><tr><td><code>Type.ApplyInfix</code></td><td><code>K Map V</code></td></tr><tr><td><code>Type.Function</code></td><td><code>A =&gt; B</code></td></tr><tr><td><code>Type.Tuple</code></td><td><code>(A, B)</code></td></tr><tr><td><code>Type.With</code></td><td><code>A with B</code></td></tr><tr><td><code>Type.And</code></td><td><code>A &amp; B</code> (Scala 3)</td></tr><tr><td><code>Type.Or</code></td><td><code> A | B </code> (Scala 3)</td></tr><tr><td><code>Type.Refine</code></td><td><code>A { def f: Int }</code></td></tr><tr><td><code>Type.Existential</code></td><td><code>A forSome { type T }</code></td></tr><tr><td><code>Type.Annotate</code></td><td><code>T @annot</code></td></tr><tr><td><code>Type.Lambda</code></td><td><code>[T] =&gt; (T, T)</code> (only for supported dialects)</td></tr><tr><td><code>Type.Method</code></td><td><code>(x: T): T</code> (only for supported dialects)</td></tr><tr><td><code>Type.Placeholder</code></td><td><code>_</code> in <code>T[_]</code></td></tr><tr><td><code>Type.Bounds</code></td><td><code>T &gt;: Lower &lt;: Upper</code> in <code>def F[T &gt;: Lower &lt;: Upper] = 1</code></td></tr><tr><td><code>Type.ByName</code></td><td><code>=&gt;T</code> in <code>def f(x: =&gt; T) = x</code></td></tr><tr><td><code>Type.Repeated</code></td><td><code>T*</code> in <code>def f(x: T*): Unit</code></td></tr><tr><td><code>Type.Var</code></td><td><code>t</code> in <code>case _: List[t] =&gt;</code></td></tr><tr><td><code>Type.Param</code></td><td><code>X</code> in <code>trait A[X]</code></td></tr><tr><td><code>Type.PolyFunction</code></td><td><code>[T] =&gt; (t: T) =&gt; t</code> (Scala 3)</td></tr><tr><td><code>Type.ContextFunction</code></td><td><code>ExecutionContext ?=&gt; T</code> (Scala 3)</td></tr><tr><td><code>Type.Match</code></td><td><code>type T = match { case A =&gt; B}</code> (Scala 3)</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="patterns-metapat-and-cases-metacase">Patterns (meta.Pat) and Cases (meta.Case)<a href="#patterns-metapat-and-cases-metacase" class="hash-link" aria-label="Direct link to Patterns (meta.Pat) and Cases (meta.Case)" title="Direct link to Patterns (meta.Pat) and Cases (meta.Case)" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;_: A | _: B&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Alternative</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Typed</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Wildcard</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;A&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Typed</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Wildcard</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;B&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Pat</th><th>Examples</th></tr></thead><tbody><tr><td><code>Lit</code></td><td><code>&quot;literal&quot;</code></td></tr><tr><td><code>Pat.Wildcard</code></td><td><code>_</code></td></tr><tr><td><code>Pat.SeqWildcard</code></td><td><code>_*</code> in <code>case List(xs @ _*) =&gt;</code></td></tr><tr><td><code>Pat.Var</code></td><td><code>a</code> in <code>case a =&gt;</code></td></tr><tr><td><code>Pat.Bind</code></td><td><code>a @ A()</code></td></tr><tr><td><code>Pat.Alternative</code></td><td><code>1 | 2 </code></td></tr><tr><td><code>Pat.Tuple</code></td><td><code>(a, b)</code></td></tr><tr><td><code>Pat.Extract</code></td><td><code>A(a, b)</code></td></tr><tr><td><code>Pat.ExtractInfix</code></td><td><code>a E b</code></td></tr><tr><td><code>Pat.Interpolate</code></td><td><code>r&quot;Hello (.+)$name&quot;</code></td></tr><tr><td><code>Pat.Xml</code></td><td><code>&lt;h1&gt;Hello, World!&lt;/h1&gt;</code></td></tr><tr><td><code>Pat.Typed</code></td><td><code>a: Int</code></td></tr><tr><td><code>Term.Select</code></td><td><code>a.b</code></td></tr><tr><td><code>Term.Macro</code></td><td><code>case &#x27;c =&gt; 1</code> (Scala 3)</td></tr><tr><td><code>Term.Given</code></td><td><code>case ctx as given Context</code> (Scala 3)</td></tr></tbody></table>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;case a =&gt; ()&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Case</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Case</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Pat</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Var</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;a&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> None</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">Unit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Case</th><th>Examples</th></tr></thead><tbody><tr><td><code>Case</code></td><td><code>case a if p =&gt; f()</code></td></tr><tr><td><code>TypeCase</code></td><td><code>case A[t] =&gt; F[t]</code> (Scala 3)</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="name-metaname">Name (<code>meta.Name</code>)<a href="#name-metaname" class="hash-link" aria-label="Direct link to name-metaname" title="Direct link to name-metaname" translate="no">​</a></h2>
 <p><code>meta.Name.Anonymous()</code></p>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"class B { }"</span>.parse[<span class="hljs-type">Source</span>].get.structure
-
-<span class="hljs-type">Source</span>(
-  stats = <span class="hljs-type">List</span>(
-    <span class="hljs-type">Defn</span>.<span class="hljs-type">Class</span>(
-      mods = <span class="hljs-type">Nil</span>,
-      name = <span class="hljs-type">Type</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"B"</span>),
-      tparams = <span class="hljs-type">Nil</span>,
-      ctor = <span class="hljs-type">Ctor</span>.<span class="hljs-type">Primary</span>(
-        mods = <span class="hljs-type">Nil</span>,
-        name = <span class="hljs-type">Name</span>.<span class="hljs-type">Anonymous</span>(),
-        paramss = <span class="hljs-type">Nil</span>
-      ),
-      templ = <span class="hljs-type">Template</span>(
-        early = <span class="hljs-type">Nil</span>,
-        inits = <span class="hljs-type">Nil</span>,
-        self = <span class="hljs-type">Self</span>(
-          name = <span class="hljs-type">Name</span>.<span class="hljs-type">Anonymous</span>(),
-          decltpe = <span class="hljs-type">None</span>
-        ),
-        stats = <span class="hljs-type">Nil</span>
-      )
-    )
-  )
-)
-</code></pre>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;class B { }&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Source</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Source</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  stats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Defn</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Class</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      mods </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      name </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Type</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;B&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      tparams </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      ctor </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Ctor</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Primary</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        mods </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        name </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Anonymous</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        paramss </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      templ </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Template</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        early </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        inits </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token keyword" style="font-style:italic">self</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Self</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">          name </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Anonymous</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">          decltpe </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> None</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        stats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Nil</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
 <p><code>meta.name.Indeterminate()</code></p>
 <p>Is it a type, or is it a term? Indeterminate.</p>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"import a.b"</span>.parse[<span class="hljs-type">Source</span>].get.structure
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;import a.b&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Source</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Source</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  stats </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Import</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      importers </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        Importer</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">          ref </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;a&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">          importees </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            Importee</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">              name </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Indeterminate</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">                value </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> b</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">              </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">          </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">      </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="literals-metalit">Literals (<code>meta.Lit</code>)<a href="#literals-metalit" class="hash-link" aria-label="Direct link to literals-metalit" title="Direct link to literals-metalit" translate="no">​</a></h2>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token string" style="color:rgb(195, 232, 141)">&quot;null&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Null</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
 
-<span class="hljs-type">Source</span>(
-  stats = <span class="hljs-type">List</span>(
-    <span class="hljs-type">Import</span>(
-      importers = <span class="hljs-type">List</span>(
-        <span class="hljs-type">Importer</span>(
-          ref = <span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>(<span class="hljs-string">"a"</span>),
-          importees = <span class="hljs-type">List</span>(
-            <span class="hljs-type">Importee</span>.<span class="hljs-type">Name</span>(
-              name = <span class="hljs-type">Name</span>.<span class="hljs-type">Indeterminate</span>(
-                value = b
-              )
-            )
-          )
-        )
-      )
-    )
-  )
-)
-</code></pre>
-<h2><a class="anchor" aria-hidden="true" id="literals-metalit"></a><a href="#literals-metalit" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Literals (<code>meta.Lit</code>)</h2>
-<pre><code class="hljs css language-scala"><span class="hljs-string">"null"</span>.parse[<span class="hljs-type">Term</span>].get.structure
 
-<span class="hljs-type">Lit</span>.<span class="hljs-type">Null</span>()
-</code></pre>
-<table>
-<thead>
-<tr><th>Lit</th><th>Example</th></tr>
-</thead>
-<tbody>
-<tr><td><code>Null</code></td><td><code>null</code></td></tr>
-<tr><td><code>Boolean</code></td><td><code>true</code></td></tr>
-<tr><td><code>Unit</code></td><td><code>()</code></td></tr>
-<tr><td><code>Int</code></td><td><code>1</code></td></tr>
-<tr><td><code>Double</code></td><td><code>1.0</code></td></tr>
-<tr><td><code>Float</code></td><td><code>1.0F</code></td></tr>
-<tr><td><code>Long</code></td><td><code>1L</code></td></tr>
-<tr><td><code>Byte</code></td><td>(no available syntax)</td></tr>
-<tr><td><code>Short</code></td><td>(no available syntax)</td></tr>
-<tr><td><code>Char</code></td><td><code>'a'</code></td></tr>
-<tr><td><code>Symbol</code></td><td><code>'a</code></td></tr>
-<tr><td><code>String</code></td><td><code>&quot;A&quot;</code></td></tr>
-</tbody>
-</table>
-<h2><a class="anchor" aria-hidden="true" id="coments-metatreecomments"></a><a href="#coments-metatreecomments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Coments (<code>meta.Tree.Comments</code>)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Lit</th><th>Example</th></tr></thead><tbody><tr><td><code>Null</code></td><td><code>null</code></td></tr><tr><td><code>Boolean</code></td><td><code>true</code></td></tr><tr><td><code>Unit</code></td><td><code>()</code></td></tr><tr><td><code>Int</code></td><td><code>1</code></td></tr><tr><td><code>Double</code></td><td><code>1.0</code></td></tr><tr><td><code>Float</code></td><td><code>1.0F</code></td></tr><tr><td><code>Long</code></td><td><code>1L</code></td></tr><tr><td><code>Byte</code></td><td>(no available syntax)</td></tr><tr><td><code>Short</code></td><td>(no available syntax)</td></tr><tr><td><code>Char</code></td><td><code>&#x27;a&#x27;</code></td></tr><tr><td><code>Symbol</code></td><td><code>&#x27;a</code></td></tr><tr><td><code>String</code></td><td><code>&quot;A&quot;</code></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="coments-metatreecomments">Coments (<code>meta.Tree.Comments</code>)<a href="#coments-metatreecomments" class="hash-link" aria-label="Direct link to coments-metatreecomments" title="Direct link to coments-metatreecomments" translate="no">​</a></h2>
 <p>Starting with v4.14.3, scalameta allows both parsing some comments and attaching
 them to trees.</p>
-<pre><code class="hljs css language-scala">"""|/*
-   | * leading comment 1
-   | */
-   |// leading comment
-   |null /* trailing comment 1 */ // trailing comment 2
-   |// unattached comment
-   |""".stripMargin.parse[Term].get.structure
-
-/*
- * leading comment 1
- */
-// leading comment 2
-Lit.Null() /* trailing comment 1 */ // trailing comment 2
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="constructing-trees-with-comments"></a><a href="#constructing-trees-with-comments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructing trees with comments</h3>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">&quot;&quot;&quot;|/*</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">   | * leading comment 1</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">   | */</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">   |// leading comment</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">   |null /* trailing comment 1 */ // trailing comment 2</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">   |// unattached comment</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token triple-quoted-string string" style="color:rgb(195, 232, 141)">   |&quot;&quot;&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">stripMargin</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">parse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">get</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">structure</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">/*</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"> * leading comment 1</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"> */</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// leading comment 2</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Null</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">/* trailing comment 1 */</span><span class="token plain"> </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// trailing comment 2</span><br></div></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="constructing-trees-with-comments">Constructing trees with comments<a href="#constructing-trees-with-comments" class="hash-link" aria-label="Direct link to Constructing trees with comments" title="Direct link to Constructing trees with comments" translate="no">​</a></h3>
 <p>To create a tree with comments, instead of the standard <code>apply</code> method, use
 <code>createWithComments</code> which appends two additional parameters:</p>
-<pre><code class="hljs css language-scala">
-<span class="hljs-type">Lit</span>.<span class="hljs-type">Null</span>.createWithComments(
-  begComment = <span class="hljs-type">Some</span>(<span class="hljs-type">Tree</span>.<span class="hljs-type">Comments</span>(<span class="hljs-type">List</span>(
-    <span class="hljs-type">Tree</span>.<span class="hljs-type">Comment</span>(<span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">String</span>(<span class="hljs-string">"/*\n * leading comment 1\n */"</span>))),
-    <span class="hljs-type">Tree</span>.<span class="hljs-type">Comment</span>(<span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">String</span>(<span class="hljs-string">"// leading comment 2"</span>)))
-  ))),
-  endComment = <span class="hljs-type">Some</span>(<span class="hljs-type">Tree</span>.<span class="hljs-type">Comments</span>(<span class="hljs-type">List</span>(
-    <span class="hljs-type">Tree</span>.<span class="hljs-type">Comment</span>(<span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">String</span>(<span class="hljs-string">"/* trailing comment 1 */"</span>))),
-    <span class="hljs-type">Tree</span>.<span class="hljs-type">Comment</span>(<span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">String</span>(<span class="hljs-string">"// trailing comment 2"</span>)))
-  )))
-)
-<span class="hljs-type">Term</span>.<span class="hljs-type">Name</span>.createWithComments(
-  <span class="hljs-string">"identifier"</span>,
-  begComment = <span class="hljs-type">Some</span>(<span class="hljs-type">Tree</span>.<span class="hljs-type">Comments</span>(<span class="hljs-type">List</span>(
-    <span class="hljs-type">Tree</span>.<span class="hljs-type">Comment</span>(<span class="hljs-type">List</span>(<span class="hljs-type">Lit</span>.<span class="hljs-type">String</span>(<span class="hljs-string">"/* comment */"</span>)))
-  ))),
-  endComment = <span class="hljs-type">None</span> <span class="hljs-comment">// default</span>
-)
-</code></pre>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Null</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">createWithComments</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  begComment </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Some</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comments</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comment</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">String</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;/*\n * leading comment 1\n */&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comment</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">String</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;// leading comment 2&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  endComment </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Some</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comments</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comment</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">String</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;/* trailing comment 1 */&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comment</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">String</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;// trailing comment 2&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">Term</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Name</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">createWithComments</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;identifier&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  begComment </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Some</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comments</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    Tree</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Comment</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">Lit</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token builtin" style="color:rgb(130, 170, 255)">String</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;/* comment */&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  endComment </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> None </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// default</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
 <p>In addition, the trees now also provide <code>copyWithComments</code> instance methods,
 which work similarly.</p>
-<h3><a class="anchor" aria-hidden="true" id="parsing-trees-with-comments"></a><a href="#parsing-trees-with-comments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parsing trees with comments</h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="parsing-trees-with-comments">Parsing trees with comments<a href="#parsing-trees-with-comments" class="hash-link" aria-label="Direct link to Parsing trees with comments" title="Direct link to Parsing trees with comments" translate="no">​</a></h3>
 <p>The scalameta parser will attach the following comments to a parsed tree:</p>
 <ul>
-<li>any comment tokens which follow the tree until the first newline or
+<li class="">any comment tokens which follow the tree until the first newline or
 non-trivial (non-space and non-comment) token</li>
-<li>any comment tokens which precede the tree if they are themselves preceded
+<li class="">any comment tokens which precede the tree if they are themselves preceded
 by a newline or if the first non-trivial token before them is neither an
 identifier nor a closing delimiter (because then that comment would be
 attached to the tree ending in that token)</li>
@@ -393,48 +596,22 @@ attached to the tree ending in that token)</li>
 <p>This means, for instance, that a comment following punctuation (say, a comma
 or a an equals or a colon) would be attached to the next tree rather than
 the preceding (because punctuation is not included in that previous tree):</p>
-<pre><code class="hljs css language-scala">foo: <span class="hljs-comment">// fewer braces call; leading for `bar`</span>
-  bar, <span class="hljs-comment">// first argument comment; leading for `baz`</span>
-  baz <span class="hljs-comment">// second argument; trailing for `baz</span>
-)
-
-foo <span class="hljs-comment">/* fewer braces call; trailing for `foo` */</span>:
-  bar <span class="hljs-comment">/* first argument comment; trailing for `bar` */</span>,
-  baz
-)
-</code></pre>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain">foo</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// fewer braces call; leading for `bar`</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  bar</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// first argument comment; leading for `baz`</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  baz </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// second argument; trailing for `baz</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">foo </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">/* fewer braces call; trailing for `foo` */</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  bar </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">/* first argument comment; trailing for `bar` */</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  baz</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></div></code></pre></div></div>
 <p>Keep in mind that after parsing, multiple trees might refer to the same exact
 comments. In the example below, <code>// some comment</code> will be accessible both from
 <code>Term.Name(&quot;bar&quot;)</code> and from <code>Defn.Val(&quot;foo&quot;, ...)</code>.</p>
-<pre><code class="hljs css language-scala"><span class="hljs-keyword">val</span> foo = bar <span class="hljs-comment">// some comment</span>
-</code></pre>
-<h3><a class="anchor" aria-hidden="true" id="showing-trees-with-comments"></a><a href="#showing-trees-with-comments" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Showing trees with comments</h3>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> foo </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> bar </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic">// some comment</span><br></div></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="showing-trees-with-comments">Showing trees with comments<a href="#showing-trees-with-comments" class="hash-link" aria-label="Direct link to Showing trees with comments" title="Direct link to Showing trees with comments" translate="no">​</a></h3>
 <p>The <code>.structure</code> and <code>.syntax</code> methods will only output a comment associated with
 a tree if</p>
 <ul>
-<li>the tree is not parsed (say, created manually), or</li>
-<li>its <code>parent</code> is not set (also a likely case with manually generated trees), or</li>
-<li>the <code>parent</code> does not contain the same comment
+<li class="">the tree is not parsed (say, created manually), or</li>
+<li class="">its <code>parent</code> is not set (also a likely case with manually generated trees), or</li>
+<li class="">the <code>parent</code> does not contain the same comment
 <ul>
-<li>if it does, the comment will simply be attributed to the parent</li>
-</ul></li>
+<li class="">if it does, the comment will simply be attributed to the parent</li>
 </ul>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/trees/quasiquotes.html"><span class="arrow-prev">← </span><span>trees/quasiquotes</span></a><a class="docs-next button" href="/docs/trees/scastie.html"><span>Scastie Playground</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#top-level-metasource-metapkg-metapkgobject">Top level (<code>meta.Source</code>, <code>meta.Pkg</code>, <code>meta.Pkg.Object</code>)</a></li><li><a href="#declarations-metadecl">Declarations (<code>meta.Decl</code>)</a></li><li><a href="#definitions-metadefn">Definitions (<code>meta.Defn</code>)</a></li><li><a href="#terms-metaterm">Terms (<code>meta.Term</code>)</a></li><li><a href="#types-metatype">Types (<code>meta.Type</code>)</a></li><li><a href="#patterns-metapat-and-cases-metacase">Patterns (meta.Pat) and Cases (meta.Case)</a></li><li><a href="#name-metaname">Name (<code>meta.Name</code>)</a></li><li><a href="#literals-metalit">Literals (<code>meta.Lit</code>)</a></li><li><a href="#coments-metatreecomments">Coments (<code>meta.Tree.Comments</code>)</a><ul class="toc-headings"><li><a href="#constructing-trees-with-comments">Constructing trees with comments</a></li><li><a href="#parsing-trees-with-comments">Parsing trees with comments</a></li><li><a href="#showing-trees-with-comments">Showing trees with comments</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer" style="background-color:#181A1F"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/scalameta.png" alt="Scalameta" width="66" height="58"/></a><div><h5>Scalameta Docs</h5><a href=" /docs/trees/guide.html">Trees Guide</a><a href=" /docs/trees/quasiquotes.html">Quasiquotes</a><a href=" /docs/semanticdb/specification.html">SemanticDB</a></div><div><h5>Scalameta Projects</h5><a href="https://scalameta.org/metals">Metals: language server</a><a href="https://scalameta.org/scalafmt">Scalafmt: code formatter</a><a href="https://scalacenter.github.io/scalafix">Scalafix: linting and refactoring tool</a><a href="https://scalameta.org/munit">MUnit: testing library</a><a href="https://scalameta.org/mdoc">MDoc: documentation tool</a><a href="https://github.com/scalameta/metabrowse">Metabrowse: online code browser</a></div><div><h5>Community</h5><a href="https://github.com/scalameta/scalameta" target="_blank">GitHub</a><a href="https://github.com/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/github/stars/scalameta/metals.svg?color=%23087e8b&amp;label=stars&amp;logo=github&amp;style=social"/></a><a href="https://discord.gg/RFpSVth" target="_blank"><img src="https://img.shields.io/discord/632642981228314653?logo=discord&amp;style=social"/></a><a href="https://gitter.im/scalameta/scalameta" target="_blank"><img src="https://img.shields.io/gitter/room/scalameta/scalameta.svg?logo=gitter&amp;style=social"/></a><a href="https://twitter.com/scalameta" target="_blank"><img src="https://img.shields.io/twitter/follow/scalameta.svg?logo=twitter&amp;style=social"/></a></div></section><section class="copyright">Copyright © 2026 Scalameta</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
-                document.addEventListener('keyup', function(e) {
-                  if (e.target !== document.body) {
-                    return;
-                  }
-                  // keyCode for '/' (slash)
-                  if (e.keyCode === 191) {
-                    const search = document.getElementById('search_input_react');
-                    search && search.focus();
-                  }
-                });
-              </script><script>
-              var search = docsearch({
-                
-                apiKey: '0460d1c693a278bc1ad07ada3fb96c63',
-                indexName: 'scalameta',
-                inputSelector: '#search_input_react'
-              });
-            </script></body></html>
+</li>
+</ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/trees/quasiquotes"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">quasiquotes</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/trees/scastie"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Scastie Playground</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#top-level-metasource-metapkg-metapkgobject" class="table-of-contents__link toc-highlight">Top level (<code>meta.Source</code>, <code>meta.Pkg</code>, <code>meta.Pkg.Object</code>)</a></li><li><a href="#declarations-metadecl" class="table-of-contents__link toc-highlight">Declarations (<code>meta.Decl</code>)</a></li><li><a href="#definitions-metadefn" class="table-of-contents__link toc-highlight">Definitions (<code>meta.Defn</code>)</a></li><li><a href="#terms-metaterm" class="table-of-contents__link toc-highlight">Terms (<code>meta.Term</code>)</a></li><li><a href="#types-metatype" class="table-of-contents__link toc-highlight">Types (<code>meta.Type</code>)</a></li><li><a href="#patterns-metapat-and-cases-metacase" class="table-of-contents__link toc-highlight">Patterns (meta.Pat) and Cases (meta.Case)</a></li><li><a href="#name-metaname" class="table-of-contents__link toc-highlight">Name (<code>meta.Name</code>)</a></li><li><a href="#literals-metalit" class="table-of-contents__link toc-highlight">Literals (<code>meta.Lit</code>)</a></li><li><a href="#coments-metatreecomments" class="table-of-contents__link toc-highlight">Coments (<code>meta.Tree.Comments</code>)</a><ul><li><a href="#constructing-trees-with-comments" class="table-of-contents__link toc-highlight">Constructing trees with comments</a></li><li><a href="#parsing-trees-with-comments" class="table-of-contents__link toc-highlight">Parsing trees with comments</a></li><li><a href="#showing-trees-with-comments" class="table-of-contents__link toc-highlight">Showing trees with comments</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Scalameta Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/trees/guide">Trees Guide</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/trees/quasiquotes">Quasiquotes</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/semanticdb/specification">SemanticDB</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Scalameta Projects</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://scalameta.org/metals" target="_blank" rel="noopener noreferrer" class="footer__link-item">Metals: language server<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalameta.org/scalafmt" target="_blank" rel="noopener noreferrer" class="footer__link-item">Scalafmt: code formatter<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalacenter.github.io/scalafix" target="_blank" rel="noopener noreferrer" class="footer__link-item">Scalafix: linting and refactoring<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalameta.org/munit" target="_blank" rel="noopener noreferrer" class="footer__link-item">MUnit: testing library<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://scalameta.org/mdoc" target="_blank" rel="noopener noreferrer" class="footer__link-item">MDoc: documentation tool<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/scalameta/metabrowse" target="_blank" rel="noopener noreferrer" class="footer__link-item">Metabrowse: online code browser<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/scalameta/scalameta" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://discord.gg/RFpSVth" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://twitter.com/scalameta" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Scalameta</div></div></div></footer></div>
+</body>
+</html>
