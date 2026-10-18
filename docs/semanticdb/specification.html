@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">SemanticDB Specification | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/semanticdb/specification"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="SemanticDB Specification | Scalameta"><meta data-rh="true" name="description" content="SemanticDB is a data model for semantic information such as symbols and types"><meta data-rh="true" property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/semanticdb/specification"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Specification","item":"https://scalameta.org/docs/semanticdb/specification"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
-<script src="/assets/js/runtime~main.81e5fbfd.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.fd1c996a.js" defer="defer"></script>
 <script src="/assets/js/main.e14bebc9.js" defer="defer"></script>
 </head>
 <body>
@@ -1658,7 +1658,7 @@ similarly to function definitions (see above).</p>
 <p>Notes:</p>
 <ul>
 <li class="">Unlike some other metaprogramming systems for Scala, we do not create
-synthetic constructor symbols for traits and objects.</li>
+synthetic constructor symbols for objects.</li>
 <li class="">Supported properties for constructor symbols are:
 <ul>
 <li class=""><code>PRIMARY</code>: set for primary constructors.</li>
@@ -1801,7 +1801,8 @@ definitions (see above). Concretely, the differences between trait symbols and
 class symbols are:</p>
 <ul>
 <li class="">Trait symbols only support <code>SEALED</code> property.</li>
-<li class="">Traits don&#x27;t have constructors.</li>
+<li class="">A trait has a primary constructor only if scalac creates an initializer
+(<code>$init$</code>) for it, which implementing classes call.</li>
 </ul>
 <p><strong>Object definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#object-definitions" target="_blank" rel="noopener noreferrer" class="">[59]</a> are represented by <code>OBJECT</code> symbols
 similarly to class definitions (see above). Concretely, the differences between
