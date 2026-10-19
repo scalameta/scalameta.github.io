@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">SemanticDB Specification | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/semanticdb/specification"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="SemanticDB Specification | Scalameta"><meta data-rh="true" name="description" content="SemanticDB is a data model for semantic information such as symbols and types"><meta data-rh="true" property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/semanticdb/specification"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Specification","item":"https://scalameta.org/docs/semanticdb/specification"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
-<script src="/assets/js/runtime~main.be5ea556.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.fde6fabb.js" defer="defer"></script>
 <script src="/assets/js/main.e14bebc9.js" defer="defer"></script>
 </head>
 <body>
@@ -2005,13 +2005,584 @@ annotations will be supported in the future.</li>
 <p><a name="scala-symboloccurrence" class=""></a></p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="symboloccurrence-1">SymbolOccurrence<a href="#symboloccurrence-1" class="hash-link" aria-label="Direct link to SymbolOccurrence" title="Direct link to SymbolOccurrence" translate="no">​</a></h3>
 <div class="language-protobuf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-protobuf codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain">message SymbolOccurrence {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Range range = 1;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  string symbol = 2;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Role role = 3;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span><br></div></code></pre></div></div>
-<p>There is a Scala compiler plugin that generates
-<a href="#symboloccurrence" class="">SymbolOccurrences</a> for Scala code. The implementation is
-used at Twitter scale, and it works well - both in terms of handling sizeable
-codebases and understanding esoteric language constructs and idioms. However,
-but we do not yet have a specification that comprehensively describes how Scala
-language features map onto symbol occurrences. We intend to improve on this in
-the future.</p>
+<p>Symbol occurrences are produced for names that appear in Scala source code and
+resolve to a <a href="#scala-symbol" class="">Symbol</a>. The <code>role</code> of an occurrence is:</p>
+<ul>
+<li class=""><code>DEFINITION</code> if the name introduces the definition that it resolves to, i.e.
+if it is the name of its enclosing definition. For example, <code>x</code> in
+<code>val x = 1</code> or <code>C</code> in <code>class C</code>.</li>
+<li class=""><code>REFERENCE</code> for any other name that resolves to a symbol. For example, <code>x</code>
+in <code>println(x)</code>.</li>
+</ul>
+<p>The <a href="#range" class="">Range</a> of an occurrence covers the name exactly as it is written
+in source, including backquotes if present. Occurrences are also produced for
+several language constructs that are not spelled out as names in source, for
+example primary constructors and constructor invocations. Such occurrences
+have an empty range that points at the location associated with the
+corresponding construct (see below).</p>
+<p>Multiple occurrences may share the same range, each recording a separate
+fact anchored to the same source construct. For example, an import selector
+that refers both to a term and to a type produces two occurrences with the
+same range, and an anonymous function that implements a SAM type produces
+two definitions over its range (see below).</p>
+<p>Occurrences are only produced for code that is written in source. Code
+generated by the compiler, for example inferred method calls or implicit
+arguments, is described by <a href="#scala-synthetic" class="">Synthetic</a> instead.</p>
+<p>The tables below list only the occurrences that are relevant to the construct
+being discussed, in the order in which they appear in the corresponding code
+snippet. Local symbol names are illustrative.</p>
+<p><strong>Value and variable declarations and definitions</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#value-declarations-and-definitions" target="_blank" rel="noopener noreferrer" class="">39</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#variable-declarations-and-definitions" target="_blank" rel="noopener noreferrer" class="">41</a>]
+produce occurrences for the names that they define and for every reference to
+those names:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> x </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">var</span><span class="token plain"> y </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">2</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> m</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> xl </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> x </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> y</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    y </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> xl</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>x</code> in <code>val x = 1</code></td>
+    <td><code>_empty_/C#x.</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>y</code> in <code>var y = 2</code></td>
+    <td><code>_empty_/C#y().</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>xl</code> in <code>val xl = ...</code></td>
+    <td><code>local0</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>x</code> in <code>x + y</code></td>
+    <td><code>_empty_/C#x.</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>y</code> in <code>x + y</code></td>
+    <td><code>_empty_/C#y().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>y</code> in <code>y = xl</code></td>
+    <td><code>_empty_/C#`y_=`().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>xl</code> in <code>y = xl</code></td>
+    <td><code>local0</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">Definitions and references of local values and variables resolve to
+<a href="#symbol" class="">local symbols</a>.</li>
+<li class="">Reads of a member variable resolve to its getter symbol, while assignments
+to a member variable resolve to its setter symbol.</li>
+<li class="">The synthetic fields that underlie member values and variables (see
+<a href="#scala-symbolinformation" class="">SymbolInformation</a>) never produce occurrences.</li>
+</ul>
+<p><strong>Pattern variables</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#variable-patterns" target="_blank" rel="noopener noreferrer" class="">65</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#pattern-matching-expressions" target="_blank" rel="noopener noreferrer" class="">66</a>] produce <code>DEFINITION</code> occurrences
+for the names that they bind, while extractor names in patterns are
+references to the corresponding extractor:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> Some</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">x</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Some</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token number" style="color:rgb(247, 140, 108)">2</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">match</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">case</span><span class="token plain"> y </span><span class="token keyword" style="font-style:italic">=&gt;</span><span class="token plain"> println</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">y</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>Some</code> in <code>val Some(x)</code></td>
+    <td><code>scala/Some.</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>x</code></td>
+    <td><code>_empty_/C#x.</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>Some</code> in <code>Some(1)</code></td>
+    <td><code>scala/Some.</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>y</code> in <code>case y</code></td>
+    <td><code>local0</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>y</code> in <code>println(y)</code></td>
+    <td><code>local0</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">Pattern variables bound by <code>val</code> and <code>var</code> pattern definitions in member
+position resolve to member symbols, following the same rules as regular
+value and variable definitions. All other pattern variables, including
+variables bound in <code>case</code> clauses and for comprehension enumerators,
+resolve to local symbols.</li>
+<li class="">Type variables bound by type patterns, e.g. <code>t</code> in <code>case _: List[t]</code>, also
+produce <code>DEFINITION</code> occurrences of local symbols.</li>
+<li class="">A pattern variable bound in a for comprehension enumerator produces exactly
+one <code>DEFINITION</code> occurrence, even when the compiler desugars the
+enumerator into multiple anonymous functions.</li>
+</ul>
+<p><strong>Type declarations, type aliases and type parameters</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#type-declarations-and-type-aliases" target="_blank" rel="noopener noreferrer" class="">42</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#type-parameters" target="_blank" rel="noopener noreferrer" class="">43</a>]
+produce occurrences for the names that they define:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">type</span><span class="token plain"> U</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">type</span><span class="token plain"> V </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> Map</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> U</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>T</code> in <code>class C[T]</code></td>
+    <td><code>_empty_/C#[T]</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>U</code> in <code>type U</code></td>
+    <td><code>_empty_/C#U#</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>V</code></td>
+    <td><code>_empty_/C#V#</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>Map</code></td>
+    <td><code>scala/Predef.Map#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>T</code> in <code>Map[T, U]</code></td>
+    <td><code>_empty_/C#[T]</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>U</code> in <code>Map[T, U]</code></td>
+    <td><code>_empty_/C#U#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p><strong>Parameters</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#default-arguments" target="_blank" rel="noopener noreferrer" class="">[45]</a> produce <code>DEFINITION</code> occurrences at their
+declaration site. Named arguments produce references to the corresponding
+parameter of the method being invoked:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> m</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">p</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> q</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> p</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  m</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">p </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">2</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>T</code></td>
+    <td><code>_empty_/C#m().[T]</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>p</code> in <code>p: T</code></td>
+    <td><code>_empty_/C#m().(p)</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>q</code></td>
+    <td><code>_empty_/C#m().(q)</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>p</code> in <code>= p</code></td>
+    <td><code>_empty_/C#m().(p)</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>p</code> in <code>m(p = 2)</code></td>
+    <td><code>_empty_/C#m().(p)</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">Named arguments resolve to the parameter of the method that is actually
+invoked. For example, <code>name</code> in <code>User(name = &quot;John&quot;)</code>, where <code>User</code> is a
+case class, resolves to <code>User.apply().(name)</code> - the parameter of the
+synthetic <code>apply</code> method of the companion object.</li>
+<li class="">Parameters of primary constructors are covered in &quot;Constructors&quot; below.</li>
+</ul>
+<p><strong>Function declarations and definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#function-declarations-and-definitions" target="_blank" rel="noopener noreferrer" class="">[48]</a> produce occurrences
+for the names of the methods that they define and for every reference to
+those names. References resolve to the exact overload, as described in
+<a href="#scala-symbol" class="">Symbol</a>:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">object</span><span class="token plain"> M </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> foo</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">a</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Unit</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> foo</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">a</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">String</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Unit</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  foo</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  foo</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">2</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>foo</code> in <code>foo(a: Int)</code></td>
+    <td><code>_empty_/M.foo().</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>foo</code> in <code>foo(a: String)</code></td>
+    <td><code>_empty_/M.foo(+1).</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>foo</code> in <code>foo(1)</code></td>
+    <td><code>_empty_/M.foo().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>foo</code> in <code>foo(&quot;&quot;)</code></td>
+    <td><code>_empty_/M.foo(+1).</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>+</code></td>
+    <td><code>scala/Int#`+`(+4).</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">Ranges of occurrences of symbolic names cover the operator token, and
+ranges of occurrences of backquoted names include the backquotes.</li>
+</ul>
+<p><strong>Constructors</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#constructor-definitions" target="_blank" rel="noopener noreferrer" class="">[53]</a> produce occurrences both for definitions and
+for invocations, even though constructors are not spelled out as names in
+source. Such occurrences have an empty range:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">x</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">this</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">this</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token number" style="color:rgb(247, 140, 108)">42</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">object</span><span class="token plain"> M </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> c </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">new</span><span class="token plain"> C</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token number" style="color:rgb(247, 140, 108)">43</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td>Primary constructor (empty range after <code>C</code>)</td>
+    <td><code>_empty_/C#`&lt;init&gt;`().</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>x</code></td>
+    <td><code>_empty_/C#x.</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>this</code> in <code>def this()</code></td>
+    <td><code>_empty_/C#`&lt;init&gt;`(+1).</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td>Self invocation <code>this(42)</code> (empty range)</td>
+    <td><code>_empty_/C#`&lt;init&gt;`().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>C</code> in <code>new C(43)</code></td>
+    <td><code>_empty_/C#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td>Invocation in <code>new C(43)</code> (empty range after <code>C</code>)</td>
+    <td><code>_empty_/C#`&lt;init&gt;`().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">The empty range of a primary constructor definition points right after the
+class name. Due to implementation restrictions, this occurrence is not
+produced when the class has neither an explicit parameter clause nor a
+template body, e.g. <code>class C</code>.</li>
+<li class="">Secondary constructor definitions produce an occurrence whose range covers
+the <code>this</code> keyword in <code>def this(...)</code>.</li>
+<li class="">At its definition site, a primary constructor parameter resolves to the
+symbol of the class member that it gives rise to - the value symbol for
+plain and <code>val</code> parameters and the getter symbol for <code>var</code> parameters. The
+associated constructor parameter symbol, e.g.
+<pre tabindex="0" class="codeBlockStandalone_MEMb thin-scrollbar codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><code class="codeBlockLines_e6Vv"><em>empty</em>/C#<code>&amp;lt;init&amp;gt;</code>().(x)</code></pre>, does not produce an
+occurrence.</li>
+<li class="">Parent constructor invocations in extends clauses also produce empty-range
+references right after the name of the parent type. For example,
+<code>class D extends C(1)</code> produces a reference to
+<pre tabindex="0" class="codeBlockStandalone_MEMb thin-scrollbar codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><code class="codeBlockLines_e6Vv"><em>empty</em>/C#<code>&amp;lt;init&amp;gt;</code>().</code></pre> right after <code>C</code>.</li>
+</ul>
+<p><strong>Class, trait and object definitions</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#class-definitions" target="_blank" rel="noopener noreferrer" class="">52</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#traits" target="_blank" rel="noopener noreferrer" class="">58</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#object-definitions" target="_blank" rel="noopener noreferrer" class="">59</a>]
+produce occurrences for the names that they define, for the parents that
+they reference and for their self parameters:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">trait</span><span class="token plain"> B</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C </span><span class="token keyword" style="font-style:italic">extends</span><span class="token plain"> B </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">self</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">=&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">object</span><span class="token plain"> M </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> anon </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">new</span><span class="token plain"> B </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>B</code> in <code>trait B</code></td>
+    <td><code>_empty_/B#</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>C</code></td>
+    <td><code>_empty_/C#</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>B</code> in <code>extends B</code></td>
+    <td><code>_empty_/B#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>self</code></td>
+    <td><code>local0</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>M</code></td>
+    <td><code>_empty_/M.</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td>Anonymous class (empty range before <code>B</code>)</td>
+    <td><code>local1</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>B</code> in <code>new B {}</code></td>
+    <td><code>_empty_/B#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">Named self parameters produce a <code>DEFINITION</code> occurrence of a local symbol.
+Self parameters declared as <code>_</code> or <code>this</code> produce no occurrence, but their
+type annotations still produce references.</li>
+<li class="">Anonymous classes produce an empty-range <code>DEFINITION</code> occurrence of a local
+symbol at the start of the instantiated parent, in addition to the
+reference to the parent and an empty-range reference to the invoked
+constructor (<code>java/lang/Object#</code>&lt;init&gt;<code>().</code> when the parent is a
+trait).</li>
+</ul>
+<p><strong>Imports</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#import-clauses" target="_blank" rel="noopener noreferrer" class="">[100]</a> produce references for every name in an import
+path:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">import</span><span class="token plain"> </span><span class="token namespace" style="color:rgb(178, 204, 214)">scala</span><span class="token namespace punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token namespace" style="color:rgb(178, 204, 214)">concurrent</span><span class="token namespace punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Future</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">import</span><span class="token plain"> </span><span class="token namespace" style="color:rgb(178, 204, 214)">scala</span><span class="token namespace punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token namespace" style="color:rgb(178, 204, 214)">util</span><span class="token namespace punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain">Try </span><span class="token keyword" style="font-style:italic">=&gt;</span><span class="token plain"> T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>scala</code></td>
+    <td><code>scala/</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>concurrent</code></td>
+    <td><code>scala/concurrent/</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>Future</code></td>
+    <td><code>scala/concurrent/Future.</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>Future</code></td>
+    <td><code>scala/concurrent/Future#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>util</code></td>
+    <td><code>scala/util/</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>Try</code></td>
+    <td><code>scala/util/Try.</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>Try</code></td>
+    <td><code>scala/util/Try#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">An import selector produces one occurrence for every member of the
+qualifier that has the imported name. In the example above, <code>Future</code>
+resolves both to an object and to a class, producing two occurrences with
+the same range.</li>
+<li class="">In a rename <code>{Try =&gt; T}</code>, only the original name produces occurrences. Due
+to implementation restrictions, the new name <code>T</code> produces no occurrence.
+References to the renamed name elsewhere in the code resolve directly to
+the renamed symbol.</li>
+<li class="">Wildcard selectors produce no occurrences.</li>
+</ul>
+<p><strong>Packages and package objects</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/09-top-level-definitions.html#packagings" target="_blank" rel="noopener noreferrer" class="">61</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/09-top-level-definitions.html#package-objects" target="_blank" rel="noopener noreferrer" class="">60</a>] produce occurrences
+for the names in package clauses and package object definitions:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">package</span><span class="token plain"> </span><span class="token namespace" style="color:rgb(178, 204, 214)">example</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">package</span><span class="token plain"> </span><span class="token namespace" style="color:rgb(178, 204, 214)">object</span><span class="token plain"> p </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">val</span><span class="token plain"> x </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>example</code></td>
+    <td><code>example/</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>p</code></td>
+    <td><code>example/p/package.</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>x</code></td>
+    <td><code>example/p/package.x.</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">In a multi-segment package clause, e.g. <code>package a.b.c</code>, every segment
+resolves to the corresponding package symbol (<code>a/</code>, <code>a/b/</code> and <code>a/b/c/</code>).
+Due to implementation restrictions, all segments, including the last one,
+currently have role <code>REFERENCE</code>.</li>
+<li class="">Package names in qualified references elsewhere in the code, e.g.
+<code>scala.util.Either</code>, produce <code>REFERENCE</code> occurrences of the corresponding
+package symbols.</li>
+<li class="">References to members of package objects resolve to symbols owned by the
+package object, e.g. <code>classTag</code> in <code>scala.reflect.classTag[Int]</code> resolves
+to <code>scala/reflect/package.classTag().</code>.</li>
+</ul>
+<p><strong><code>this</code>, <code>super</code> and access qualifiers</strong> [<a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#private" target="_blank" rel="noopener noreferrer" class="">62</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/05-classes-and-objects.html#protected" target="_blank" rel="noopener noreferrer" class="">63</a>, <a href="https://www.scala-lang.org/files/archive/spec/2.12/06-expressions.html#this-and-super" target="_blank" rel="noopener noreferrer" class="">101</a>]
+produce references to the enclosing definitions and parents that they
+resolve to:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">trait</span><span class="token plain"> M </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> m</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C </span><span class="token keyword" style="font-style:italic">extends</span><span class="token plain"> M </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">private</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">C</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> n </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> C</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token keyword" style="font-style:italic">this</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">m </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">super</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">M</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">m</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>C</code> in <code>private[C]</code></td>
+    <td><code>_empty_/C#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>C</code> in <code>C.this</code></td>
+    <td><code>_empty_/C#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>m</code> in <code>C.this.m</code></td>
+    <td><code>_empty_/M#m().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>M</code> in <code>super[M]</code></td>
+    <td><code>_empty_/M#</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr>
+  <tr>
+    <td><code>m</code> in <code>super[M].m</code></td>
+    <td><code>_empty_/M#m().</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">The qualifier of an access modifier resolves to the class or package that
+it names, e.g. <code>example</code> in <code>protected[example]</code> resolves to <code>example/</code>.</li>
+<li class="">A bare <code>this</code> expression produces no occurrence. A <code>super</code> expression
+without an explicit prefix, including <code>super[M]</code>, produces an empty-range
+reference for its implicit <code>this</code> qualifier, resolving to the enclosing
+definition. The referenced parent produces an empty-range occurrence only
+when it is not written in source, i.e. in <code>super.m</code> but not in
+<code>super[M].m</code>, where the reference covers <code>M</code>.</li>
+</ul>
+<p><strong>Anonymous functions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/06-expressions.html#anonymous-functions" target="_blank" rel="noopener noreferrer" class="">[102]</a> produce occurrences for their
+parameters. Anonymous functions that implement a SAM (single abstract
+method) type additionally produce definitions that cover the whole function:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">class</span><span class="token plain"> C </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">trait</span><span class="token plain"> SAM </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> foo</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">a</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> </span><span class="token builtin" style="color:rgb(130, 170, 255)">Int</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> withSAM</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">f</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> SAM</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> f</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">foo</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token number" style="color:rgb(247, 140, 108)">0</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  withSAM</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">_ </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  List</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">map</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">i </span><span class="token keyword" style="font-style:italic">=&gt;</span><span class="token plain"> i </span><span class="token operator" style="color:rgb(137, 221, 255)">+</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">1</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
+<table>
+  <tbody><tr>
+    <td><b>Code</b></td>
+    <td width="275px"><b>Symbol</b></td>
+    <td><b>Role</b></td>
+  </tr>
+  <tr>
+    <td><code>_ + 1</code></td>
+    <td><code>local0</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>_ + 1</code></td>
+    <td><code>local1</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>i</code> in <code>i =&gt; i + 1</code></td>
+    <td><code>local2</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
+    <td><code>i</code> in <code>i + 1</code></td>
+    <td><code>local2</code></td>
+    <td><code>REFERENCE</code></td>
+  </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">An anonymous function or eta-expanded method value in SAM position
+produces two <code>DEFINITION</code> occurrences of local symbols whose range covers
+the entire anonymous function, or the name of the eta-expanded method: one
+for the anonymous class that implements the SAM type and one for the
+method that implements the single abstract method. An eta-expanded method
+value additionally produces a regular reference to the expanded method
+with the same range.</li>
+<li class="">Anonymous functions of standard <code>FunctionN</code> types produce occurrences only
+for their parameters and bodies.</li>
+</ul>
+<p><strong>Other constructs.</strong> The following constructs are subject to special rules,
+most of them due to implementation restrictions:</p>
+<ul>
+<li class="">Member access on <a href="#scala-type" class="">structural types</a> produces a
+<code>REFERENCE</code> occurrence of a local symbol if the structural type is declared
+in the same file. If the structural type is declared in another file, no
+occurrence is produced.</li>
+<li class="">In <code>classOf[T]</code>, the <code>classOf</code> name resolves to <code>scala/Predef.classOf().</code>.
+The type argument produces a single reference covering the whole type
+expression if it is a simple, possibly qualified, type reference, e.g.
+<code>Int</code>, <code>java.lang.String</code> or <code>T#C</code>. Applied type arguments, e.g.
+<code>Option[Int]</code>, produce no occurrence.</li>
+<li class="">Names inserted or rewritten by the compiler produce no occurrences. This
+includes implicit conversions and implicit arguments (described by
+<a href="#scala-synthetic" class="">Synthetic</a> instead), as well as numeric widening, e.g.
+the implied <code>.toLong</code> in <code>val x: Long = 1.to(2).length</code>.</li>
+<li class="">Synthetic members produce no definition occurrences, because no name in
+source defines them. This includes synthetic case class methods such as
+<code>apply</code> and <code>copy</code>, synthetic constructors of objects and traits, and
+synthetic fields. A case class parameter is not synthetic in this sense:
+<code>x</code> in <code>case class C(x: Int)</code> produces a regular definition occurrence of
+the accessor <code>_empty_/C#x.</code>, as described in &quot;Constructors&quot; above.
+Explicit source references to synthetic members are regular references,
+e.g. <code>copy</code> in <code>u.copy(age = 43)</code> resolves to the synthetic <code>copy</code> method
+of the case class. Only compiler-inserted references, e.g. the <code>apply</code>
+implied by <code>User(&quot;John&quot;)</code>, produce no occurrences and are described by
+<a href="#scala-synthetic" class="">Synthetic</a> instead.</li>
+<li class="">For definitions transformed by macro annotations, occurrences are computed
+from the original source, before macro expansion. Due to implementation
+restrictions, some occurrences may be missing.</li>
+</ul>
 <p><a name="scala-synthetic" class=""></a></p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="synthetic-1">Synthetic<a href="#synthetic-1" class="hash-link" aria-label="Direct link to Synthetic" title="Direct link to Synthetic" translate="no">​</a></h3>
 <p>The following is an exhaustive list of the kinds of synthetics that are
