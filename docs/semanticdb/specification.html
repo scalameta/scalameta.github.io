@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">SemanticDB Specification | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/semanticdb/specification"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="SemanticDB Specification | Scalameta"><meta data-rh="true" name="description" content="SemanticDB is a data model for semantic information such as symbols and types"><meta data-rh="true" property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/semanticdb/specification"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Specification","item":"https://scalameta.org/docs/semanticdb/specification"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
-<script src="/assets/js/runtime~main.325318d7.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.7c8ea882.js" defer="defer"></script>
 <script src="/assets/js/main.e14bebc9.js" defer="defer"></script>
 </head>
 <body>
@@ -2138,6 +2138,11 @@ variables bound in <code>case</code> clauses and for comprehension enumerators,
 resolve to local symbols.</li>
 <li class="">Type variables bound by type patterns, e.g. <code>t</code> in <code>case _: List[t]</code>, also
 produce <code>DEFINITION</code> occurrences of local symbols.</li>
+<li class="">An underscore that is the whole pattern of a value definition or of a for
+comprehension enumerator, e.g. <code>_</code> in <code>val _ = 1</code> or in <code>_ &lt;- xs</code>, produces
+a <code>DEFINITION</code> occurrence of the symbol that the compiler creates for it.
+An underscore inside a larger pattern, e.g. <code>_</code> in <code>val _ :: x = xs</code>,
+produces no occurrence.</li>
 <li class="">A pattern variable bound in a for comprehension enumerator produces exactly
 one <code>DEFINITION</code> occurrence, even when the compiler desugars the
 enumerator into multiple anonymous functions.</li>
@@ -2181,6 +2186,14 @@ produce occurrences for the names that they define:</p>
     <td><code>_empty_/C#U#</code></td>
     <td><code>REFERENCE</code></td>
   </tr></tbody></table>
+<p>Notes:</p>
+<ul>
+<li class="">Anonymous type parameters, e.g. <code>_</code> in <code>class C[_]</code>, produce <code>DEFINITION</code>
+occurrences of their type parameter symbols.</li>
+<li class="">Underscore type arguments, e.g. <code>_</code> in <code>List[_]</code> or the second <code>_</code> in
+<code>case _: List[_]</code>, produce <code>DEFINITION</code> occurrences of local symbols, and
+these symbols have <code>SymbolInformation</code>.</li>
+</ul>
 <p><strong>Parameters</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#default-arguments" target="_blank" rel="noopener noreferrer" class="">[45]</a> produce <code>DEFINITION</code> occurrences at their
 declaration site. Named arguments produce references to the corresponding
 parameter of the method being invoked:</p>
@@ -2542,13 +2555,18 @@ method) type additionally produce definitions that cover the whole function:</p>
     <td><code>DEFINITION</code></td>
   </tr>
   <tr>
+    <td><code>_</code> in <code>_ + 1</code></td>
+    <td><code>local3</code></td>
+    <td><code>DEFINITION</code></td>
+  </tr>
+  <tr>
     <td><code>i</code> in <code>i =&gt; i + 1</code></td>
-    <td><code>local2</code></td>
+    <td><code>local4</code></td>
     <td><code>DEFINITION</code></td>
   </tr>
   <tr>
     <td><code>i</code> in <code>i + 1</code></td>
-    <td><code>local2</code></td>
+    <td><code>local4</code></td>
     <td><code>REFERENCE</code></td>
   </tr></tbody></table>
 <p>Notes:</p>
@@ -2560,6 +2578,9 @@ for the anonymous class that implements the SAM type and one for the
 method that implements the single abstract method. An eta-expanded method
 value additionally produces a regular reference to the expanded method
 with the same range.</li>
+<li class="">An underscore that stands for a parameter, e.g. <code>_</code> in <code>_ + 1</code> or in
+<code>_ =&gt; 1</code>, produces a <code>DEFINITION</code> occurrence of the local symbol of the
+parameter that the compiler creates for it.</li>
 <li class="">Anonymous functions of standard <code>FunctionN</code> types produce occurrences only
 for their parameters and bodies.</li>
 </ul>
