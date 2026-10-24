@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">SemanticDB Specification | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/semanticdb/specification"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="SemanticDB Specification | Scalameta"><meta data-rh="true" name="description" content="SemanticDB is a data model for semantic information such as symbols and types"><meta data-rh="true" property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/semanticdb/specification"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Specification","item":"https://scalameta.org/docs/semanticdb/specification"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
-<script src="/assets/js/runtime~main.c569e3c5.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.bc88f745.js" defer="defer"></script>
 <script src="/assets/js/main.e14bebc9.js" defer="defer"></script>
 </head>
 <body>
@@ -3170,7 +3170,9 @@ declaration and <code>PublicAccess</code> access.</li>
 <li class="">Enum declarations support <a href="#java-access" class="">all Java access modifiers</a>.</li>
 </ul>
 <p><strong>Interface declarations</strong> <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-9.html#jls-9.1" target="_blank" rel="noopener noreferrer" class="">[77]</a> are represented by a single symbol like
-classes but with the <code>INTERFACE</code> kind.</p>
+classes but with the <code>INTERFACE</code> kind.
+An annotation type is an <code>INTERFACE</code> whose parents include
+<code>java/lang/annotation/Annotation#</code>.</p>
 <div class="language-java codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-java codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">package</span><span class="token plain"> </span><span class="token namespace" style="color:rgb(178, 204, 214)">a</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">public</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">interface</span><span class="token plain"> </span><span class="token class-name" style="color:rgb(255, 203, 107)">List</span><span class="token generics punctuation" style="color:rgb(199, 146, 234)">&lt;</span><span class="token generics class-name" style="color:rgb(255, 203, 107)">T</span><span class="token generics punctuation" style="color:rgb(199, 146, 234)">&gt;</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">extends</span><span class="token plain"> </span><span class="token class-name" style="color:rgb(255, 203, 107)">I</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token class-name" style="color:rgb(255, 203, 107)">T</span><span class="token plain"> </span><span class="token function" style="color:rgb(130, 170, 255)">head</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></div></code></pre></div></div>
 <table>
   <tbody><tr>
@@ -3182,7 +3184,7 @@ classes but with the <code>INTERFACE</code> kind.</p>
   <tr>
     <td><code>List</code></td>
     <td><code>a/List#</code></td>
-    <td><code>CLASS</code></td>
+    <td><code>INTERFACE</code></td>
     <td><code>ClassSignature(List(&lt;T&gt;), List(&lt;I&gt;), None, List(&lt;head&gt;))</code></td>
   </tr>
   <tr>
