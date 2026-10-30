@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">SemanticDB Specification | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/semanticdb/specification"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="SemanticDB Specification | Scalameta"><meta data-rh="true" name="description" content="SemanticDB is a data model for semantic information such as symbols and types"><meta data-rh="true" property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/semanticdb/specification"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Specification","item":"https://scalameta.org/docs/semanticdb/specification"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
-<script src="/assets/js/runtime~main.9c374a96.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.f21934d1.js" defer="defer"></script>
 <script src="/assets/js/main.e14bebc9.js" defer="defer"></script>
 </head>
 <body>
@@ -2288,6 +2288,14 @@ case class, resolves to <code>User.apply().(name)</code> - the parameter of the
 synthetic <code>apply</code> method of the companion object.</li>
 <li class="">Parameters of primary constructors are covered in &quot;Constructors&quot; below.</li>
 </ul>
+<p>A definition that the source writes without a name produces an empty-range
+<code>DEFINITION</code> occurrence of its symbol at the start of the type that the
+source writes for it. Examples: an anonymous <code>using</code> parameter (<code>Int</code> in
+<code>using Int</code>), an anonymous given (<code>Int</code> in <code>given Int = 1</code>), and the evidence
+parameter of a context bound (<code>Ordering</code> in <code>T: Ordering</code>) or of a view bound
+(<code>U</code> in <code>T &lt;% U</code>). If the compiler also creates a field for the parameter of
+a class, and that field has a symbol of its own, the field gets a second
+occurrence at the same range.</p>
 <p><strong>Function declarations and definitions</strong> <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#function-declarations-and-definitions" target="_blank" rel="noopener noreferrer" class="">[48]</a> produce occurrences
 for the names of the methods that they define and for every reference to
 those names. References resolve to the exact overload, as described in
@@ -2381,8 +2389,8 @@ the <code>this</code> keyword in <code>def this(...)</code>.</li>
 symbol of the class member that it gives rise to - the value symbol for
 plain and <code>val</code> parameters and the getter symbol for <code>var</code> parameters. The
 associated constructor parameter symbol, e.g.
-<pre tabindex="0" class="codeBlockStandalone_MEMb thin-scrollbar codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><code class="codeBlockLines_e6Vv"><em>empty</em>/C#<code>&amp;lt;init&amp;gt;</code>().(x)</code></pre>, does not produce an
-occurrence.</li>
+<pre tabindex="0" class="codeBlockStandalone_MEMb thin-scrollbar codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><code class="codeBlockLines_e6Vv"><em>empty</em>/C#<code>&amp;lt;init&amp;gt;</code>().(x)</code></pre>, produces a second
+occurrence at the same range if the member has a symbol of its own.</li>
 <li class="">Parent constructor invocations in extends clauses also produce empty-range
 references right after the name of the parent type. For example,
 <code>class D extends C(1)</code> produces a reference to
