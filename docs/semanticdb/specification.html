@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.1">
 <title data-rh="true">SemanticDB Specification | Scalameta</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" name="twitter:image" content="https://scalameta.org/img/scalameta.png"><meta data-rh="true" property="og:url" content="https://scalameta.org/docs/semanticdb/specification"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="SemanticDB Specification | Scalameta"><meta data-rh="true" name="description" content="SemanticDB is a data model for semantic information such as symbols and types"><meta data-rh="true" property="og:description" content="SemanticDB is a data model for semantic information such as symbols and types"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://scalameta.org/docs/semanticdb/specification"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="en"><link data-rh="true" rel="alternate" href="https://scalameta.org/docs/semanticdb/specification" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Specification","item":"https://scalameta.org/docs/semanticdb/specification"}]}</script><link rel="stylesheet" href="/assets/css/styles.d0321069.css">
-<script src="/assets/js/runtime~main.4dcc9229.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.02cf253f.js" defer="defer"></script>
 <script src="/assets/js/main.e14bebc9.js" defer="defer"></script>
 </head>
 <body>
@@ -270,7 +270,7 @@ type, a type lambda, an intersection or another application. An application of
 a symbol is a <code>TypeRef</code> with <code>type_arguments</code>, so <code>tpe</code> is never a <code>TypeRef</code>
 without arguments.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="signature">Signature<a href="#signature" class="hash-link" aria-label="Direct link to Signature" title="Direct link to Signature" translate="no">​</a></h3>
-<div class="language-protobuf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-protobuf codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain">message Signature {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  oneof sealed_value {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    ClassSignature class_signature = 1;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    MethodSignature method_signature = 2;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    TypeSignature type_signature = 3;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    ValueSignature value_signature = 4;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  }</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span><br></div></code></pre></div></div>
+<div class="language-protobuf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-protobuf codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain">message Signature {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  oneof sealed_value {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    ClassSignature class_signature = 1;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    MethodSignature method_signature = 2;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    TypeSignature type_signature = 3;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    ValueSignature value_signature = 4;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    ExtendedMethodSignature extended_method_signature = 5;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  }</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span><br></div></code></pre></div></div>
 <p><code>Signature</code> represents definition signatures. Expression types are modelled with
 <a href="#type" class="">Type</a>.</p>
 <p>The SemanticDB type system is a superset of the type systems of supported
@@ -286,7 +286,23 @@ traits and interfaces. Both type parameters and declarations are modelled by a
 setters), constructors and macros. It features <code>type_parameters</code>,
 <code>parameter_lists</code>, a <code>return_type</code> and zero or more <code>throws</code>. Both type parameters and parameters are
 modelled by <a href="#scope" class="">Scopes</a>. Moreover, in order to support multiple parameter
-lists in Scala methods, <code>parameter_lists</code> is a list of lists.</p>
+lists in Scala methods, <code>parameter_lists</code> is a list of lists.
+Every type parameter precedes every parameter list. A method whose parameter
+clauses form more than one group needs an <code>ExtendedMethodSignature</code> instead,
+which can also represent any other method. Writers before
+<code>ExtendedMethodSignature</code> merged the clauses of such a method into a
+<code>MethodSignature</code>.</p>
+<div class="language-protobuf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-protobuf codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain">message ParamClauseGroup {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Scope type_param_clause = 1;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  repeated Scope param_clauses = 2;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">message ExtendedMethodSignature {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  repeated ParamClauseGroup param_clause_groups = 1;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Type return_type = 2;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  repeated Type throws = 3;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span><br></div></code></pre></div></div>
+<p><code>ExtendedMethodSignature</code> represents signatures of methods as groups of
+parameter clauses. A group is a <code>ParamClauseGroup</code>: a type parameter clause,
+<code>type_param_clause</code>, and the term parameter clauses that follow it up to the
+next type parameter clause, <code>param_clauses</code>. <code>param_clause_groups</code> can have any
+number of groups: a method without clauses, such as <code>def foo = ???</code>, has none,
+and a method with a type parameter clause after a term parameter clause has
+more than one. Every group after the first must have a non-empty
+<code>type_param_clause</code>. All scopes of one signature must use the same kind of
+links: all symlinks or all hardlinks. <code>return_type</code> and <code>throws</code> mean the same
+as in <code>MethodSignature</code>.</p>
 <div class="language-protobuf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-protobuf codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token plain">message TypeSignature {</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Scope type_parameters = 1;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Type lower_bound = 2;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  Type upper_bound = 3;</span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span><br></div></code></pre></div></div>
 <p><code>TypeSignature</code> represents signatures of type parameters or type members. It
 features <code>type_parameters</code> as well as <code>lower_bound</code> and <code>upper_bound</code>. Type
@@ -1615,12 +1631,13 @@ such parameters (only their signatures), we also leave the names unspecified.</l
   </tr></tbody></table>
 <p>Notes:</p>
 <ul>
-<li class="">According to SLS, some language features involve synthetic methods that are
+<li class="">
+<p>According to SLS, some language features involve synthetic methods that are
 not written in source code. Symbols for synthetic methods must be included in
 SemanticDB payloads alongside normal methods. Detailed information about
 synthetic methods is provided in various subsections of
 <a href="#scala-symbolinformation" class="">SymbolInformation</a> together with related language
-features, and here we provide a comprehensive list of such methods:
+features, and here we provide a comprehensive list of such methods:</p>
 <ul>
 <li class="">Getters for vals and vars.</li>
 <li class="">Setters for vals and vars.</li>
@@ -1630,7 +1647,8 @@ features, and here we provide a comprehensive list of such methods:
 <li class="">Methods synthesized for value classes.</li>
 </ul>
 </li>
-<li class="">Supported properties for method symbols are:
+<li class="">
+<p>Supported properties for method symbols are:</p>
 <ul>
 <li class=""><code>ABSTRACT</code>: set for function declarations.</li>
 <li class=""><code>FINAL</code>: set for <code>final</code> methods.</li>
@@ -1639,24 +1657,45 @@ features, and here we provide a comprehensive list of such methods:
 source code, e.g. the synthetic methods enumerated above.</li>
 </ul>
 </li>
-<li class="">Display name for method symbols is equal to the name of the binding introduced
-by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html" target="_blank" rel="noopener noreferrer" class="">[70]</a>.</li>
-<li class="">If present, type parameters of methods are represented as described above in
-order of their appearance in source code.</li>
-<li class="">If present, parameters of methods are represented as described above in order
-of their appearance in source code.</li>
-<li class="">For procedures <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#procedures" target="_blank" rel="noopener noreferrer" class="">[49]</a>, the return type is assumed to be <code>Unit</code>.
+<li class="">
+<p>Display name for method symbols is equal to the name of the binding introduced
+by the definition <a href="https://www.scala-lang.org/files/archive/spec/2.12/02-identifiers-names-and-scopes.html" target="_blank" rel="noopener noreferrer" class="">[70]</a>.</p>
+</li>
+<li class="">
+<p>If present, type parameters of methods are represented as described above in
+order of their appearance in source code.</p>
+</li>
+<li class="">
+<p>If present, parameters of methods are represented as described above in order
+of their appearance in source code.</p>
+</li>
+<li class="">
+<p>For procedures <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#procedures" target="_blank" rel="noopener noreferrer" class="">[49]</a>, the return type is assumed to be <code>Unit</code>.
 Corresponding signature is computed using the assumed return type as explained
-in <a href="#scala-type" class="">Type</a>.</li>
-<li class="">If the return type is not provided in source code, it is inferred from the
+in <a href="#scala-type" class="">Type</a>.</p>
+</li>
+<li class="">
+<p>If the return type is not provided in source code, it is inferred from the
 right-hand side of the method according to the rules described in SLS
 <a href="https://www.scala-lang.org/files/archive/spec/2.12/04-basic-declarations-and-definitions.html#method-return-type-inference" target="_blank" rel="noopener noreferrer" class="">[50]</a>. Corresponding signature is computed using the inferred retyrb
-type as explained in <a href="#scala-type" class="">Type</a>.</li>
-<li class="">Method symbols support <a href="#scala-access" class="">all Scala access modifiers</a>.</li>
-<li class="">The <code>OBJECT</code> symbol <code>m3.</code> and <code>VAL METHOD</code> symbol <code>m4.</code> do not contribute to
+type as explained in <a href="#scala-type" class="">Type</a>.</p>
+</li>
+<li class="">
+<p>Method symbols support <a href="#scala-access" class="">all Scala access modifiers</a>.</p>
+</li>
+<li class="">
+<p>The <code>OBJECT</code> symbol <code>m3.</code> and <code>VAL METHOD</code> symbol <code>m4.</code> do not contribute to
 the disambiguator tag for the method symbols <code>m3().</code>, <code>m3(+1).</code> and <code>m4().</code>
 because <code>OBJECT</code> and (exceptionally) <code>VAL METHOD</code> symbols do not require a
-disambiguator.</li>
+disambiguator.</p>
+</li>
+<li class="">
+<p>In Scala 3, a type parameter clause may follow a term parameter clause
+<a href="https://docs.scala-lang.org/scala3/reference/other-new-features/generalized-method-syntax.html" target="_blank" rel="noopener noreferrer" class="">[105]</a>, and an extension <a href="https://docs.scala-lang.org/scala3/reference/contextual/extension-methods.html" target="_blank" rel="noopener noreferrer" class="">[106]</a> adds its clauses to each
+of its methods. If the clauses of a method form more than one group, the
+method needs an <code>ExtendedMethodSignature</code>:</p>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">trait</span><span class="token plain"> Functor</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">F</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">_</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">extension</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">t</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> F</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">T</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> map</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">U</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">f</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> T </span><span class="token keyword" style="font-style:italic">=&gt;</span><span class="token plain"> U</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> F</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">U</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token keyword" style="font-style:italic">trait</span><span class="token plain"> DB</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token keyword" style="font-style:italic">def</span><span class="token plain"> getOrElse</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">k</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> Key</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">[</span><span class="token plain">V </span><span class="token operator" style="color:rgb(137, 221, 255)">&gt;</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> k</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">Value</span><span class="token punctuation" style="color:rgb(199, 146, 234)">]</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">default</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> V</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token operator" style="color:rgb(137, 221, 255)">:</span><span class="token plain"> V</span><br></div></code></pre></div></div>
+</li>
 </ul>
 <p><strong>Macro definitions</strong> <a href="https://docs.scala-lang.org/overviews/macros/overview.html" target="_blank" rel="noopener noreferrer" class="">[51]</a> are represented with <code>MACRO</code> symbols
 similarly to function definitions (see above).</p>
